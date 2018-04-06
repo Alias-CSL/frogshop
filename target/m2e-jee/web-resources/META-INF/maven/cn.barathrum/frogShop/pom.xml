@@ -18,6 +18,8 @@
 		<druid-version>1.1.9</druid-version>
 		<jstl-version>1.2</jstl-version>
 		<javax.servlet-api>4.0.0</javax.servlet-api>
+		<spring-data-redis>1.8.10.RELEASE</spring-data-redis>
+		<jedis-version>2.9.0</jedis-version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -115,7 +117,20 @@
 			<version>${javax.servlet-api}</version>
 			<scope>provided</scope>
 		</dependency>
+		<!--redis、spring-redis  -->
+		<!-- https://mvnrepository.com/artifact/org.springframework.data/spring-data-redis -->
+		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-redis</artifactId>
+			<version>${spring-data-redis}</version>
+		</dependency>
 
+		<!-- https://mvnrepository.com/artifact/redis.clients/jedis -->
+		<dependency>
+			<groupId>redis.clients</groupId>
+			<artifactId>jedis</artifactId>
+			<version>${jedis}</version>
+		</dependency>
 	</dependencies>
 	<build>
 		<finalName>frogShop</finalName>
