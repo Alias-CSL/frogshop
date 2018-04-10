@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.barathrum.frogshop.dao.AttributeGoodMapper">
+  <resultMap id="BaseResultMap" type="cn.barathrum.frogshop.bean.AttributeGood">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="goodId" jdbcType="INTEGER" property="goodid" />
+    <result column="categoryId" jdbcType="INTEGER" property="categoryid" />
+    <result column="attriValueId" jdbcType="INTEGER" property="attrivalueid" />
+    <result column="createTime" jdbcType="TIMESTAMP" property="createtime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, goodId, categoryId, attriValueId, createTime
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from shop_base_attri_good
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from shop_base_attri_good
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="cn.barathrum.frogshop.bean.AttributeGood">
+    insert into shop_base_attri_good (id, goodId, categoryId, 
+      attriValueId, createTime)
+    values (#{id,jdbcType=INTEGER}, #{goodid,jdbcType=INTEGER}, #{categoryid,jdbcType=INTEGER}, 
+      #{attrivalueid,jdbcType=INTEGER}, #{createtime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.barathrum.frogshop.bean.AttributeGood">
+    insert into shop_base_attri_good
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="goodid != null">
+        goodId,
+      </if>
+      <if test="categoryid != null">
+        categoryId,
+      </if>
+      <if test="attrivalueid != null">
+        attriValueId,
+      </if>
+      <if test="createtime != null">
+        createTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="goodid != null">
+        #{goodid,jdbcType=INTEGER},
+      </if>
+      <if test="categoryid != null">
+        #{categoryid,jdbcType=INTEGER},
+      </if>
+      <if test="attrivalueid != null">
+        #{attrivalueid,jdbcType=INTEGER},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.barathrum.frogshop.bean.AttributeGood">
+    update shop_base_attri_good
+    <set>
+      <if test="goodid != null">
+        goodId = #{goodid,jdbcType=INTEGER},
+      </if>
+      <if test="categoryid != null">
+        categoryId = #{categoryid,jdbcType=INTEGER},
+      </if>
+      <if test="attrivalueid != null">
+        attriValueId = #{attrivalueid,jdbcType=INTEGER},
+      </if>
+      <if test="createtime != null">
+        createTime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.barathrum.frogshop.bean.AttributeGood">
+    update shop_base_attri_good
+    set goodId = #{goodid,jdbcType=INTEGER},
+      categoryId = #{categoryid,jdbcType=INTEGER},
+      attriValueId = #{attrivalueid,jdbcType=INTEGER},
+      createTime = #{createtime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

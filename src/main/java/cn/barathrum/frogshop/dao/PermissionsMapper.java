@@ -1,0 +1,22 @@
+package cn.barathrum.frogshop.dao;
+
+import java.util.Set;
+
+import cn.barathrum.frogshop.bean.Permissions;
+
+public interface PermissionsMapper {
+    int deleteByPrimaryKey(Integer id);
+
+    int insert(Permissions record);
+
+    int insertSelective(Permissions record);
+
+    Permissions selectByPrimaryKey(Integer id);
+
+    int updateByPrimaryKeySelective(Permissions record);
+
+    int updateByPrimaryKey(Permissions record);
+    //通过角色id获取权限
+    Set<Permissions> selectByRoleId(Integer id);
+    
+}
