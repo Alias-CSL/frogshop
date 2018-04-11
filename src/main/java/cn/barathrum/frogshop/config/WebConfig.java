@@ -39,7 +39,7 @@ public class WebConfig extends WebMvcConfigurerAdapter{
 		resolver.setExposeContextBeansAsAttributes(true);
 		return resolver;
 	}
-	
+/*	
 	@Bean
 	public MultipartResolver multipartResolver() throws IOException{
 		CommonsMultipartResolver cmr = new CommonsMultipartResolver();
@@ -48,7 +48,7 @@ public class WebConfig extends WebMvcConfigurerAdapter{
 		cmr.setMaxInMemorySize(0);
 		return cmr;
 	}
-	
+	*/
 	@Override
     public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
         converters.add(mappingJacksonHttpMessageConverter());

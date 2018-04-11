@@ -12,13 +12,20 @@
   <sql id="Base_Column_List">
     id, name, displayName, description, createTime, updateTime
   </sql>
-  
+  <select id="selectByUserName" parameterType="java.lang.String" resultType="java.lang.String">
+  	select sp.name
+	from shop_permissions sp
+	left JOIN shop_permission_role spr on spr.permissionId = sp.id
+	left JOIN shop_role_user sru on sru.roleId = spr.roleId
+	left JOIN shop_user su on su.id = sru.userId
+	where su.userName = #{username,jdbcType=VARCHAR}
+  </select>
   <select id="selectByRoleId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
   	select 
   	sp.id, sp.name, sp.displayName, sp.description, sp.createTime, sp.updateTime
   	from shop_permissions sp 
   	left join shop_permission_role spr on sp.id = spr.permissionId
-  	where spr.roleId = #{id,jdbcType.INTEGER} 
+  	where spr.roleId = #{id,jdbcType=INTEGER}
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 

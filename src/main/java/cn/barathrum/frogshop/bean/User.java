@@ -13,7 +13,7 @@ public class User {
     //用户手机号
     private String phone;
     //账号状态
-    private Byte status;
+    private Integer status;
     //账号创建时间
     private Date createTime;
     //用户邮箱
@@ -44,10 +44,11 @@ public class User {
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
-	public Byte getStatus() {
+
+	public Integer getStatus() {
 		return status;
 	}
-	public void setStatus(Byte status) {
+	public void setStatus(Integer status) {
 		this.status = status;
 	}
 	public Date getCreateTime() {

@@ -14,5 +14,7 @@ public interface UserMapper {
     int updateByPrimaryKeySelective(User record);
 
     int updateByPrimaryKey(User record);
+    //通过用户名获取用户
+	User selectByUsername(String username);
     
 }

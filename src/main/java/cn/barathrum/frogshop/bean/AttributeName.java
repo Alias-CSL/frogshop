@@ -1,27 +1,23 @@
 package cn.barathrum.frogshop.bean;
 
 import java.util.Date;
-import java.util.List;
 
 public class AttributeName {
-	//ID值
     private Integer id;
-    //属性名
+
     private String name;
 
-    private Integer categoryId;
-    //排序
+    private Integer categoryid;
+
     private Integer sort;
-    //是否可用
+
     private Integer status;
-    //创建时间
-    private Date createTime;
-    //是否为必填属性，用于添加货物时使用
+
+    private Date createtime;
+
     private Integer necessary;
-    //是否为搜索属性
+
     private Integer search;
-    //属性值集合
-    private List<AttributeValue> attributeValues;
 
     public Integer getId() {
         return id;
@@ -39,15 +35,15 @@ public class AttributeName {
         this.name = name == null ? null : name.trim();
     }
 
-    public Integer getCategoryId() {
-		return categoryId;
-	}
+    public Integer getCategoryid() {
+        return categoryid;
+    }
 
-	public void setCategoryId(Integer categoryId) {
-		this.categoryId = categoryId;
-	}
+    public void setCategoryid(Integer categoryid) {
+        this.categoryid = categoryid;
+    }
 
-	public Integer getSort() {
+    public Integer getSort() {
         return sort;
     }
 
@@ -62,24 +58,16 @@ public class AttributeName {
     public void setStatus(Integer status) {
         this.status = status;
     }
-    
-    public Date getCreateTime() {
-		return createTime;
-	}
 
-	public void setCreateTime(Date createTime) {
-		this.createTime = createTime;
-	}
+    public Date getCreatetime() {
+        return createtime;
+    }
 
-	public List<AttributeValue> getAttributeValues() {
-		return attributeValues;
-	}
+    public void setCreatetime(Date createtime) {
+        this.createtime = createtime;
+    }
 
-	public void setAttributeValues(List<AttributeValue> attributeValues) {
-		this.attributeValues = attributeValues;
-	}
-
-	public Integer getNecessary() {
+    public Integer getNecessary() {
         return necessary;
     }
 

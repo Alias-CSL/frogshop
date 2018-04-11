@@ -22,17 +22,16 @@
 		<property name="location" value="classpath:jdbc.properties" />
 	</bean>
 
-	<bean id="setting"
+	<!-- <bean id="setting"
 		class="org.springframework.beans.factory.config.PropertiesFactoryBean">
 		<property name="locations">
 			<list>
 				<value>classpath:jdbc.properties</value>
-				<value>classpath:forum.properties</value>
 			</list>
 		</property>
-		<!-- 设置编码格式 -->
+		设置编码格式
 		<property name="fileEncoding" value="UTF-8"></property>
-	</bean>
+	</bean> -->
 
 	<bean id="dataSourceDDS" class="com.alibaba.druid.pool.DruidDataSource"
 		destroy-method="close">

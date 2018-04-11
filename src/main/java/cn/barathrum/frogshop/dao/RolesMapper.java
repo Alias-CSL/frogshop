@@ -18,4 +18,7 @@ public interface RolesMapper {
     int updateByPrimaryKey(Roles record);
     //通过用户id获取Role
     Set<Roles> selectByUserId(Integer id);
+    //通过用户名获取角色
+    Set<String> selectByUserName(String username);
+    
 }

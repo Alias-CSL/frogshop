@@ -3,17 +3,23 @@
 <mapper namespace="cn.barathrum.frogshop.dao.UserMapper">
   <resultMap id="BaseResultMap" type="cn.barathrum.frogshop.bean.User">
     <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="userName" jdbcType="VARCHAR" property="username" />
-    <result column="userPass" jdbcType="VARCHAR" property="userpass" />
+    <result column="userName" jdbcType="VARCHAR" property="userName" />
+    <result column="userPass" jdbcType="VARCHAR" property="userPass" />
     <result column="phone" jdbcType="VARCHAR" property="phone" />
-    <result column="status" jdbcType="TINYINT" property="status" />
-    <result column="createTime" jdbcType="DATE" property="createtime" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="createTime" jdbcType="DATE" property="createTime" />
     <result column="email" jdbcType="VARCHAR" property="email" />
-    <collection property="roles" column="id" select="cn.barathrum.frogshop.dao.RolesMapper.selectByUserId" fetchType="lazy"/>
+    <collection property="roles" column="id" select="cn.barathrum.frogshop.dao.RolesMapper.selectByRoleId" fetchType="lazy"/>
   </resultMap>
   <sql id="Base_Column_List">
     id, userName, userPass, phone, status, createTime, email
   </sql>
+  <select id="selectByUsername" parameterType="java.lang.String" resultMap="BaseResultMap">
+  	select 
+  	<include refid="Base_Column_List"/>
+  	from shop_user
+  	where userName = #{username,jdbcType=VARCHAR}
+  </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
@@ -29,7 +35,7 @@
       phone, status, createTime, 
       email)
     values (#{id,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{userpass,jdbcType=VARCHAR}, 
-      #{phone,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, #{createtime,jdbcType=DATE}, 
+      #{phone,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{createtime,jdbcType=DATE}, 
       #{email,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="cn.barathrum.frogshop.bean.User">
@@ -71,7 +77,7 @@
         #{phone,jdbcType=VARCHAR},
       </if>
       <if test="status != null">
-        #{status,jdbcType=TINYINT},
+        #{status,jdbcType=INTEGER},
       </if>
       <if test="createtime != null">
         #{createtime,jdbcType=DATE},
@@ -94,7 +100,7 @@
         phone = #{phone,jdbcType=VARCHAR},
       </if>
       <if test="status != null">
-        status = #{status,jdbcType=TINYINT},
+        status = #{status,jdbcType=INTEGER},
       </if>
       <if test="createtime != null">
         createTime = #{createtime,jdbcType=DATE},
@@ -110,7 +116,7 @@
     set userName = #{username,jdbcType=VARCHAR},
       userPass = #{userpass,jdbcType=VARCHAR},
       phone = #{phone,jdbcType=VARCHAR},
-      status = #{status,jdbcType=TINYINT},
+      status = #{status,jdbcType=INTEGER},
       createTime = #{createtime,jdbcType=DATE},
       email = #{email,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}

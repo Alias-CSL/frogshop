@@ -18,5 +18,7 @@ public interface PermissionsMapper {
     int updateByPrimaryKey(Permissions record);
     //通过角色id获取权限
     Set<Permissions> selectByRoleId(Integer id);
+    //通过用户名获取权限
+	Set<String> selectByUserName(String username);
     
 }

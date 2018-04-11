@@ -20,14 +20,32 @@
 		<javax.servlet-api>4.0.0</javax.servlet-api>
 		<spring-data-redis>1.8.10.RELEASE</spring-data-redis>
 		<jedis-version>2.9.0</jedis-version>
+		<commons-fileupload>1.3.3</commons-fileupload>
+		<junit-version>4.12</junit-version>
+		<commons-io>2.6</commons-io>
 	</properties>
 	<dependencies>
+		<!-- https://mvnrepository.com/artifact/junit/junit -->
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>3.8.1</version>
+			<version>${junit-version}</version>
 			<scope>test</scope>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/commons-io/commons-io -->
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>${commons-io}</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/commons-fileupload/commons-fileupload -->
+		<dependency>
+			<groupId>commons-fileupload</groupId>
+			<artifactId>commons-fileupload</artifactId>
+			<version>${commons-fileupload}</version>
+		</dependency>
+
 		<!-- spring核心jar包 -->
 		<dependency>
 			<groupId>org.springframework</groupId>
