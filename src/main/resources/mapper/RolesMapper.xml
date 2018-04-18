@@ -13,6 +13,22 @@
   <sql id="Base_Column_List">
     id, name, displayName, description, createTime, updateTime
   </sql>
+  <!--通过邮箱获取角色  -->
+  <select id="selectByEmail" parameterType="java.lang.String" resultType="java.lang.String">
+  	select r.name as name
+	from shop_roles r
+	left JOIN shop_role_user sru on sru.roleId = r.id
+	left JOIN shop_user su on su.id = sru.id
+	where su.email = #{email,jdbcType=VARCHAR}
+  </select>  
+  <!--通过手机号获取角色  -->
+  <select id="selectByPhoneNum" parameterType="java.lang.String" resultType="java.lang.String">
+  	select r.name as name
+	from shop_roles r
+	left JOIN shop_role_user sru on sru.roleId = r.id
+	left JOIN shop_user su on su.id = sru.id
+	where su.phone = #{phoneNum,jdbcType=VARCHAR}
+  </select>  
   <!-- 通过用户名获取角色 -->
   <select id="selectByUserName" parameterType="java.lang.String" resultType="java.lang.String">
   	select r.name as name

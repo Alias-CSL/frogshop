@@ -1,9 +1,16 @@
 package cn.barathrum.frogshop.bean;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
 
-public class Roles {
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+@JsonIgnoreProperties(value = { "handler" })  
+public class Roles implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	//角色id
     private Integer id;
     //角色名（简称）

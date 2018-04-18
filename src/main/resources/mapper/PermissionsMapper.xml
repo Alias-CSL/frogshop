@@ -12,6 +12,25 @@
   <sql id="Base_Column_List">
     id, name, displayName, description, createTime, updateTime
   </sql>
+  <!-- 通过邮箱获取权限 -->
+  <select id="selectByEmail" parameterType="java.lang.String" resultType="java.lang.String">
+  	select sp.name
+	from shop_permissions sp
+	left JOIN shop_permission_role spr on spr.permissionId = sp.id
+	left JOIN shop_role_user sru on sru.roleId = spr.roleId
+	left JOIN shop_user su on su.id = sru.userId
+	where su.email = #{email,jdbcType=VARCHAR}
+  </select>
+    <!-- 通过手機號获取权限 -->
+  <select id="selectByPhoneNum" parameterType="java.lang.String" resultType="java.lang.String">
+  	select sp.name
+	from shop_permissions sp
+	left JOIN shop_permission_role spr on spr.permissionId = sp.id
+	left JOIN shop_role_user sru on sru.roleId = spr.roleId
+	left JOIN shop_user su on su.id = sru.userId
+	where su.phone = #{phoneNum,jdbcType=VARCHAR}
+  </select>
+    <!-- 通过用戶名获取权限 -->
   <select id="selectByUserName" parameterType="java.lang.String" resultType="java.lang.String">
   	select sp.name
 	from shop_permissions sp

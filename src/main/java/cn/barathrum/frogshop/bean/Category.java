@@ -11,8 +11,18 @@ public class Category {
     private Integer sortId;
     //父级Id
     private Integer pId;
+    //类目显示名
+    private String displayName;
     //一对多个属性名
     private List<AttributeName> attributeNames;
+
+	public String getDisplayName() {
+		return displayName;
+	}
+
+	public void setDisplayName(String displayName) {
+		this.displayName = displayName;
+	}
 
 	public Integer getId() {
 		return id;

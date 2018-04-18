@@ -1,9 +1,17 @@
 package cn.barathrum.frogshop.bean;
 
+import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
-public class Good {
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+@JsonIgnoreProperties(value = { "handler" })  
+public class Good implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	//ID
     private Integer id;
     //商品名
@@ -22,9 +30,23 @@ public class Good {
     private Byte romotion;
     //总销量
     private Integer totalSales;
+    //原始价格
+    private BigDecimal originalPrice;
     //该商品对应多种库存，采用延迟加载
     private List<Sku> skus;
+    //商品描述图片
+    private List<DescPicture> descPictures;
+    //商品详情图片，采用延迟加载s
+    private List<DetailPicture> detailPictures;
     
+	public BigDecimal getOriginalPrice() {
+		return originalPrice;
+	}
+
+	public void setOriginalPrice(BigDecimal originalPrice) {
+		this.originalPrice = originalPrice;
+	}
+
 	public Integer getId() {
 		return id;
 	}
@@ -47,6 +69,22 @@ public class Good {
 
 	public void setGoodName(String goodName) {
 		this.goodName = goodName;
+	}
+
+	public List<DescPicture> getDescPictures() {
+		return descPictures;
+	}
+
+	public void setDescPictures(List<DescPicture> descPictures) {
+		this.descPictures = descPictures;
+	}
+
+	public List<DetailPicture> getDetailPictures() {
+		return detailPictures;
+	}
+
+	public void setDetailPictures(List<DetailPicture> detailPictures) {
+		this.detailPictures = detailPictures;
 	}
 
 	public Byte getStatus() {

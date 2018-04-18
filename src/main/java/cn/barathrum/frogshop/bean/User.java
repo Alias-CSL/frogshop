@@ -1,9 +1,16 @@
 package cn.barathrum.frogshop.bean;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
 
-public class User {
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+@JsonIgnoreProperties(value = { "handler" })  
+public class User implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	//用户id
     private Integer id;
     //用户名

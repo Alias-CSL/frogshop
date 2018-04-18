@@ -14,6 +14,20 @@
   <sql id="Base_Column_List">
     id, userName, userPass, phone, status, createTime, email
   </sql>
+  <!--   通过邮箱获取用户-->
+  <select id="selectByEmail" parameterType="java.lang.String" resultMap="BaseResultMap">
+  	select 
+  	<include refid="Base_Column_List"/>
+  	from shop_user
+  	where email = #{email,jdbcType=VARCHAR}
+  </select>
+  <!-- 通过手机号获取用户 -->
+   <select id="selectByPhoneNum" parameterType="java.lang.String" resultMap="BaseResultMap">
+  	select 
+  	<include refid="Base_Column_List"/>
+  	from shop_user
+  	where phone = #{phoneNum,jdbcType=VARCHAR}
+  </select>
   <select id="selectByUsername" parameterType="java.lang.String" resultMap="BaseResultMap">
   	select 
   	<include refid="Base_Column_List"/>

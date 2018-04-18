@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import cn.barathrum.frogshop.bean.User;
 import cn.barathrum.frogshop.service.UserService;
+import cn.barathrum.frogshop.utils.LoginTypeMatch;
 
 public class UserRealm extends AuthorizingRealm {
 	@Autowired
@@ -23,18 +24,36 @@ public class UserRealm extends AuthorizingRealm {
 	@Override
 	protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
 		//获取用户名
-		String username = (String) principals.getPrimaryPrincipal();
+		String count = (String) principals.getPrimaryPrincipal();
 		SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
-		authorizationInfo.setRoles(userServiceImpl.findRoles(username));
-		authorizationInfo.setStringPermissions(userServiceImpl.findPermissions(username));
-		// TODO Auto-generated method stub
+		int type = LoginTypeMatch.loginType(count);
+		if(type == LoginTypeMatch.EMAILTYPE) {//用户使用邮箱登录
+			authorizationInfo.setRoles(userServiceImpl.findRolesByEmail(count));
+			authorizationInfo.setStringPermissions(userServiceImpl.findPermissionsByEmail(count));
+		}else if(type == LoginTypeMatch.PHONETYPE) {//用户使用手机号码登录
+			authorizationInfo.setRoles(userServiceImpl.findRolesByPhoneNum(count));
+			authorizationInfo.setStringPermissions(userServiceImpl.findPermissionsByPhoneNum(count));
+		}else{//用户使用用户名登录
+			authorizationInfo.setRoles(userServiceImpl.findRolesByUsername(count));
+			authorizationInfo.setStringPermissions(userServiceImpl.findPermissionsByUsername(count));
+		}
+		
 		return authorizationInfo;
 	}
 
 	@Override
 	protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
-		String username = (String) token.getPrincipal();
-		User user = userServiceImpl.findByUsername(username);
+		String count = (String) token.getPrincipal();
+		int type = LoginTypeMatch.loginType(count);
+		User user = null ;
+		if(type == LoginTypeMatch.EMAILTYPE) {//用户使用邮箱登录
+			user = userServiceImpl.findByEmail(count);
+		}else if(type == LoginTypeMatch.PHONETYPE) {//用户使用手机号码登录
+			user = userServiceImpl.findByPhoneNum(count);
+		}else{//用户使用用户名登录
+			user = userServiceImpl.findByUsername(count);
+		}
+		
 		if(user == null) {
 			throw new UnknownAccountException();//没找到账号
 		}
@@ -50,5 +69,5 @@ public class UserRealm extends AuthorizingRealm {
 				getName());
 		return authenticationInfo;
 	}
-
+	
 }

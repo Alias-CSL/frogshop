@@ -1,6 +1,5 @@
 package cn.barathrum.frogshop.config;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,14 +9,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
-import org.springframework.web.multipart.MultipartResolver;
-import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
@@ -30,15 +28,42 @@ import com.fasterxml.jackson.databind.introspect.JacksonAnnotationIntrospector;
 @ComponentScan(basePackages={"cn.barathrum.frogshop.*.**"})
 public class WebConfig extends WebMvcConfigurerAdapter{
 
-	@Bean
-	public ViewResolver viewresolver(){
+	/*@Bean
+	@Order(2)
+	public ViewResolver viewResolver(){
 		
 		InternalResourceViewResolver resolver = new InternalResourceViewResolver();
 		resolver.setPrefix("/WEB-INF/view/");
+		
 		resolver.setSuffix(".jsp");
-		resolver.setExposeContextBeansAsAttributes(true);
+		//resolver.setExposeContextBeansAsAttributes(true);
 		return resolver;
 	}
+	*/
+	@Bean
+	//@Order(0)
+	public ViewResolver homeViewResolver(){
+		
+		InternalResourceViewResolver resolver = new InternalResourceViewResolver();
+		resolver.setPrefix("/WEB-INF/home/");
+		resolver.setOrder(0);
+		resolver.setSuffix(".jsp");
+		//resolver.setExposeContextBeansAsAttributes(true);
+		return resolver;
+	}
+	
+	@Bean
+//	@Order(1)
+	public ViewResolver personViewResolver(){
+		
+		InternalResourceViewResolver resolver = new InternalResourceViewResolver();
+		resolver.setPrefix("/WEB-INF/person/");
+		resolver.setOrder(1);
+		resolver.setSuffix(".jsp");
+		//resolver.setExposeContextBeansAsAttributes(true);
+		return resolver;
+	}
+	
 /*	
 	@Bean
 	public MultipartResolver multipartResolver() throws IOException{
@@ -100,5 +125,18 @@ public class WebConfig extends WebMvcConfigurerAdapter{
 		
 		return aasa;
 	}
-
+	
+	//静态资源管理
+	@Override
+	public void addResourceHandlers(ResourceHandlerRegistry registry) {
+		//registry.addResourceHandler("").addResourceLocations("");
+		registry.addResourceHandler("/AmazeUI-2.4.2/**").addResourceLocations("/AmazeUI-2.4.2/");
+		registry.addResourceHandler("/basic/**").addResourceLocations("/basic/");
+		registry.addResourceHandler("/css/**").addResourceLocations("/css/");
+		registry.addResourceHandler("/goodImage/**").addResourceLocations("/goodImage/");
+		//registry.addResourceHandler("/goodImage/goodDetail/**").addResourceLocations("/goodImage/goodDetail/**");
+		registry.addResourceHandler("/js/**").addResourceLocations("/js/");
+		
+		//super.addResourceHandlers(registry);
+	}
 }

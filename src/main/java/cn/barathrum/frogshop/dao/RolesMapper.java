@@ -20,5 +20,9 @@ public interface RolesMapper {
     Set<Roles> selectByUserId(Integer id);
     //通过用户名获取角色
     Set<String> selectByUserName(String username);
+	//根据手机号获取角色
+	Set<String> selectByPhoneNum(String phoneNum);
+	//根据email获取角色
+	Set<String> selectByEmail(String email);
     
 }

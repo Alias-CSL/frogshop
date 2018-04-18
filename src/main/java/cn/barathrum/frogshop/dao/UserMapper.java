@@ -16,5 +16,9 @@ public interface UserMapper {
     int updateByPrimaryKey(User record);
     //通过用户名获取用户
 	User selectByUsername(String username);
+    //通过手机号获取用户
+	User selectByPhoneNum(String phoneNum);
+    //通过郵箱获取用户
+	User selectByEmail(String email);
     
 }

@@ -5,6 +5,7 @@
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="goodName" jdbcType="VARCHAR" property="goodName" />
     <result column="status" jdbcType="TINYINT" property="status" />
+    <result column="originalPrice" jdbcType="DECIMAL" property="originalPrice" />
     <result column="updateTime" jdbcType="TIMESTAMP" property="updateTime" />
   <!--   <result column="updatePersonId" jdbcType="INTEGER" property="updatepersonid" /> -->
     <result column="enteringTime" jdbcType="TIMESTAMP" property="enteringTime" />
@@ -14,11 +15,31 @@
   	<association property="updatePerson" column="updatePersonId" select="cn.barathrum.frogshop.dao.UserMapper.selectByPrimaryKey"  fetchType="lazy"/>
     <association property="enteringPerson" column="enteringPersonId" select="cn.barathrum.frogshop.dao.UserMapper.selectByPrimaryKey" fetchType="lazy"/>
     <collection property="skus" column="id" select="cn.barathrum.frogshop.dao.SkuMapper.selectByGoodId" fetchType="lazy"/>
+    <collection property="descPictures" column="id" select="cn.barathrum.frogshop.dao.DescPictureMapper.selectByGoodId" />
+    <collection property="detailPictures" column="id" select="cn.barathrum.frogshop.dao.DetailPictureMapper.selectByGoodId" fetchType="lazy"/>
   </resultMap>
   <sql id="Base_Column_List">
     id, goodName, status, updateTime, updatePersonId, enteringTime, enteringPersonId, 
-    romotion, totalSales
+    romotion, totalSales,originalPrice
   </sql>
+  <!--通过类目id与商品属性获取该类目  -->
+  <select id="selectByAttributes" resultMap="BaseResultMap">
+  	SELECT sg.id,sg.goodName,sg.status,sg.updateTime,sg.enteringTime,sg.updatePersonId,sg.enteringPersonId,sg.romotion,sg.totalSales ,sg.originalPrice
+	from shop_good sg
+	LEFT JOIN shop_base_attri_good sbag on sbag.goodId = sg.id
+	where categoryId = #{id,jdbcType=INTEGER} and 
+	<foreach item="attribute" collection="attr" index="index" separator=" and ">
+		attributes like ${attribute}
+	</foreach>
+  </select>
+    <!--通过类目id获取该类目  -->
+  <select id="selectByCategoryId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  	SELECT sg.id,sg.goodName,sg.`status`,sg.updateTime,sg.enteringTime,sg.updatePersonId,sg.enteringPersonId,sg.romotion,sg.totalSales ,sg.originalPrice
+	from shop_good sg
+	left JOIN shop_base_attri_good sbag on sbag.goodId = sg.id
+	where sbag.categoryId =#{id,jdbcType=INTEGER}
+  	
+  </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />

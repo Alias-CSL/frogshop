@@ -20,5 +20,9 @@ public interface PermissionsMapper {
     Set<Permissions> selectByRoleId(Integer id);
     //通过用户名获取权限
 	Set<String> selectByUserName(String username);
+	//通过手机号获取权限
+	Set<String> selectByPhoneNum(String phoneNum);
+	//通过邮箱获取权限
+	Set<String> selectByEmail(String email);
     
 }
