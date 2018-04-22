@@ -1,6 +1,7 @@
 package cn.barathrum.frogshop.service.impl;
 
 
+import java.util.Date;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,6 +68,37 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public User findByEmail(String email) {
 		return userDao.selectByEmail(email);
+	}
+	//通过手机号码注册用户
+	@Override
+	public int insertUserByPhone(String username, String phoneNum, String salt, String encryptPassword) {
+		User user = new User();
+		user.setUserName(username);
+		user.setPhone(phoneNum);
+		user.setCredentialsSalt(salt);
+		user.setUserPass(encryptPassword);
+		user.setStatus(1);
+		user.setCreateTime(new Date());
+		return userDao.insertSelective(user);
+	}
+	//通过邮箱注册用户
+	@Override
+	public int insertUserByEmail(String username, String email, String salt, String encryptPassword) {
+		User user = new User();
+		user.setUserName(username);
+		user.setEmail(email);
+		user.setCredentialsSalt(salt);
+		user.setUserPass(encryptPassword);
+		user.setStatus(1);
+		user.setCreateTime(new Date());
+		return userDao.insertSelective(user);
+	}
+	/**
+	 * 将商品加入购物车
+	 */
+	@Override
+	public int addToCart(Integer skuId, Integer userId, Integer goodNum) {
+		return 1;
 	}
 	
 }

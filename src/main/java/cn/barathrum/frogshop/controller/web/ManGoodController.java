@@ -19,7 +19,7 @@ import cn.barathrum.frogshop.bean.Category;
 import cn.barathrum.frogshop.bean.Good;
 import cn.barathrum.frogshop.bean.Message;
 import cn.barathrum.frogshop.service.GoodService;
-import cn.barathrum.frogshop.utils.JsonParse;
+import cn.barathrum.frogshop.utils.JsonParseUtil;
 
 /**
  * 男士商品控制类
@@ -39,12 +39,12 @@ public class ManGoodController {
 	@ResponseBody
 	public ModelAndView getCoat(@PathVariable("id") Integer id) {
 		ModelAndView mv = new ModelAndView("search");
-		PageHelper.startPage(1, 32);
+		/*PageHelper.startPage(1, 32);
 		List<Good> goods = goodService.getGoodByCategoryId(id);
 		PageInfo page = new PageInfo(goods, GOODNUM);
 		if (goods != null) {
 			mv.addObject("page", page);// 将商品数据添加到ModelAndView
-		}
+		}*/
 		Category category = goodService.getCategoryById(id);
 		category.getAttributeNames();// 加载attributes
 		mv.addObject("category", category);// 将类目数据添加到ModelAndView
@@ -75,7 +75,7 @@ public class ManGoodController {
 		}else{
 			//根据类目id与属性值查询商品
 			//解析json为数据库查询字符串
-			List<String> attributes = JsonParse.JsonParseToAttributes(attribute); 
+			List<String> attributes = JsonParseUtil.JsonParseToAttributes(attribute); 
 			goods = goodService.getGoodByAttributes(id,attributes);
 		}
 		if(goods.size() > 0) {

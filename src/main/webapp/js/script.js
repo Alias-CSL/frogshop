@@ -90,8 +90,8 @@ function build_good_info(result) {
 		//alert("build_good_info");
 		var goods = result.extend.pageInfo.list;
 		$.each(goods,function(index,good){
-			var ImgA = $('<a href="'+basePath+categoryName+'?goodId='+ good.id+'"><img src="'+ good.descPictures[0].descPicture+'"  height="218" width="218"/></a>');
-			var titleP = $('<p class="title fl"><a href="'+basePath+categoryName+'?goodId='+ good.id+'">'+good.goodName+'</a></p>');
+			var ImgA = $('<a href="'+basePath+'good/introduction/'+ good.id+'"><img src="'+ good.descPictures[0].descPicture+'"  height="218" width="218"/></a>');
+			var titleP = $('<p class="title fl"><a href="'+basePath+'good/introduction/'+ good.id+'">'+good.goodName+'</a></p>');
 			var price = $('<p class="price fl"><b>¥</b><strong>'+good.originalPrice+'</strong></p>');
 			var sales = $('<p class="number fl">销量<span>'+good.totalSales+'</span></p>');
 			var divParent = $('<div class="i-pic limit"></div>')
@@ -108,7 +108,7 @@ function build_good_info(result) {
 	};
 
 }
-//解析显示分页信息
+/*//解析显示分页信息
 function build_page_info(result){
 	//alert("build_page_info");
 	$("#page_info_area").empty();
@@ -180,7 +180,7 @@ function build_page_nav(result){
 	var navEle = $("<nav></nav>").append(ul);
 	navEle.appendTo("#page_nav_area");
 }
-
+*/
 
 $(document).ready(function() {
 

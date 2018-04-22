@@ -32,13 +32,33 @@ public class Good implements Serializable{
     private Integer totalSales;
     //原始价格
     private BigDecimal originalPrice;
+    //总库存
+    private Integer stocks;
     //该商品对应多种库存，采用延迟加载
     private List<Sku> skus;
     //商品描述图片
     private List<DescPicture> descPictures;
     //商品详情图片，采用延迟加载s
     private List<DetailPicture> detailPictures;
+    //商品评论，采用延迟加载
+    private List<Evaluate> evaluates;
     
+	public Integer getStocks() {
+		return stocks;
+	}
+
+	public void setStocks(Integer stocks) {
+		this.stocks = stocks;
+	}
+
+	public List<Evaluate> getEvaluates() {
+		return evaluates;
+	}
+
+	public void setEvaluates(List<Evaluate> evaluates) {
+		this.evaluates = evaluates;
+	}
+
 	public BigDecimal getOriginalPrice() {
 		return originalPrice;
 	}

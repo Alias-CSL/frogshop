@@ -1,4 +1,5 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -31,8 +32,23 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<ul class="message-l">
 					<div class="topMessage">
 						<div class="menu-hd">
-							<a href="#" target="_top" class="h">亲，请登录</a>
-							<a href="#" target="_top">免费注册</a>
+							<c:choose>
+								<c:when test="${sessionScope.loginFlag}">
+	      							<div class="am-dropdown" data-am-dropdown>
+									  <button class="am-btn am-round  am-dropdown-toggle" data-am-dropdown-toggle style="background:none;font-size:15px;"><i class="am-icon-user am-icon-fw"></i>${sessionScope.loginEntity.userName} <span class="am-icon-caret-down"></span></button>
+									  <ul class="am-dropdown-content">
+									   <!--  <li class="am-dropdown-header">标题</li> -->
+									   	<li><a href="<%=basePath%>/logout" >账号管理</a></li>
+									    <li><a href="<%=basePath%>/logout" >退出</a></li>
+									  </ul>
+									</div>
+	      							<input type="hidden" value="${sessionScope.loginEntity.id}" id="userId-input"/>
+								</c:when>
+								<c:otherwise>
+									<a href="<%=basePath %>login.html" target="_top">亲，请登录</a>
+									<a href="<%=basePath %>register.html" target="_top">免费注册</a>
+								</c:otherwise>
+							</c:choose>
 						</div>
 					</div>
 				</ul>
@@ -56,7 +72,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<div class="nav white">
 					<div class="logo"><img src="<%=basePath %>images/logo.png" /></div>
 					<div class="logoBig">
-						<li><img src="<%=basePath %>images/logobig3.png" /></li>
+						<li><img src="<%=basePath %>images/logobig.png" /></li>
 					</div>
 
 					<div class="search-bar pr">

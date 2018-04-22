@@ -21,5 +21,7 @@ public interface GoodMapper {
     //通过类目id获取商品
     List<Good> selectByCategoryId(Integer id);
 	//通过类目id与商品属性获取该类目
-	List<Good> selectByAttributes(@Param("id")Integer id, @Param("attr")List<String> attr);	
+	List<Good> selectByAttributes(@Param("id")Integer id, @Param("attr")List<String> attr);
+	//获取商品的产品参数
+	String getProductAttributes(Integer id);	
 }

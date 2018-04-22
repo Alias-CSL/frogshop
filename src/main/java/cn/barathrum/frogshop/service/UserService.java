@@ -2,6 +2,8 @@ package cn.barathrum.frogshop.service;
 
 import java.util.Set;
 
+import org.springframework.web.bind.annotation.RequestParam;
+
 import cn.barathrum.frogshop.bean.User;
 
 public interface UserService {
@@ -31,4 +33,11 @@ public interface UserService {
 
 	// 通过邮箱获取用户
 	User findByEmail(String email);
+	
+	//通过手机号码注册用户
+	int insertUserByPhone(String username,String phoneNum,String salt, String encryptPassword);
+	//通过邮箱注册用户
+	int insertUserByEmail(String username, String email, String salt, String encryptPassword);
+	//将商品加入购物车
+	int addToCart(Integer skuId, Integer userId, Integer goodNum);
 }

@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.barathrum.frogshop.dao.OrderMapper">
+  <resultMap id="BaseResultMap" type="cn.barathrum.frogshop.bean.Order">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="userId" jdbcType="INTEGER" property="userId" />
+    <!-- <result column="addressId" jdbcType="INTEGER" property="addressId" /> -->
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="expressNum" jdbcType="VARCHAR" property="expressNum" />
+    <result column="expressage" jdbcType="DECIMAL" property="expressage" />
+    <result column="expressName" jdbcType="VARCHAR" property="expressName" />
+    <result column="goodNum" jdbcType="INTEGER" property="goodNum" />
+    <result column="total" jdbcType="DECIMAL" property="total" />
+    <result column="createDate" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="paidDate" jdbcType="TIMESTAMP" property="paidDate" />
+    <result column="shipmentsDate" jdbcType="TIMESTAMP" property="shipmentsDate" />
+    <result column="dealDate" jdbcType="TIMESTAMP" property="dealDate" />
+    <result column="orderNum" jdbcType="VARCHAR" property="orderNum" />
+    <association property="address" column="addressId" select="cn.barathrum.frogshop.dao.AddressMapper.selectByPrimaryKey"  fetchType="lazy"/>
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, userId, status, expressNum, expressage, expressName, goodNum, total, 
+    createDate, paidDate, shipmentsDate, dealDate, orderNum
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from shop_order
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from shop_order
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="cn.barathrum.frogshop.bean.Order">
+    insert into shop_order (id, userId, addressId, 
+      status, expressNum, expressage, 
+      expressName, goodNum, total, 
+      createDate, paidDate, shipmentsDate, 
+      dealDate, orderNum)
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{addressId,jdbcType=INTEGER}, 
+      #{status,jdbcType=INTEGER}, #{expressNum,jdbcType=VARCHAR}, #{expressage,jdbcType=DECIMAL}, 
+      #{expressName,jdbcType=VARCHAR}, #{goodNum,jdbcType=INTEGER}, #{total,jdbcType=DECIMAL}, 
+      #{createDate,jdbcType=TIMESTAMP}, #{paidDate,jdbcType=TIMESTAMP}, #{shipmentsDate,jdbcType=TIMESTAMP}, 
+      #{dealDate,jdbcType=TIMESTAMP}, #{orderNum,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.barathrum.frogshop.bean.Order">
+    insert into shop_order
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="userId != null">
+        userId,
+      </if>
+     
+      <if test="status != null">
+        status,
+      </if>
+      <if test="expressNum != null">
+        expressNum,
+      </if>
+      <if test="expressage != null">
+        expressage,
+      </if>
+      <if test="expressName != null">
+        expressName,
+      </if>
+      <if test="goodNum != null">
+        goodNum,
+      </if>
+      <if test="total != null">
+        total,
+      </if>
+      <if test="createDate != null">
+        createDate,
+      </if>
+      <if test="paidDate != null">
+        paidDate,
+      </if>
+      <if test="shipmentsDate != null">
+        shipmentsDate,
+      </if>
+      <if test="dealDate != null">
+        dealDate,
+      </if>
+      <if test="orderNum != null">
+        orderNum,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="expressNum != null">
+        #{expressNum,jdbcType=VARCHAR},
+      </if>
+      <if test="expressage != null">
+        #{expressage,jdbcType=DECIMAL},
+      </if>
+      <if test="expressName != null">
+        #{expressName,jdbcType=VARCHAR},
+      </if>
+      <if test="goodNum != null">
+        #{goodNum,jdbcType=INTEGER},
+      </if>
+      <if test="total != null">
+        #{total,jdbcType=DECIMAL},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="paidDate != null">
+        #{paidDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="shipmentsDate != null">
+        #{shipmentsDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dealDate != null">
+        #{dealDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orderNum != null">
+        #{orderNum,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.barathrum.frogshop.bean.Order">
+    update shop_order
+    <set>
+      <if test="userId != null">
+        userId = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="addressId != null">
+        addressId = #{addressId,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="expressNum != null">
+        expressNum = #{expressNum,jdbcType=VARCHAR},
+      </if>
+      <if test="expressage != null">
+        expressage = #{expressage,jdbcType=DECIMAL},
+      </if>
+      <if test="expressName != null">
+        expressName = #{expressName,jdbcType=VARCHAR},
+      </if>
+      <if test="goodNum != null">
+        goodNum = #{goodNum,jdbcType=INTEGER},
+      </if>
+      <if test="total != null">
+        total = #{total,jdbcType=DECIMAL},
+      </if>
+      <if test="createDate != null">
+        createDate = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="paidDate != null">
+        paidDate = #{paidDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="shipmentsDate != null">
+        shipmentsDate = #{shipmentsDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dealDate != null">
+        dealDate = #{dealDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orderNum != null">
+        orderNum = #{orderNum,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.barathrum.frogshop.bean.Order">
+    update shop_order
+    set userId = #{userId,jdbcType=INTEGER},
+      addressId = #{addressId,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
+      expressNum = #{expressNum,jdbcType=VARCHAR},
+      expressage = #{expressage,jdbcType=DECIMAL},
+      expressName = #{expressName,jdbcType=VARCHAR},
+      goodNum = #{goodNum,jdbcType=INTEGER},
+      total = #{total,jdbcType=DECIMAL},
+      createDate = #{createDate,jdbcType=TIMESTAMP},
+      paidDate = #{paidDate,jdbcType=TIMESTAMP},
+      shipmentsDate = #{shipmentsDate,jdbcType=TIMESTAMP},
+      dealDate = #{dealDate,jdbcType=TIMESTAMP},
+      orderNum = #{orderNum,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

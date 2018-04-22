@@ -13,8 +13,8 @@
   <select id="selectByGoodId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
   	select 
   	<include refid="Base_Column_List"/>
-  	from shop_detial_picture
-    where goodId = #{id,jdbcType=INTEGER}
+  	from shop_detial_picture sdp
+    where goodId = #{id,jdbcType=INTEGER} ORDER BY sdp.sort
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 

@@ -20,7 +20,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<link href="<%=basePath %>basic/css/demo.css" rel="stylesheet" type="text/css" />
 
 		<link href="<%=basePath %>css/seastyle.css" rel="stylesheet" type="text/css" />
+		<script src="<%=basePath %>AmazeUI-2.4.2/assets/js/jquery.min.js"></script>
+		<script src="<%=basePath %>AmazeUI-2.4.2/assets/js/amazeui.min.js"></script>
 
+		<script type="text/javascript" src="<%=basePath %>basic/js/quick_links.js"></script>
+		<script type="text/javascript" src="<%=basePath %>basic/js/jquery-1.7.min.js"></script>
+		
 
 	</head>
 
@@ -28,14 +33,29 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 		<!--顶部导航条 -->
 		<div class="am-container header">
-			<ul class="message-l">
-				<div class="topMessage">
-					<div class="menu-hd">
-						<a href="#" target="_top" class="h">亲，请登录</a>
-						<a href="#" target="_top">免费注册</a>
+				<ul class="message-l">
+					<div class="topMessage">
+						<div class="menu-hd">
+							<c:choose>
+								<c:when test="${sessionScope.loginFlag}">
+	      							<div class="am-dropdown" data-am-dropdown>
+									  <button class="am-btn am-round  am-dropdown-toggle" data-am-dropdown-toggle style="background:none;font-size:15px;"><i class="am-icon-user am-icon-fw"></i>${sessionScope.loginEntity.userName} <span class="am-icon-caret-down"></span></button>
+									  <ul class="am-dropdown-content">
+									   <!--  <li class="am-dropdown-header">标题</li> -->
+									   	<li><a href="<%=basePath%>/logout" >账号管理</a></li>
+									    <li><a href="<%=basePath%>/logout" >退出</a></li>
+									  </ul>
+									</div>
+	      							<input type="hidden" value="${sessionScope.loginEntity.id}" id="userId-input"/>
+								</c:when>
+								<c:otherwise>
+									<a href="<%=basePath %>login.html" target="_top">亲，请登录</a>
+									<a href="<%=basePath %>register.html" target="_top">免费注册</a>
+								</c:otherwise>
+							</c:choose>
+						</div>
 					</div>
-				</div>
-			</ul>
+				</ul>
 			<ul class="message-r">
 				<div class="topMessage home">
 					<div class="menu-hd"><a href="#" target="_top" class="h">商城首页</a></div>
@@ -56,7 +76,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<div class="nav white">
 				<div class="logo"><img src="<%=basePath %>images/logo.png" /></div>
 				<div class="logoBig">
-					<li><img src="<%=basePath %>images/logobig3.png" /></li>
+					<li><img src="<%=basePath %>images/logobig.png" /></li>
 				</div>
 
 				<div class="search-bar pr">
@@ -438,9 +458,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<script>
 			window.jQuery || document.write('<script src="<%=basePath %>basic/js/jquery-1.9.min.js"><\/script>');
 		</script>
-		<script type="text/javascript" src="<%=basePath %>basic/js/quick_links.js"></script>
-		<script type="text/javascript" src="<%=basePath %>basic/js/jquery-1.7.min.js"></script>
 		<script type="text/javascript" src="<%=basePath %>js/script.js"></script>
+		<script type="text/javascript" src="<%=basePath %>js/page.js"></script>
 <div class="theme-popover-mask"></div>
 		<script type="text/javascript" >
 			$(function(){

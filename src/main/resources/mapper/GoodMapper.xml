@@ -12,19 +12,27 @@
    <!--  <result column="enteringPersonId" jdbcType="INTEGER" property="enteringpersonid" /> -->
     <result column="romotion" jdbcType="TINYINT" property="romotion" />
     <result column="totalSales" jdbcType="INTEGER" property="totalSales" />
+    <result column="stocks" jdbcType="INTEGER" property="stocks" />
   	<association property="updatePerson" column="updatePersonId" select="cn.barathrum.frogshop.dao.UserMapper.selectByPrimaryKey"  fetchType="lazy"/>
     <association property="enteringPerson" column="enteringPersonId" select="cn.barathrum.frogshop.dao.UserMapper.selectByPrimaryKey" fetchType="lazy"/>
     <collection property="skus" column="id" select="cn.barathrum.frogshop.dao.SkuMapper.selectByGoodId" fetchType="lazy"/>
     <collection property="descPictures" column="id" select="cn.barathrum.frogshop.dao.DescPictureMapper.selectByGoodId" />
     <collection property="detailPictures" column="id" select="cn.barathrum.frogshop.dao.DetailPictureMapper.selectByGoodId" fetchType="lazy"/>
+    <collection property="evaluates" column="id" select="cn.barathrum.frogshop.dao.EvaluateMapper.selectEvaluatesByGoodId" fetchType="lazy"/>
   </resultMap>
   <sql id="Base_Column_List">
     id, goodName, status, updateTime, updatePersonId, enteringTime, enteringPersonId, 
-    romotion, totalSales,originalPrice
+    romotion, totalSales,originalPrice,stocks
   </sql>
+  <!-- 通过商品id获取产品参数 -->
+  <select id="getProductAttributes" parameterType="java.lang.Integer" resultType="java.lang.String">
+  	select sbag.attributes 
+  	from shop_base_attri_good sbag
+	WHERE sbag.goodId = #{id,jdbcType=INTEGER}
+  </select>
   <!--通过类目id与商品属性获取该类目  -->
   <select id="selectByAttributes" resultMap="BaseResultMap">
-  	SELECT sg.id,sg.goodName,sg.status,sg.updateTime,sg.enteringTime,sg.updatePersonId,sg.enteringPersonId,sg.romotion,sg.totalSales ,sg.originalPrice
+  	SELECT sg.id,sg.goodName,sg.status,sg.updateTime,sg.enteringTime,sg.updatePersonId,sg.enteringPersonId,sg.romotion,sg.totalSales ,sg.originalPrice,sg.stocks
 	from shop_good sg
 	LEFT JOIN shop_base_attri_good sbag on sbag.goodId = sg.id
 	where categoryId = #{id,jdbcType=INTEGER} and 
@@ -34,7 +42,7 @@
   </select>
     <!--通过类目id获取该类目  -->
   <select id="selectByCategoryId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-  	SELECT sg.id,sg.goodName,sg.`status`,sg.updateTime,sg.enteringTime,sg.updatePersonId,sg.enteringPersonId,sg.romotion,sg.totalSales ,sg.originalPrice
+  	SELECT sg.id,sg.goodName,sg.`status`,sg.updateTime,sg.enteringTime,sg.updatePersonId,sg.enteringPersonId,sg.romotion,sg.totalSales ,sg.originalPrice,sg.stocks
 	from shop_good sg
 	left JOIN shop_base_attri_good sbag on sbag.goodId = sg.id
 	where sbag.categoryId =#{id,jdbcType=INTEGER}
@@ -53,11 +61,11 @@
   <insert id="insert" parameterType="cn.barathrum.frogshop.bean.Good">
     insert into shop_good (id, goodName, status, 
       updateTime, updatePersonId, enteringTime, 
-      enteringPersonId, romotion, totalSales
+      enteringPersonId, romotion, totalSales,stocks
       )
     values (#{id,jdbcType=INTEGER}, #{goodname,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, 
       #{updatetime,jdbcType=TIMESTAMP}, #{updatepersonid,jdbcType=INTEGER}, #{enteringtime,jdbcType=TIMESTAMP}, 
-      #{enteringpersonid,jdbcType=INTEGER}, #{romotion,jdbcType=TINYINT}, #{totalsales,jdbcType=INTEGER}
+      #{enteringpersonid,jdbcType=INTEGER}, #{romotion,jdbcType=TINYINT}, #{totalsales,jdbcType=INTEGER}, #{stocks,jdbcType=INTEGER}
       )
   </insert>
   <insert id="insertSelective" parameterType="cn.barathrum.frogshop.bean.Good">
@@ -90,6 +98,9 @@
       <if test="totalsales != null">
         totalSales,
       </if>
+      <if test="stocks != null">
+        stocks,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -118,6 +129,9 @@
       </if>
       <if test="totalsales != null">
         #{totalsales,jdbcType=INTEGER},
+      </if>
+      <if test="stocks != null">
+        #{stocks,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -148,6 +162,9 @@
       <if test="totalsales != null">
         totalSales = #{totalsales,jdbcType=INTEGER},
       </if>
+      <if test="stocks != null">
+        stocks = #{stocks,jdbcType=INTEGER},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -160,7 +177,8 @@
       enteringTime = #{enteringtime,jdbcType=TIMESTAMP},
       enteringPersonId = #{enteringpersonid,jdbcType=INTEGER},
       romotion = #{romotion,jdbcType=TINYINT},
-      totalSales = #{totalsales,jdbcType=INTEGER}
+      totalSales = #{totalsales,jdbcType=INTEGER},
+       stocks = #{stocks,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

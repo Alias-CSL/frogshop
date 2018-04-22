@@ -25,8 +25,17 @@ public class User implements Serializable {
     private Date createTime;
     //用户邮箱
     private String email;
+    //加密盐值
+    private String credentialsSalt;
     //用户所拥有的权限
     private Set<Roles> roles;
+    
+	public String getCredentialsSalt() {
+		return credentialsSalt;
+	}
+	public void setCredentialsSalt(String credentialsSalt) {
+		this.credentialsSalt = credentialsSalt;
+	}
 	public Integer getId() {
 		return id;
 	}

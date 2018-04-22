@@ -31,8 +31,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<ul class="message-l">
 				<div class="topMessage">
 					<div class="menu-hd">
-						<a href="#" target="_top" class="h">亲，请登录</a>
-						<a href="#" target="_top">免费注册</a>
+						<li><a href="javascript:void(0)" onclick="alert('会员')">${sessionScope.loginEntity.userName}</a></li>
+	      				<li><a href="<%=basePath%>/logout" >退出</a></li>
 					</div>
 				</div>
 			</ul>

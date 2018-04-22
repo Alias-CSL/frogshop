@@ -15,7 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import cn.barathrum.frogshop.bean.User;
 import cn.barathrum.frogshop.service.UserService;
-import cn.barathrum.frogshop.utils.LoginTypeMatch;
+import cn.barathrum.frogshop.utils.LoginTypeMatchUtil;
 
 public class UserRealm extends AuthorizingRealm {
 	@Autowired
@@ -26,11 +26,11 @@ public class UserRealm extends AuthorizingRealm {
 		//获取用户名
 		String count = (String) principals.getPrimaryPrincipal();
 		SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
-		int type = LoginTypeMatch.loginType(count);
-		if(type == LoginTypeMatch.EMAILTYPE) {//用户使用邮箱登录
+		int type = LoginTypeMatchUtil.loginType(count);
+		if(type == LoginTypeMatchUtil.EMAILTYPE) {//用户使用邮箱登录
 			authorizationInfo.setRoles(userServiceImpl.findRolesByEmail(count));
 			authorizationInfo.setStringPermissions(userServiceImpl.findPermissionsByEmail(count));
-		}else if(type == LoginTypeMatch.PHONETYPE) {//用户使用手机号码登录
+		}else if(type == LoginTypeMatchUtil.PHONETYPE) {//用户使用手机号码登录
 			authorizationInfo.setRoles(userServiceImpl.findRolesByPhoneNum(count));
 			authorizationInfo.setStringPermissions(userServiceImpl.findPermissionsByPhoneNum(count));
 		}else{//用户使用用户名登录
@@ -44,13 +44,14 @@ public class UserRealm extends AuthorizingRealm {
 	@Override
 	protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
 		String count = (String) token.getPrincipal();
-		int type = LoginTypeMatch.loginType(count);
+
+		int type = LoginTypeMatchUtil.loginType(count);
 		User user = null ;
-		if(type == LoginTypeMatch.EMAILTYPE) {//用户使用邮箱登录
+		if(type == LoginTypeMatchUtil.EMAILTYPE) {//用户使用邮箱登录
 			user = userServiceImpl.findByEmail(count);
-		}else if(type == LoginTypeMatch.PHONETYPE) {//用户使用手机号码登录
+		}else if(type == LoginTypeMatchUtil.PHONETYPE) {//用户使用手机号码登录
 			user = userServiceImpl.findByPhoneNum(count);
-		}else{//用户使用用户名登录
+		}else if(type == LoginTypeMatchUtil.NAMETYPE) {//用户使用用户名登录
 			user = userServiceImpl.findByUsername(count);
 		}
 		
@@ -63,9 +64,9 @@ public class UserRealm extends AuthorizingRealm {
 		}
 		//交给AuthenticatingRealm使用CredentialsMatcher进行密码匹配
 		SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(
-				user.getUserName(),
+				count,
 				user.getUserPass(),
-				ByteSource.Util.bytes("admin"),
+				ByteSource.Util.bytes(user.getCredentialsSalt()),
 				getName());
 		return authenticationInfo;
 	}
