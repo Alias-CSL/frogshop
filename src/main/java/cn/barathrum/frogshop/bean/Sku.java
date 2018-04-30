@@ -3,10 +3,13 @@ package cn.barathrum.frogshop.bean;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+@JsonIgnoreProperties(value = { "handler" })  
 public class Sku {
 	//id
     private Integer id;
-    //商品id
+    //商品
+//    private Good good;
     private Integer goodId;
     //价格
     private BigDecimal price;
@@ -26,92 +29,80 @@ public class Sku {
     private String attributes;
     //商品码
     private Integer goodCode;
+    
+	public Integer getId() {
+		return id;
+	}
+	public void setId(Integer id) {
+		this.id = id;
+	}
+/*	public Good getGood() {
+		return good;
+	}
+	public void setGood(Good good) {
+		this.good = good;
+	}*/
+	
+	public BigDecimal getPrice() {
+		return price;
+	}
+	public Integer getGoodId() {
+		return goodId;
+	}
+	public void setGoodId(Integer goodId) {
+		this.goodId = goodId;
+	}
+	public void setPrice(BigDecimal price) {
+		this.price = price;
+	}
+	public Integer getResource() {
+		return resource;
+	}
+	public void setResource(Integer resource) {
+		this.resource = resource;
+	}
+	public Integer getSales() {
+		return sales;
+	}
+	public void setSales(Integer sales) {
+		this.sales = sales;
+	}
+	public BigDecimal getOriginalPrice() {
+		return originalPrice;
+	}
+	public void setOriginalPrice(BigDecimal originalPrice) {
+		this.originalPrice = originalPrice;
+	}
+	public String getPicture() {
+		return picture;
+	}
+	public void setPicture(String picture) {
+		this.picture = picture;
+	}
+	public Date getCreateTime() {
+		return createTime;
+	}
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
+	}
+	public Integer getStatus() {
+		return status;
+	}
+	public void setStatus(Integer status) {
+		this.status = status;
+	}
+	public String getAttributes() {
+		return attributes;
+	}
+	public void setAttributes(String attributes) {
+		this.attributes = attributes;
+	}
+	public Integer getGoodCode() {
+		return goodCode;
+	}
+	public void setGoodCode(Integer goodCode) {
+		this.goodCode = goodCode;
+	}
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Integer getGoodId() {
-        return goodId;
-    }
-
-    public void setGoodid(Integer goodid) {
-        this.goodId = goodid;
-    }
-
-    public BigDecimal getPrice() {
-        return price;
-    }
-
-    public void setPrice(BigDecimal price) {
-        this.price = price;
-    }
-
-    public Integer getResource() {
-        return resource;
-    }
-
-    public void setResource(Integer resource) {
-        this.resource = resource;
-    }
-
-    public Integer getSales() {
-        return sales;
-    }
-
-    public void setSales(Integer sales) {
-        this.sales = sales;
-    }
-
-    public BigDecimal getOriginalprice() {
-        return originalPrice;
-    }
-
-    public void setOriginalprice(BigDecimal originalprice) {
-        this.originalPrice = originalprice;
-    }
-
-    public String getPicture() {
-        return picture;
-    }
-
-    public void setPicture(String picture) {
-        this.picture = picture == null ? null : picture.trim();
-    }
-
-    public Date getCreatetime() {
-        return createTime;
-    }
-
-    public void setCreatetime(Date createtime) {
-        this.createTime = createtime;
-    }
-
-    public Integer getStatus() {
-        return status;
-    }
-
-    public void setStatus(Integer status) {
-        this.status = status;
-    }
-
-    public String getAttributes() {
-        return attributes;
-    }
-
-    public void setAttributes(String attributes) {
-        this.attributes = attributes == null ? null : attributes.trim();
-    }
-
-    public Integer getGoodcode() {
-        return goodCode;
-    }
-
-    public void setGoodcode(Integer goodcode) {
-        this.goodCode = goodcode;
-    }
+    
 }

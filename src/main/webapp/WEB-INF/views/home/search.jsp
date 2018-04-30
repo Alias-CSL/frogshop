@@ -144,7 +144,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 													<dl id="select-${vs.count }" title="select${vs.count }" class="select-dl">
 														<dt class="am-badge am-round" title="${attributeName.name }">${attributeName.name }</dt>	
 														 <div class="dd-conent">										
-															<dd class="select-all selected"><a href="#">全部</a></dd>
+															<dd class="select-all selected"><a href="#" disabled="disabled">全部</a></dd>
 															<c:forEach items="${attributeName.attributeValues }" varStatus="vs" var="attributeValue">
 																<dd title='${attributeValue.name}'><a href="#" >${attributeValue.name}</a></dd>
 															</c:forEach>
@@ -467,8 +467,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				setPageUrl("<%=basePath %>page/good");
 				setBasePath("<%=basePath %>");
 				setCategoryValue("${category.id}","${category.name}");
-				to_page(1);
+				to_page("","","",1);
 			});
+			
 		</script>
 	</body>
 

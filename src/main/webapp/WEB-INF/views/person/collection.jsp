@@ -12,7 +12,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0, user-scalable=0">
 
 		<title>我的收藏</title>
+		<link href="<%=basePath %>basic/css/demo.css" rel="stylesheet" type="text/css" />
 
+		<link href="<%=basePath %>css/seastyle.css" rel="stylesheet" type="text/css" />
+		
 		<link href="<%=basePath %>AmazeUI-2.4.2/assets/css/admin.css" rel="stylesheet" type="text/css">
 		<link href="<%=basePath %>AmazeUI-2.4.2/assets/css/amazeui.css" rel="stylesheet" type="text/css">
 
@@ -47,7 +50,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								<div class="menu-hd"><a id="mc-menu-hd" href="#" target="_top"><i class="am-icon-shopping-cart  am-icon-fw"></i><span>购物车</span><strong id="J_MiniCartNum" class="h">0</strong></a></div>
 							</div>
 							<div class="topMessage favorite">
-								<div class="menu-hd"><a href="#" target="_top"><i class="am-icon-heart am-icon-fw"></i><span>收藏夹</span></a></div>
+								<div class="menu-hd"><a href="<%=basePath %>collection.html" target="_top"><i class="am-icon-heart am-icon-fw"></i><span>收藏夹</span></a></div>
 						</ul>
 						</div>
 
@@ -107,7 +110,48 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								<a class="am-badge am-badge-danger am-round">下架</a>
 							</div>
 							<div class="s-content">
-								<div class="s-item-wrap">
+							<ul class="am-avg-sm-2 am-avg-md-3 am-avg-lg-4 boxes" id="goods_ul">
+								<%-- 	<c:choose>
+										<c:when test="${not empty page.list }">
+											<c:forEach items="${page.list}" varStatus="vs" var="good">
+												<li>
+													<div class="i-pic limit">
+														<a href="<%=basePath %>${category.name}?goodId=${good.id}"><img src="${good.descPictures[0].descPicture }"  height="218" width="218"/></a>										
+														<p class="title fl"><a href="<%=basePath %>${category.name}?goodId=${good.id}">${good.goodName }</a></p>
+														<p class="price fl">
+															<b>¥</b>
+															<strong>${good.originalPrice }</strong>
+														</p>
+														<p class="number fl">
+															销量<span>${good.totalSales }</span>
+														</p>
+													</div>
+												</li>
+											</c:forEach>
+										</c:when>
+									</c:choose> --%>
+								</ul>
+								<div class="clear"></div>
+								<!-- 显示分页信息 -->
+								<div class="am-g">
+									<!--分页文字信息  -->
+									<div class="am-u-sm-4 am-u-md-4 am-u-sm-centered" id="page_info_area"></div>
+									<!-- 分页条信息 -->
+									<div class="am-u-sm-8 am-u-md-8 am-u-sm-centered" id="page_nav_area">
+										<!--分页 -->
+										<!-- <ul class="am-pagination am-pagination-right">
+											<li class="am-disabled"><a href="#">&laquo;</a></li>
+											<li class="am-active"><a href="#">1</a></li>
+											<li><a href="#">2</a></li>
+											<li><a href="#">3</a></li>
+											<li><a href="#">4</a></li>
+											<li><a href="#">5</a></li>
+											<li><a href="#">&raquo;</a></li>
+										</ul> -->
+									</div>
+								</div>
+						
+								<%-- <div class="s-item-wrap">
 									<div class="s-item">
 
 										<div class="s-pic">
@@ -286,7 +330,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 											</p>
 										</div>
 									</div>
-								</div>
+								</div> --%>
 
 							</div>
 
@@ -354,7 +398,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<li class="person">
 						<a href="#">我的小窝</a>
 						<ul>
-							<li class="active"> <a href="collection.html">收藏</a></li>
+							<li> <a href="<%=basePath %>collection.html">收藏</a></li>
 							<li> <a href="foot.html">足迹</a></li>
 							<li> <a href="comment.html">评价</a></li>
 							<li> <a href="news.html">消息</a></li>
@@ -365,7 +409,39 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 			</aside>
 		</div>
-
+			<script src="<%=basePath %>/js/jquery-1.7.2.min.js"></script>
+		<script src="<%=basePath %>/AmazeUI-2.4.2/assets/js/amazeui.min.js"></script>	
+		<script type="text/javascript" src="<%=basePath %>js/script.js"></script>
+		<script type="text/javascript" src="<%=basePath %>js/page.js"></script>
+		<div class="theme-popover-mask"></div>
+		<script type="text/javascript" >
+			$(function(){
+				setSearchUrl("<%=basePath %>${category.name}/search");
+				setPageUrl("<%=basePath %>page/good");
+				setBasePath("<%=basePath %>");
+				
+				to_colection_page("","getMyCollection","${sessionScope.loginEntity.id}",1);
+				
+			});
+			//属性查询商品,或者跳转到指定页面
+			function to_colection_page(p,url,userId,pageNum) {
+				//alert(data);
+				$.ajax({
+					url :url,
+					data : "userId="+userId+"&pn="+pageNum,
+					type : "GET",
+					success : function(result) {
+						//alert("sfs");
+						//1、解析并显示商品数据
+						build_good_info(p,result);
+						//2、解析并显示分页信息
+						build_page_info(p,result);
+						//3、解析显示分页条数据
+						build_page_nav(p,url,userId,result);
+					}
+				});
+			}
+		</script>
 	</body>
 
 </html>

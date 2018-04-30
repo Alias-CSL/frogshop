@@ -3,7 +3,10 @@ package cn.barathrum.frogshop.test;
 import static org.junit.Assert.assertNotNull;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -21,15 +24,23 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import cn.barathrum.frogshop.bean.Address;
+import cn.barathrum.frogshop.bean.District;
 import cn.barathrum.frogshop.bean.Evaluate;
 import cn.barathrum.frogshop.bean.Good;
-import cn.barathrum.frogshop.bean.Sku;
-import cn.barathrum.frogshop.bean.User;
+import cn.barathrum.frogshop.bean.Message;
+import cn.barathrum.frogshop.bean.Order;
 import cn.barathrum.frogshop.config.RootConfig;
+import cn.barathrum.frogshop.dao.AddressMapper;
+import cn.barathrum.frogshop.dao.CartMapper;
+import cn.barathrum.frogshop.dao.CollectionMapper;
 import cn.barathrum.frogshop.dao.EvaluateMapper;
 import cn.barathrum.frogshop.dao.GoodMapper;
+import cn.barathrum.frogshop.dao.OrderMapper;
+import cn.barathrum.frogshop.dao.ProvinceMapper;
 import cn.barathrum.frogshop.dao.SkuMapper;
 import cn.barathrum.frogshop.dao.UserMapper;
+import cn.barathrum.frogshop.service.AddressService;
 import cn.barathrum.frogshop.service.GoodService;
 import cn.barathrum.frogshop.service.UserService;
 
@@ -74,6 +85,7 @@ public class DaoTest {
 		assertNotNull(roles);
 		System.out.println(roles.size());*/
 		Good good = goodMapper.selectByPrimaryKey(1);
+		
 		//System.out.println(good.get);
 		//List<Evaluate> evaluates = good.getEvaluates();
 		//System.out.println(good.getEnteringPerson().getUserName());
@@ -113,12 +125,33 @@ public class DaoTest {
 	GoodService goodService;
 	@Autowired
 	UserMapper userMapper;
-
+	@Autowired
+	AddressService addressService;
+	@Test
+	public void testAddressDao(){
+		Address newAddress = new Address();
+		newAddress.setId(435);
+		newAddress.setUserId(3);
+		newAddress.setContacterName("你好啊");
+		newAddress.setPhone("13257363636");
+		newAddress.setProvince("广东省");
+		newAddress.setCity("广州市");
+		newAddress.setDistricts("白云区");
+		newAddress.setAddress( "仲恺农业工程学院");
+		newAddress.setStatus((byte) 2);
+		//Address address = userService.addNewAddress(newAddress);
+		//assertNotNull(address);
+		//System.out.println(address.getId());
+		addressService.modifyAddress(newAddress);
+		System.out.println(newAddress.getContacterName());
+	}
 	@Test
 	public void goodDaoTest(){
 		//int i = userService.insertUserByPhone("lowang1", "13257617382", "admin", "038bdaf98f2037b31f1e75b5b4c9b26e");
 		//System.out.println(i);
-		User user = userService.findByUsername("lisi");
+		//User user = userService.findByUsername("lisi");
+		String goodName = goodService.getGoodNameBySkuId(1);
+		System.out.println(goodName);
 		/*User user = userMapper.selectByPrimaryKey(1);
 		assertNotNull(user);
 		System.out.println(user.getUserName());*/
@@ -151,11 +184,54 @@ public class DaoTest {
 	SkuMapper skuMapper;
 	@Test
 	public void testSkuMapper() {
-		Sku sku = skuMapper.selectByAttributes(1, "{\"颜色\":\"黑色\",\"尺码\":\"M\"}");
+		String str = "{\"颜色\":\"黑色\",\"尺码\":\"M\"}";
+		String result = str.replaceAll("\"", "").replaceAll("\\{", "").replaceAll("\\}", "");
+		System.out.println(result);
+/*		Sku sku = skuMapper.selectByAttributes(1, "{\"颜色\":\"黑色\",\"尺码\":\"M\"}");
 		assertNotNull(sku);
-		System.out.println(sku.getAttributes());
+		System.out.println(sku.getAttributes());*/
 	}
 	
+	@Autowired
+	private CartMapper cartMapper;
+	
+	@Test
+	public void testCartMapper() {
+		// i = cartMapper.insertSelective(3, 2, 1,new Date(),"dasa");
+		//System.out.println(i);
+		//Cart cart = cartMapper.selectById(34514, 2,"花花公子男士外套春秋2018春季新款男装休闲夹克男青年修身棒球服");
+		//System.out.println(cart== null );
+		int s = cartMapper.updateByCartNum(10,2);
+		System.out.println(s);
+	}
+	
+	@Autowired
+	AddressMapper addressMapper;
+	
+	@Test
+	public void testAddressMapper(){
+		//<Address> addresses1 = addressMapper.selectByUserId(2);
+		//List<Address> addresses = userService.getAllAddress(2);
+		//System.out.println(addresses1.size());
+		//System.out.println(addresses.size());
+		//int i = userService.updateGoodData(2, 3453);
+		int j = goodMapper.updateGoodData(3453,2);
+		System.out.println(j);
+	}
+	@Autowired
+	ProvinceMapper provinceMapper;
+	
+	@Test
+	public void testProvinceMapper(){
+/*		List<Province> provinces = userService.getAllProvince();
+		System.out.println(provinces.size());
+		List<City> cities = userService.getCitiesByProvinceId(14);
+		System.out.println(cities.size());
+		List<District> district = userService.getDistrictByCityId(1);
+		System.out.println(district.size());*/
+		List<District> district = addressService.getDistByCityName("广州市");
+		System.out.println(district.size());
+	}
 	@Test
 	public void testManGoodController() {
 		 MvcResult result;
@@ -171,5 +247,71 @@ public class DaoTest {
 			e.printStackTrace();
 		}  
   
+	}
+	@Autowired
+	OrderMapper orderMapper;
+	@Test
+	public void testOrderMaper() {
+//		int result = userService.createOrderGood(1762,3453,1,"花花公子男士外套春秋2018春季新款男装休闲夹克男青年修身棒球服");
+//		System.out.println(result);
+		int i = skuMapper.updateSkuData(1, 780);
+		System.out.println(i);
+/*		Order order = new Order();
+		order.setUserId(2);
+		order.setAddressId(441);
+		order.setExpressName("韵达");
+		order.setGoodNum(1);
+		order.setOrderNum("201804261121107172");
+		Order newOrder = userService.addOrder(order);
+//		Address address= orderMapper.selectByPrimaryKey(1722).getAddress();
+		Order newOrder1 = userService.getOrderByPrimaryKey(newOrder.getId()); 
+		assertNotNull(newOrder1.getAddress());
+		System.out.println(newOrder1.getAddress().getAddress());*/
+/*		Order order = orderMapper.selectByPrimaryKey(1762);
+		List<OrderGood> orderGoods = order.getOrderGoods();
+		System.out.println(orderGoods.size());
+		System.out.println(orderGoods.get(0).getSku().getResource());*/
+//		List<Order> orders = orderMapper.selectByUserId(2);
+//		System.out.println(orders.size());
+	}
+	@Test
+	public void testBatchUpdate() {
+		List<Map<String,Object>> data = new ArrayList<>();
+		Map<String,Object> map1 = new HashMap<String,Object>();
+		map1.put("id", 431);
+		map1.put("status", 2);
+		
+		Map<String,Object> map2 = new HashMap<String,Object>();
+		map2.put("id", 441);
+		map2.put("status", 1);
+		data.add(map1);
+		data.add(map2);
+		int result = addressMapper.updateDefaultAddressByMap(data);
+		System.out.println(result);
+	}
+	@Autowired
+	CollectionMapper collectionMapper;
+	@Test
+	public void testGoodsMapper() {
+		List<Good> goods = goodService.getGoodByCategoryId(64);
+		System.out.println(goods.size());
+	}
+	@Test
+	public void testCollectionMapper() {
+	//	int hasCollected = collectionMapper.selectByAllKeys(1,1);
+	//	System.out.println(hasCollected);
+	//int i =	userService.insertCollectionRecord(1, 1);
+	//System.out.println(i);
+	//int result = userService.insertNewComment(1, "201804281914148193", "201804281914148193201804281914148193201804281914148193", "1");
+	//int result = userService.updateOrderStatus(1766, 6);
+	//System.out.println(result);
+	List<Good> goods = goodMapper.selectByCategoryId(64);
+	Message.success().add("goods", goods);
+	System.out.println(goods.size());
+	}
+	@Test
+	public void testPayOrderMethod() {
+		Order order = userService.payTheOrder(1755);
+		System.out.println(order.getPaidDate());
 	}
 }

@@ -32,7 +32,7 @@ public class RootConfig {
 	
 	@Bean(name="simpleDateFormat")
 	public SimpleDateFormat simpleDateFormat(){
-		return new SimpleDateFormat("yyyy-MM-dd");
+		return new SimpleDateFormat("yyyyMMddHHmmss");
 	}
 	
 }

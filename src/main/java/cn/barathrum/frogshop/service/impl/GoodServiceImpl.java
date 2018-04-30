@@ -28,6 +28,8 @@ public class GoodServiceImpl implements GoodService {
 	
 	@Autowired
 	private SkuMapper skuMapper;
+	
+
 	//通过类目id获取商品
 	@Override
 	public List<Good> getGoodByCategoryId(Integer id) {
@@ -63,6 +65,16 @@ public class GoodServiceImpl implements GoodService {
 	@Override
 	public Sku getSkuByAttributes(Integer goodId, String attributes) {
 		return skuMapper.selectByAttributes(goodId,attributes);
+	}
+	//通过SkuId获取sku
+	@Override
+	public Sku getSkuBySkuId(Integer skuId) {
+		return  skuMapper.selectByPrimaryKey(skuId);
+	}
+	//通过skuId获取good名称
+	@Override
+	public String getGoodNameBySkuId(Integer skuId) {
+		return goodMapper.selectGoodNameBySkuId(skuId);
 	}
 
 }

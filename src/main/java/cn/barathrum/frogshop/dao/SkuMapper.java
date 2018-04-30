@@ -24,4 +24,10 @@ public interface SkuMapper {
    // List<String> selectAttributeByGoodId(Integer id);
 	//通过商品规格获取对应的sku信息
 	Sku selectByAttributes(@Param("goodId")Integer goodId, @Param("attributes")String attributes);
+	/**
+	 * 更新sku数据
+	 * @param skuId skuId
+	 * @param goodNum 商品数量
+	 */
+	int updateSkuData(@Param("skuId")Integer skuId, @Param("goodNum")Integer goodNum);
 }

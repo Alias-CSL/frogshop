@@ -33,8 +33,10 @@ public class LoginFilter implements Filter {
 		User user = (User) session.getAttribute("loginEntity");//获取保存在session中的用户
 		String referer = req.getHeader("Referer");
 		if(user != null && referer != null) {
+			System.out.println("直接转发");
 			chain.doFilter(request, response);
 		}else{		
+			System.out.println("重定向");
 			HttpServletResponse resq = (HttpServletResponse) response;
 			resq.sendRedirect(basePath+"login.html");
 			if(referer != null) {

@@ -10,7 +10,8 @@
     <result column="createTime" jdbcType="DATE" property="createTime" />
     <result column="email" jdbcType="VARCHAR" property="email" />
     <result column="credentialsSalt" jdbcType="VARCHAR" property="credentialsSalt" />
-    <collection property="roles" column="id" select="cn.barathrum.frogshop.dao.RolesMapper.selectByRoleId" fetchType="lazy"/>
+    <collection property="carts" column="id" select="cn.barathrum.frogshop.dao.RolesMapper.selectByRoleId" fetchType="lazy"/>
+    <collection property="roles" column="id" select="cn.barathrum.frogshop.dao.CartMapper.selectByUserId" fetchType="lazy"/>
   </resultMap>
   <sql id="Base_Column_List">
     id, userName, userPass, phone, status, createTime, email,credentialsSalt

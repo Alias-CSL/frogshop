@@ -25,6 +25,7 @@ public class RegisterFilter implements Filter{
 		HttpSession session = req.getSession();
 		User user = (User) session.getAttribute("loginEntity");//获取保存在session中的用户
 		String referer = req.getHeader("Referer");
+		System.out.println("aaaaaaaaaaaaaaaa");
 		if(referer != null) {
 				session.setAttribute("Referer", referer);
 		}

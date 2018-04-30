@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.barathrum.frogshop.dao.CartMapper">
+  <resultMap id="BaseResultMap" type="cn.barathrum.frogshop.bean.Cart">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <id column="userId" jdbcType="INTEGER" property="userId" />
+    <result column="count" jdbcType="INTEGER" property="count" />
+    <result column="createDate" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="goodName" jdbcType="VARCHAR" property="goodName" />
+    <association property="sku" column="skuId" select="cn.barathrum.frogshop.dao.SkuMapper.selectByPrimaryKey"/>
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, userId, skuId, count, createDate,goodName
+  </sql>
+  <select id="selectById" resultMap="BaseResultMap">
+  	select 
+    <include refid="Base_Column_List" />
+    from shop_cart
+    where userId = #{userId,jdbcType=INTEGER} and skuId = #{skuId,jdbcType=INTEGER} and goodName = #{goodName,jdbcType=VARCHAR}
+  </select>
+  <!-- 通过用户id获取购物车信息 -->
+  <select id="selectByUserId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from shop_cart
+    where userId = #{userId,jdbcType=INTEGER}
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from shop_cart
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from shop_cart
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="cn.barathrum.frogshop.bean.Cart">
+    insert into shop_cart (id, userId, skuId, 
+      count, createDate,goodName)
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{skuId,jdbcType=INTEGER}, 
+      #{count,jdbcType=INTEGER}, #{createDate,jdbcType=TIMESTAMP},#{goodName,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" >
+    insert into shop_cart
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+
+      <if test="userId != null">
+        userId,
+      </if>
+      <if test="skuId != null">
+        skuId,
+      </if>
+      <if test="count != null">
+        count,
+      </if>
+      <if test="createDate != null">
+        createDate,
+      </if>
+      <if test="goodName != null">
+        goodName,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="skuId != null">
+        #{skuId,jdbcType=INTEGER},
+      </if>
+      <if test="count != null">
+        #{count,jdbcType=INTEGER},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="goodName != null">
+        #{goodName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.barathrum.frogshop.bean.Cart">
+    update shop_cart
+    <set>
+      <if test="userid != null">
+        userId = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="skuid != null">
+        skuId = #{skuId,jdbcType=INTEGER},
+      </if>
+      <if test="count != null">
+        count = #{count,jdbcType=INTEGER},
+      </if>
+      <if test="createDate != null">
+        createDate = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="goodName != null">
+        goodName = #{goodName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.barathrum.frogshop.bean.Cart">
+    update shop_cart
+    set userId = #{userId,jdbcType=INTEGER},
+      skuId = #{skuId,jdbcType=INTEGER},
+      count = #{count,jdbcType=INTEGER},
+      createDate = #{createDate,jdbcType=TIMESTAMP},
+      goodName = #{goodName,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+    <update id="updateByCartNum">
+    update shop_cart
+    set count = count + #{num,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

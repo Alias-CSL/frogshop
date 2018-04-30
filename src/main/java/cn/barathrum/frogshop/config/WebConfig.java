@@ -19,6 +19,7 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
+import org.springframework.web.servlet.view.JstlView;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.introspect.JacksonAnnotationIntrospector;
@@ -40,30 +41,30 @@ public class WebConfig extends WebMvcConfigurerAdapter{
 		return resolver;
 	}
 	*/
-	@Bean
-	//@Order(0)
+	@Bean("homeViewResolver")
 	public ViewResolver homeViewResolver(){
 		
 		InternalResourceViewResolver resolver = new InternalResourceViewResolver();
-		resolver.setPrefix("/WEB-INF/home/");
-		resolver.setOrder(0);
+		resolver.setPrefix("/WEB-INF/views/");
+		resolver.setOrder(1);
 		resolver.setSuffix(".jsp");
+		resolver.setViewClass(JstlView.class);
 		//resolver.setExposeContextBeansAsAttributes(true);
 		return resolver;
 	}
-	
-	@Bean
-//	@Order(1)
+/*	
+	@Bean("personViewResolver")
 	public ViewResolver personViewResolver(){
 		
 		InternalResourceViewResolver resolver = new InternalResourceViewResolver();
 		resolver.setPrefix("/WEB-INF/person/");
-		resolver.setOrder(1);
+		resolver.setOrder(11);
 		resolver.setSuffix(".jsp");
+		resolver.setViewClass(JstlView.class);
 		//resolver.setExposeContextBeansAsAttributes(true);
 		return resolver;
 	}
-	
+	*/
 /*	
 	@Bean
 	public MultipartResolver multipartResolver() throws IOException{

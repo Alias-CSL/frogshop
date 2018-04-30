@@ -3,10 +3,10 @@
 <mapper namespace="cn.barathrum.frogshop.dao.AddressMapper">
   <resultMap id="BaseResultMap" type="cn.barathrum.frogshop.bean.Address">
     <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="userId" jdbcType="INTEGER" property="userid" />
-    <result column="contacterName" jdbcType="VARCHAR" property="contactername" />
+    <result column="userId" jdbcType="INTEGER" property="userId" />
+    <result column="contacterName" jdbcType="VARCHAR" property="contacterName" />
     <result column="phone" jdbcType="VARCHAR" property="phone" />
-    <result column="postalCode" jdbcType="VARCHAR" property="postalcode" />
+    <result column="postalCode" jdbcType="VARCHAR" property="postalCode" />
     <result column="address" jdbcType="VARCHAR" property="address" />
     <result column="province" jdbcType="VARCHAR" property="province" />
     <result column="city" jdbcType="VARCHAR" property="city" />
@@ -17,6 +17,14 @@
     id, userId, contacterName, phone, postalCode, address, province, city, districts, 
     status
   </sql>
+  
+  <!-- 通过用户Id获取收货地址  selectByuserId-->
+  <select id="selectByUserId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from shop_address
+    where userId = #{userId,jdbcType=INTEGER}
+  </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
@@ -32,27 +40,27 @@
       phone, postalCode, address, 
       province, city, districts, 
       status)
-    values (#{id,jdbcType=INTEGER}, #{userid,jdbcType=INTEGER}, #{contactername,jdbcType=VARCHAR}, 
-      #{phone,jdbcType=VARCHAR}, #{postalcode,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{contacterName,jdbcType=VARCHAR}, 
+      #{phone,jdbcType=VARCHAR}, #{postalCode,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
       #{province,jdbcType=VARCHAR}, #{city,jdbcType=VARCHAR}, #{districts,jdbcType=VARCHAR}, 
       #{status,jdbcType=TINYINT})
   </insert>
-  <insert id="insertSelective" parameterType="cn.barathrum.frogshop.bean.Address">
+  <insert id="insertSelective" parameterType="cn.barathrum.frogshop.bean.Address" useGeneratedKeys="true" keyProperty="id">
     insert into shop_address
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
       </if>
-      <if test="userid != null">
+      <if test="userId != null">
         userId,
       </if>
-      <if test="contactername != null">
+      <if test="contacterName != null">
         contacterName,
       </if>
       <if test="phone != null">
         phone,
       </if>
-      <if test="postalcode != null">
+      <if test="postalCode != null">
         postalCode,
       </if>
       <if test="address != null">
@@ -75,17 +83,17 @@
       <if test="id != null">
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="userid != null">
-        #{userid,jdbcType=INTEGER},
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
       </if>
-      <if test="contactername != null">
-        #{contactername,jdbcType=VARCHAR},
+      <if test="contacterName != null">
+        #{contacterName,jdbcType=VARCHAR},
       </if>
       <if test="phone != null">
         #{phone,jdbcType=VARCHAR},
       </if>
-      <if test="postalcode != null">
-        #{postalcode,jdbcType=VARCHAR},
+      <if test="postalCode != null">
+        #{postalCode,jdbcType=VARCHAR},
       </if>
       <if test="address != null">
         #{address,jdbcType=VARCHAR},
@@ -104,20 +112,51 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="cn.barathrum.frogshop.bean.Address">
+  <!-- 通过用户id更新地址 -->
+  <update id="updateByUserIdSelective" parameterType="cn.barathrum.frogshop.bean.Address">
     update shop_address
     <set>
-      <if test="userid != null">
-        userId = #{userid,jdbcType=INTEGER},
-      </if>
-      <if test="contactername != null">
-        contacterName = #{contactername,jdbcType=VARCHAR},
+      <if test="contacterName != null">
+        contacterName = #{contacterName,jdbcType=VARCHAR},
       </if>
       <if test="phone != null">
         phone = #{phone,jdbcType=VARCHAR},
       </if>
-      <if test="postalcode != null">
-        postalCode = #{postalcode,jdbcType=VARCHAR},
+      <if test="postalCode != null">
+        postalCode = #{postalCode,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="province != null">
+        province = #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null">
+        city = #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="districts != null">
+        districts = #{districts,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=TINYINT},
+      </if>
+    </set>
+    where userId = #{userId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.barathrum.frogshop.bean.Address">
+    update shop_address
+    <set>
+      <if test="userId != null">
+        userId = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="contacterName != null">
+        contacterName = #{contacterName,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="postalCode != null">
+        postalCode = #{postalCode,jdbcType=VARCHAR},
       </if>
       <if test="address != null">
         address = #{address,jdbcType=VARCHAR},
@@ -139,15 +178,24 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="cn.barathrum.frogshop.bean.Address">
     update shop_address
-    set userId = #{userid,jdbcType=INTEGER},
-      contacterName = #{contactername,jdbcType=VARCHAR},
+    set userId = #{userId,jdbcType=INTEGER},
+      contacterName = #{contacterName,jdbcType=VARCHAR},
       phone = #{phone,jdbcType=VARCHAR},
-      postalCode = #{postalcode,jdbcType=VARCHAR},
+      postalCode = #{postalCode,jdbcType=VARCHAR},
       address = #{address,jdbcType=VARCHAR},
       province = #{province,jdbcType=VARCHAR},
       city = #{city,jdbcType=VARCHAR},
       districts = #{districts,jdbcType=VARCHAR},
       status = #{status,jdbcType=TINYINT}
     where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateDefaultAddressByMap" parameterType="java.util.List">
+  	<foreach collection="list" item="item" index="index"  separator=";">
+	  	update shop_address s
+	  	<set>
+	  		s.status = ${item.status}
+	  	</set>
+	  	where id = ${item.id}
+  	</foreach>
   </update>
 </mapper>

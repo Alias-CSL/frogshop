@@ -1,8 +1,8 @@
 //解析显示分页信息
-function build_page_info(result){
+function build_page_info(p,result){
 	//alert("build_page_info");
-	$("#page_info_area").empty();
-	$("#page_info_area").append("当前"+result.extend.pageInfo.pageNum+"页,总"+
+	$(p + " #page_info_area").empty();
+	$(p + " #page_info_area").append("当前"+result.extend.pageInfo.pageNum+"页,总"+
 			result.extend.pageInfo.pages+"页,总"+
 			result.extend.pageInfo.total+"条记录");
 	totalRecord = result.extend.pageInfo.total;
@@ -10,10 +10,10 @@ function build_page_info(result){
 }
 
 //3、解析显示分页条数据
-function build_page_nav(result){
+function build_page_nav(p,url,userId,result){
 	//page_nav_area
 	//alert("build_page_nav");
-	$("#page_nav_area").empty();
+	$(p+" #page_nav_area").empty();
 	var ul = $("<ul></ul>").addClass("am-pagination am-pagination-centered");
 	
 	//构建元素
@@ -25,10 +25,10 @@ function build_page_nav(result){
 	}else{
 		//为元素添加点击翻页的事件
 		firstPageLi.click(function(){
-			to_page(1);
+			to_page(p,url,userId,1);
 		});
 		prePageLi.click(function(){
-			to_page(result.extend.pageInfo.pageNum -1);
+			to_page(p,url,userId,result.extend.pageInfo.pageNum -1);
 		});
 	}
 	
@@ -40,10 +40,10 @@ function build_page_nav(result){
 		lastPageLi.addClass("am-disabled");
 	}else{
 		nextPageLi.click(function(){
-			to_page(result.extend.pageInfo.pageNum +1);
+			to_page(p,url,userId,result.extend.pageInfo.pageNum +1);
 		});
 		lastPageLi.click(function(){
-			to_page(result.extend.pageInfo.pages);
+			to_page(p,url,userId,result.extend.pageInfo.pages);
 		});
 	}
 	
@@ -59,7 +59,7 @@ function build_page_nav(result){
 			numLi.addClass("am-active");
 		}
 		numLi.click(function(){
-			to_page(item);
+			to_page(p,url,userId,item);
 		});
 		ul.append(numLi);
 	});
@@ -68,5 +68,6 @@ function build_page_nav(result){
 	
 	//把ul加入到nav
 	var navEle = $("<nav></nav>").append(ul);
-	navEle.appendTo("#page_nav_area");
+	navEle.appendTo(p+" #page_nav_area");
 }
+

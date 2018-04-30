@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
@@ -21,8 +22,8 @@ import cn.barathrum.frogshop.bean.Good;
 import cn.barathrum.frogshop.bean.Message;
 import cn.barathrum.frogshop.bean.Sku;
 import cn.barathrum.frogshop.service.GoodService;
+import cn.barathrum.frogshop.service.UserService;
 import cn.barathrum.frogshop.utils.AttributeUtil;
-import cn.barathrum.frogshop.utils.JsonParseUtil;
 /**
  * 商品详情控制类
  * @author 83893
@@ -33,14 +34,33 @@ public class GoodIntroductionController {
 	public static final  int PAGESIZE = 10;
 	@Autowired
 	private GoodService goodService;
-
+	
+	@Autowired 
+	private UserService userService;
+	/**
+	 * 收藏商品，先判断商品是否存在
+	 * @param goodId 商品id
+	 * @param userId 用户id
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value="/addToCollection",method=RequestMethod.POST)
+	public Message addToCollection(@RequestParam("goodId")Integer goodId,@RequestParam("userId")Integer userId) {
+		int result = userService.insertCollectionRecord(goodId,userId);
+		if(result == 1) {//收藏成功
+			return Message.success();
+		}
+		//之前收藏过，收藏失败
+		return Message.fail();
+	}
+	
 	// 通过商品id获取商品详情相关的数据
 	@RequestMapping("/good/introduction/{id}")
 	public ModelAndView getGoodIntroduction(@PathVariable("id") Integer id) {
-		ModelAndView mv = new ModelAndView("introduction");
+		ModelAndView mv = new ModelAndView("home/introduction");
 		Good good = goodService.getGoodByGoodId(id);
-		good.getDescPictures();// 获取描述图片
-		good.getDetailPictures();// 获取详情图片
+		//good.getDescPictures();// 获取描述图片
+		//good.getDetailPictures();// 获取详情图片
 		//引入分页插件，查询前设置好分页参数
 	/*	PageHelper.startPage(1, PAGESIZE);
 		List<Evaluate> evaluates = good.getEvaluates();// 获取商品评论

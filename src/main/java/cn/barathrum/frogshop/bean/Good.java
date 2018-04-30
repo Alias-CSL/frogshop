@@ -21,11 +21,14 @@ public class Good implements Serializable{
     //更新时间
     private Date updateTime;
     //更新人,采用延迟加载
-    private User updatePerson;
+    private Integer updatepersonId;
+   // private User updatePerson;
     //录入时间
     private Date enteringTime;
     //录入人，采用延迟加载
-    private User enteringPerson;
+   // private User enteringPerson;
+    private Integer enteringpersonId;
+ 
     //促销
     private Byte romotion;
     //总销量
@@ -123,13 +126,13 @@ public class Good implements Serializable{
 		this.updateTime = updateTime;
 	}
 
-	public User getUpdatePerson() {
+/*	public User getUpdatePerson() {
 		return updatePerson;
 	}
 
 	public void setUpdatePerson(User updatePerson) {
 		this.updatePerson = updatePerson;
-	}
+	}*/
 
 	public Date getEnteringTime() {
 		return enteringTime;
@@ -139,16 +142,33 @@ public class Good implements Serializable{
 		this.enteringTime = enteringTime;
 	}
 
-	public User getEnteringPerson() {
+/*	public User getEnteringPerson() {
 		return enteringPerson;
 	}
 
 	public void setEnteringPerson(User enteringPerson) {
 		this.enteringPerson = enteringPerson;
 	}
-
+*/
+	
 	public Byte getRomotion() {
 		return romotion;
+	}
+
+	public Integer getUpdatepersonId() {
+		return updatepersonId;
+	}
+
+	public void setUpdatepersonId(Integer updatepersonId) {
+		this.updatepersonId = updatepersonId;
+	}
+
+	public Integer getEnteringpersonId() {
+		return enteringpersonId;
+	}
+
+	public void setEnteringpersonId(Integer enteringpersonId) {
+		this.enteringpersonId = enteringpersonId;
 	}
 
 	public void setRomotion(Byte romotion) {

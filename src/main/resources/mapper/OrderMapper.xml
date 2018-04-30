@@ -4,7 +4,7 @@
   <resultMap id="BaseResultMap" type="cn.barathrum.frogshop.bean.Order">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="userId" jdbcType="INTEGER" property="userId" />
-    <!-- <result column="addressId" jdbcType="INTEGER" property="addressId" /> -->
+    <result column="addressId" jdbcType="INTEGER" property="addressId" /> 
     <result column="status" jdbcType="INTEGER" property="status" />
     <result column="expressNum" jdbcType="VARCHAR" property="expressNum" />
     <result column="expressage" jdbcType="DECIMAL" property="expressage" />
@@ -17,21 +17,35 @@
     <result column="dealDate" jdbcType="TIMESTAMP" property="dealDate" />
     <result column="orderNum" jdbcType="VARCHAR" property="orderNum" />
     <association property="address" column="addressId" select="cn.barathrum.frogshop.dao.AddressMapper.selectByPrimaryKey"  fetchType="lazy"/>
+    <collection property="orderGoods" column="id" select="cn.barathrum.frogshop.dao.OrderGoodMapper.selectByOrderId"/>
   </resultMap>
   <sql id="Base_Column_List">
-    id, userId, status, expressNum, expressage, expressName, goodNum, total, 
+    id, userId, addressId,status, expressNum, expressage, expressName, goodNum, total, 
     createDate, paidDate, shipmentsDate, dealDate, orderNum
   </sql>
+  <select id="selectOrderByStatus"  parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  	select 
+    <include refid="Base_Column_List" />
+    from shop_order
+    where userId = #{userId,jdbcType=INTEGER} and status = #{status,jdbcType=INTEGER}   order by createDate desc
+  </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from shop_order
     where id = #{id,jdbcType=INTEGER}
   </select>
+  <select id="selectByUserId"  parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  	select 
+    <include refid="Base_Column_List" />
+    from shop_order
+    where userId = #{userId,jdbcType=INTEGER}  order by createDate desc
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from shop_order
     where id = #{id,jdbcType=INTEGER}
   </delete>
+
   <insert id="insert" parameterType="cn.barathrum.frogshop.bean.Order">
     insert into shop_order (id, userId, addressId, 
       status, expressNum, expressage, 
@@ -44,7 +58,7 @@
       #{createDate,jdbcType=TIMESTAMP}, #{paidDate,jdbcType=TIMESTAMP}, #{shipmentsDate,jdbcType=TIMESTAMP}, 
       #{dealDate,jdbcType=TIMESTAMP}, #{orderNum,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="cn.barathrum.frogshop.bean.Order">
+  <insert id="insertSelective" parameterType="cn.barathrum.frogshop.bean.Order" useGeneratedKeys="true" keyProperty="id">
     insert into shop_order
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -53,7 +67,9 @@
       <if test="userId != null">
         userId,
       </if>
-     
+      <if test="addressId != null">
+        addressId,
+      </if>
       <if test="status != null">
         status,
       </if>
@@ -95,6 +111,9 @@
       <if test="userId != null">
         #{userId,jdbcType=INTEGER},
       </if>
+      <if test="addressId != null">
+        #{addressId,jdbcType=INTEGER},
+      </if>
       <if test="status != null">
         #{status,jdbcType=INTEGER},
       </if>
@@ -130,6 +149,7 @@
       </if>
     </trim>
   </insert>
+
   <update id="updateByPrimaryKeySelective" parameterType="cn.barathrum.frogshop.bean.Order">
     update shop_order
     <set>
@@ -191,5 +211,19 @@
       dealDate = #{dealDate,jdbcType=TIMESTAMP},
       orderNum = #{orderNum,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <update id="updateByStatus" >
+    update shop_order
+    set  
+      status = #{status,jdbcType=INTEGER}
+    where id = #{orderId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPayBill" >
+    update shop_order
+    set  
+      status = #{status,jdbcType=INTEGER},
+      paidDate = #{paidDate,jdbcType=TIMESTAMP}
+    where id = #{orderId,jdbcType=INTEGER}
   </update>
 </mapper>

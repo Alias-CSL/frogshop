@@ -2,6 +2,7 @@ package cn.barathrum.frogshop.bean;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -27,9 +28,17 @@ public class User implements Serializable {
     private String email;
     //加密盐值
     private String credentialsSalt;
+    //用户所包含的购物车商品
+    private List<Cart> carts;
     //用户所拥有的权限
     private Set<Roles> roles;
     
+	public List<Cart> getCarts() {
+		return carts;
+	}
+	public void setCarts(List<Cart> carts) {
+		this.carts = carts;
+	}
 	public String getCredentialsSalt() {
 		return credentialsSalt;
 	}

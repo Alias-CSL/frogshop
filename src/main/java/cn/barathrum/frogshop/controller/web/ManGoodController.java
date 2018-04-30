@@ -38,7 +38,7 @@ public class ManGoodController {
 	@RequestMapping("/man/coat/{id}")
 	@ResponseBody
 	public ModelAndView getCoat(@PathVariable("id") Integer id) {
-		ModelAndView mv = new ModelAndView("search");
+		ModelAndView mv = new ModelAndView("home/search");
 		/*PageHelper.startPage(1, 32);
 		List<Good> goods = goodService.getGoodByCategoryId(id);
 		PageInfo page = new PageInfo(goods, GOODNUM);
@@ -78,7 +78,7 @@ public class ManGoodController {
 			List<String> attributes = JsonParseUtil.JsonParseToAttributes(attribute); 
 			goods = goodService.getGoodByAttributes(id,attributes);
 		}
-		if(goods.size() > 0) {
+		if(goods != null && goods.size() > 0) {
 			pageInfo = new PageInfo(goods,GOODNUM);
 			return Message.success().add("pageInfo", pageInfo);	
 		}else{

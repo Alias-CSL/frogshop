@@ -177,7 +177,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								</c:choose>
 							</ul>
 						</div>
-
+						<div style="margin-top: 10px;" id="div-collection" >
+							<a id="addToCollection"  data-am-modal="{target: '#my-alert'}"><i class="am-icon-star" style="color: #FF8743;"></i>收藏宝贝</a>
+						</div>
 						<div class="clear"></div>
 					</div>
 
@@ -186,9 +188,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<!--规格属性-->
 						<!--名称-->
 						<div class="tb-detail-hd">
-							<h1>	
+							<h1 id="h1-goodName">	
 								${good.goodName }
 					        </h1>
+					        <input id="goodId" value=${good.id } type="hidden"/>
 						</div>
 						<div class="tb-detail-list">
 							<!--价格-->
@@ -463,7 +466,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								<li>
 									<a href="#">
 
-										<span class="index-needs-dt-txt">全部评价(${evaluatePageInfo.total })</span></a>
+										<span class="index-needs-dt-txt" id="total-comment">全部评价</span></a>
 
 								</li>
 
@@ -490,8 +493,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 													</c:forEach>
 												</c:when>
 											</c:choose>
-										
 										</ul>
+									
 										<div class="clear"></div>
 									</div>
 
@@ -1023,15 +1026,31 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		    </div>
 		  </div>
 		</div>
+		<div class="am-modal am-modal-alert" tabindex="-1" id="my-alert">
+		  <div class="am-modal-dialog">
+		    <div class="am-modal-hd"> 确认收藏该宝贝？</div>
+		    <div class="am-modal-bd">
+		    	
+		    	 <img src="${good.descPictures[0].descPicture }" width="80" height="80"/>${good.goodName }
+		    </div>
+		    <div class="am-modal-footer">
+		      <span class="am-modal-btn" id="collectGood">确定</span>
+		      <span class="am-modal-btn">取消</span>
+		    </div>
+		  </div>
+		</div>
+		
 		<script type="text/javascript" src="<%=basePath %>js/page.js"></script>
+		<script type="text/javascript" src="<%=basePath %>js/postcall.js"></script>
 		<script type="text/javascript" src="<%=basePath %>js/list.js"></script>
 		<script type="text/javascript" >
 			$(function(){
 				setBasePath("<%=basePath %>");
 				setGoodId("${good.id}");
-				evaluate_page(1);
+				to_page("","","",1);
 				
 			});
+			
 		</script>
 	</body>
 

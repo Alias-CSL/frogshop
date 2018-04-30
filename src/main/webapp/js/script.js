@@ -24,7 +24,7 @@ function setPageUrl(url){
 //	alert(pageUrl);
 }
 //属性查询商品,或者跳转到指定页面
-function to_page(pageNum) {
+function to_page(p,url,userId,pageNum) {
 	var dds = $("li.select-result dl#selected-dl dd.selected");
 	var str = "";
 	var content = "";
@@ -54,11 +54,11 @@ function to_page(pageNum) {
 		contentType: "application/x-www-form-urlencoded; charset=UTF-8",
 		success : function(result) {
 			//1、解析并显示商品数据
-			build_good_info(result);
+			build_good_info(p,result);
 			//2、解析并显示分页信息
-			build_page_info(result);
+			build_page_info(p,result);
 			//3、解析显示分页条数据
-			build_page_nav(result);
+			build_page_nav(p,url,userId,result);
 		}
 	});
 }
@@ -80,7 +80,7 @@ function to_page(pageNum) {
 	});
 }*/
 //更新商品数据
-function build_good_info(result) {
+function build_good_info(p,result) {
 	
 	//将原有的商品数据清空
 	var parentUl = $("ul#goods_ul");
@@ -106,7 +106,6 @@ function build_good_info(result) {
 		var tip = $("<h3>未找到相关数据</h3>");
 		parentUl.append(tip);
 	};
-
 }
 /*//解析显示分页信息
 function build_page_info(result){

@@ -4,6 +4,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Random;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 public class DigitalCodeUtil {
 	/**
 	 * 
@@ -22,6 +24,8 @@ public class DigitalCodeUtil {
          }  
 		return verifyCode.toString();
 	}
+//@Autowired
+	//private static SimpleDateFormat simpleDateFormat;
 	/**
 	 * 获取订单编码，通过下单时间+4位随机数
 	 * @return

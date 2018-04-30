@@ -22,4 +22,8 @@ public interface GoodService {
 	List<Evaluate> getEvaluateByGoodId(Integer id);
 	//通过商品规格获取对应的sku信息
 	Sku getSkuByAttributes(Integer goodId, String attributes);
+	//通过SkuId获取sku
+	Sku getSkuBySkuId(Integer skuId);
+	//通过skuId获取good名字
+	String getGoodNameBySkuId(Integer skuId);
 }

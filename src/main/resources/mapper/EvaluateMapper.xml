@@ -36,6 +36,44 @@
     values (#{id,jdbcType=INTEGER}, #{orderNum,jdbcType=INTEGER}, #{content,jdbcType=VARCHAR}, 
       #{createTime,jdbcType=TIMESTAMP}, #{grade,jdbcType=VARCHAR})
   </insert>
+  
+  <insert id="insertNewRecord" >
+    insert into shop_evaluate
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        userId,
+      </if>
+      <if test="orderNum != null">
+        orderNum,
+      </if>
+      <if test="content != null">
+        content,
+      </if>
+      <if test="createTime != null">
+        createTime,
+      </if>
+      <if test="grade != null">
+        grade,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="orderNum != null">
+        #{orderNum,jdbcType=INTEGER},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="grade != null">
+        #{grade,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
   <insert id="insertSelective" parameterType="cn.barathrum.frogshop.bean.Evaluate">
     insert into shop_evaluate
     <trim prefix="(" suffix=")" suffixOverrides=",">

@@ -2,7 +2,6 @@ package cn.barathrum.frogshop.controller.web;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import javax.websocket.server.PathParam;
 
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.DisabledAccountException;
@@ -16,6 +15,7 @@ import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -38,13 +38,22 @@ public class LoginController {
 	private UserService userService;
 
 	@RequestMapping(value = { "login", "login.html", "login.do", "login.action" })
-	public String loginRedirect() {
-		return "login";
+	public String loginRedirect(HttpServletRequest request) {
+/*		String referer = request.getHeader("Referer");
+		HttpSession session = request.getSession();
+		if(referer != null) {
+			session.setAttribute("Referer", referer);
+			System.out.println(referer);
+		}
+		*/
+		return "home/login";
 	}
 	//账号登录处理
 	@RequestMapping("/userLogin")
-	public ModelAndView login(HttpServletRequest request, @PathParam("principal") String principal,
-			@PathParam("password") String password) {
+	public ModelAndView login(HttpServletRequest request, @RequestParam("principal") String principal,
+			@RequestParam("password") String password) {
+		//String referer = request.getHeader("Referer");
+		//System.out.println(referer);
 		ModelAndView mav = new ModelAndView();
 		String msg = "";
 		HttpSession session = request.getSession();
@@ -72,7 +81,17 @@ public class LoginController {
 			default:
 				break;
 			}
-			setRedirectView(session,user,mav);
+			session.setAttribute("userId", user.getId());// 保存用户名到Session中
+			session.setAttribute("loginEntity", user);// 保存用户到session中
+			session.setAttribute("loginFlag", true);// 登录成功标识
+			// 这个值是用户,从之前的页面跳转过来,如果该值不为null跳转到此URL
+			String controUrl = (String) session.getAttribute("Referer");
+			if(controUrl != null && !"".equals(controUrl)) {
+				String temp = "/"+controUrl.split("frogShop/")[1];
+				mav.setViewName("redirect:"+temp);
+			}else{
+				mav.setViewName("redirect:home/index.jsp");
+			}
 			
 		} catch (IncorrectCredentialsException e) {
 			msg = "用户名或密码错误. Password for account " + token.getPrincipal() 
@@ -121,6 +140,7 @@ public class LoginController {
 	public ModelAndView logout(HttpServletRequest request) {
 		ModelAndView mav = new ModelAndView("redirect:/login.html");
 		HttpSession session = request.getSession();
+		session.removeAttribute("userId");
 		session.removeAttribute("loginEntity");
 		session.setAttribute("loginFlag", false);// 登录成功标识
 		Subject subject = SecurityUtils.getSubject();
@@ -133,7 +153,7 @@ public class LoginController {
 	//账号注册页面跳转
 	@RequestMapping(value ={"register.html","register.do","register.action","register"})
 	public String register() {
-		return "register";
+		return "home/register";
 	}
 
 	/**
@@ -280,7 +300,7 @@ public class LoginController {
 	 * @param mav ModelAndView对象
 	 */
 	public void setRedirectView(HttpSession session , User user,ModelAndView mav) {
-		session.setAttribute("userName", user.getUserName());// 保存用户名到Session中
+		session.setAttribute("userId", user.getId());// 保存用户名到Session中
 		session.setAttribute("loginEntity", user);// 保存用户到session中
 		session.setAttribute("loginFlag", true);// 登录成功标识
 		// 这个值是用户,从之前的页面跳转过来,如果该值不为null跳转到此URL
@@ -289,8 +309,12 @@ public class LoginController {
 			String temp = "/"+controUrl.split("frogShop/")[1];
 			mav.setViewName("redirect:"+temp);
 		}else{
-			mav.setViewName("redirect:/index.jsp");
+			mav.setViewName("redirect:home/index.jsp");
 		}
 	}
 	
+/*	public void clearSeesionAttribute(HttpSession session) {
+		session.removeAttribute("userId");
+		session.removeAttribute("loginEntity");
+	}*/
 }

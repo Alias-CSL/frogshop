@@ -23,5 +23,20 @@ public interface GoodMapper {
 	//通过类目id与商品属性获取该类目
 	List<Good> selectByAttributes(@Param("id")Integer id, @Param("attr")List<String> attr);
 	//获取商品的产品参数
-	String getProductAttributes(Integer id);	
+	String getProductAttributes(Integer id);
+	//通过skuId获取good名称
+	String selectGoodNameBySkuId(Integer skuId);
+	/**
+	 * 更新商品数据
+	 * @param skuId skuid,通过该id关联获取商品id
+	 * @param goodNum 商品数量
+	 * @return
+	 */
+	int updateGoodData(@Param("skuId")Integer skuId, @Param("goodNum")Integer goodNum);
+	/**
+	 * 根据用户id获取用户收藏的商品
+	 * @param userId
+	 * @return
+	 */
+	List<Good> selectByUserId(Integer userId);	
 }

@@ -2,35 +2,58 @@ package cn.barathrum.frogshop.bean;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+@JsonIgnoreProperties(value = { "handler" })  
 public class Order {
     private Integer id;
     //买家id
     private Integer userId;
     //收获地址
     private Address address;
-
+    //收货地址id
+    private Integer addressId;
+    //订单状态
     private Integer status;
-
+    //快递编码
     private String expressNum;
-
+    //快递邮费
     private BigDecimal expressage;
-
+    //快递名
     private String expressName;
-
+    //商品数量
     private Integer goodNum;
-
+    //总金额
     private BigDecimal total;
-
+    //订单创建时间
     private Date createDate;
-
+    //订单支付时间
     private Date paidDate;
-
+    //收货时间
     private Date shipmentsDate;
-
+    //订单成交时间
     private Date dealDate;
-
+    //订单编码
     private String orderNum;
+    //订单中包含的商品
+    private List<OrderGood> orderGoods;
+    
+	public List<OrderGood> getOrderGoods() {
+		return orderGoods;
+	}
+
+	public void setOrderGoods(List<OrderGood> orderGoods) {
+		this.orderGoods = orderGoods;
+	}
+
+	public Integer getAddressId() {
+		return addressId;
+	}
+
+	public void setAddressId(Integer addressId) {
+		this.addressId = addressId;
+	}
 
 	public Integer getId() {
 		return id;

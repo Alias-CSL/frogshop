@@ -1,6 +1,7 @@
-package cn.barathrum.froghsop.listener;
+package cn.barathrum.frogshop.listener;
 
 import javax.servlet.annotation.WebListener;
+import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
 
@@ -23,6 +24,14 @@ public class SessionListenerBySeachLogin implements HttpSessionListener {
 		if (subject.isAuthenticated()) {
 			subject.logout(); // session 会销毁，在SessionListener监听session销毁，清理权限缓存
 		}
+		HttpSession session = se.getSession();
+		if(session.getAttribute("userId") != null) {
+			session.removeAttribute("userId"); 
+		}
+		if(session.getAttribute("loginEntity") != null) {
+			session.removeAttribute("loginEntity");
+		}
+		session.setAttribute("loginFlag", false);
 	}
 
 }

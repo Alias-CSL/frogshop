@@ -3,7 +3,7 @@
 <mapper namespace="cn.barathrum.frogshop.dao.SkuMapper">
   <resultMap id="BaseResultMap" type="cn.barathrum.frogshop.bean.Sku">
     <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="goodId" jdbcType="INTEGER" property="goodId" />
+    <result column="goodId" jdbcType="INTEGER" property="goodId" /> 
     <result column="price" jdbcType="DECIMAL" property="price" />
     <result column="resource" jdbcType="INTEGER" property="resource" />
     <result column="sales" jdbcType="INTEGER" property="sales" />
@@ -172,5 +172,12 @@
       attributes = #{attributes,jdbcType=VARCHAR},
       goodCode = #{goodcode,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateSkuData">
+    update shop_sku
+    set 
+      resource = resource - #{goodNum,jdbcType=INTEGER},
+      sales = sales + #{goodNum,jdbcType=INTEGER}
+    where id = #{skuId,jdbcType=INTEGER} and resource >= #{goodNum,jdbcType=INTEGER}
   </update>
 </mapper>
