@@ -2,6 +2,9 @@ package cn.barathrum.frogshop.bean;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties(value = { "handler" })  
 public class Category {
 	//ID
     private Integer id;

@@ -1,5 +1,7 @@
 package cn.barathrum.frogshop.dao;
 
+import java.util.List;
+
 import cn.barathrum.frogshop.bean.AttributeName;
 
 public interface AttributeNameMapper {
@@ -14,4 +16,7 @@ public interface AttributeNameMapper {
     int updateByPrimaryKeySelective(AttributeName record);
 
     int updateByPrimaryKey(AttributeName record);
+    
+    List<AttributeName> selectAttributeNameByCategoryId(Integer id);
+    List<AttributeName> selectByCategoryId(Integer id);
 }

@@ -46,4 +46,18 @@ public interface OrderMapper {
 	 * @return
 	 */
 	int updateByStatus(@Param("orderId")Integer orderId, @Param("status")int type);
+	/**
+	 * 根据不同订单状态获取订单信息
+	 * @param status 订单状态
+	 * @return
+	 */
+	List<Order> selectByStatus(int status);
+	/**
+	 * 更新订单发货信息与订单状态
+	 * @param orderId 订单id
+	 * @param expressNum 快递码
+	 * @param status 订单状态
+	 * @return
+	 */
+	int updateOrderByShipped(@Param("orderId")Integer orderId, @Param("expressNum")String expressNum, @Param("status")int status);
 }

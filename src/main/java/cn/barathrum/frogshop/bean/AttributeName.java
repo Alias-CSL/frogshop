@@ -3,6 +3,8 @@ package cn.barathrum.frogshop.bean;
 import java.util.Date;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+@JsonIgnoreProperties(value = { "handler" })
 public class AttributeName {
 	//id
     private Integer id;

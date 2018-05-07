@@ -1,206 +1,270 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.barathrum.frogshop.dao.GoodMapper">
-  <resultMap id="BaseResultMap" type="cn.barathrum.frogshop.bean.Good">
-    <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="goodName" jdbcType="VARCHAR" property="goodName" />
-    <result column="status" jdbcType="TINYINT" property="status" />
-    <result column="originalPrice" jdbcType="DECIMAL" property="originalPrice" />
-    <result column="updateTime" jdbcType="TIMESTAMP" property="updateTime" />
-    <result column="updatePersonId" jdbcType="INTEGER" property="updatepersonId" />
-    <result column="enteringTime" jdbcType="TIMESTAMP" property="enteringTime" />
-    <result column="enteringPersonId" jdbcType="INTEGER" property="enteringpersonId" />
-    <result column="romotion" jdbcType="TINYINT" property="romotion" />
-    <result column="totalSales" jdbcType="INTEGER" property="totalSales" />
-    <result column="stocks" jdbcType="INTEGER" property="stocks" />
- <!--  	<association property="updatePerson" column="updatepersonId" select="cn.barathrum.frogshop.dao.UserMapper.selectByPrimaryKey"  fetchType="lazy"/>
-    <association property="enteringPerson" column="enteringpersonId" select="cn.barathrum.frogshop.dao.UserMapper.selectByPrimaryKey" fetchType="lazy"/> -->
-    <collection property="skus" column="id" select="cn.barathrum.frogshop.dao.SkuMapper.selectByGoodId" fetchType="lazy"/>
-    <collection property="descPictures" column="id" select="cn.barathrum.frogshop.dao.DescPictureMapper.selectByGoodId" />
-    <collection property="detailPictures" column="id" select="cn.barathrum.frogshop.dao.DetailPictureMapper.selectByGoodId" fetchType="lazy"/>
-    <collection property="evaluates" column="id" select="cn.barathrum.frogshop.dao.EvaluateMapper.selectEvaluatesByGoodId" fetchType="lazy"/>
-  </resultMap>
-	<!-- <cache/>  -->
-  <sql id="Base_Column_List">
-    id, goodName, status, updateTime, updatepersonId, enteringTime, enteringpersonId, 
-    romotion, totalSales,originalPrice,stocks
-  </sql>
-  
-  <select id="selectByUserId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
- 	 SELECT sg.id,sg.goodName,sg.status,sg.updateTime,sg.enteringTime,sg.updatepersonId,sg.enteringpersonId,sg.romotion,sg.totalSales ,sg.originalPrice,sg.stocks
-	from shop_good sg
-  	left join shop_collection sc on sc.goodId = sg.id
-	where sc.userId = #{userId,jdbcType=INTEGER}
-  </select>
-  <!--通过skuId获取Good  selectBySkuId-->
-    <select id="selectGoodNameBySkuId" parameterType="java.lang.Integer" resultType="java.lang.String">
-  	select sg.goodName 
-  	from shop_good sg
-  	left join shop_sku sk on sk.goodId = sg.id
-	where sk.id = #{skuId,jdbcType=INTEGER}
-  </select>
-  <!-- 通过商品id获取产品参数 -->
-  <select id="getProductAttributes" parameterType="java.lang.Integer" resultType="java.lang.String">
-  	select sbag.attributes 
-  	from shop_base_attri_good sbag
-	WHERE sbag.goodId = #{id,jdbcType=INTEGER}
-  </select>
-  <!--通过类目id与商品属性获取该类目  -->
-  <select id="selectByAttributes" resultMap="BaseResultMap">
-  	SELECT sg.id,sg.goodName,sg.status,sg.updateTime,sg.enteringTime,sg.updatepersonId,sg.enteringpersonId,sg.romotion,sg.totalSales ,sg.originalPrice,sg.stocks
-	from shop_good sg
-	LEFT JOIN shop_base_attri_good sbag on sbag.goodId = sg.id
-	where categoryId = #{id,jdbcType=INTEGER} and sg.status = 1 and 
-	<foreach item="attribute" collection="attr" index="index" separator=" and ">
-		attributes like ${attribute}
-	</foreach>
-  </select>
-    <!--通过类目id获取该类目  -->
-  <select id="selectByCategoryId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-  	SELECT sg.id,sg.goodName,sg.`status`,sg.updateTime,sg.enteringTime,sg.updatepersonId,sg.enteringpersonId,sg.romotion,sg.totalSales ,sg.originalPrice,sg.stocks
-	from shop_good sg
-	left JOIN shop_base_attri_good sbag on sbag.goodId = sg.id
-	where sbag.categoryId =#{id,jdbcType=INTEGER} and sg.status = 1
-  	
-  </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from shop_good
-    where id = #{id,jdbcType=INTEGER}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from shop_good
-    where id = #{id,jdbcType=INTEGER}
-  </delete>
-  <insert id="insert" parameterType="cn.barathrum.frogshop.bean.Good">
-    insert into shop_good (id, goodName, status, 
-      updateTime, updatepersonId, enteringTime, 
-      enteringpersonId, romotion, totalSales,stocks
-      )
-    values (#{id,jdbcType=INTEGER}, #{goodname,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, 
-      #{updatetime,jdbcType=TIMESTAMP}, #{updatepersonId,jdbcType=INTEGER}, #{enteringtime,jdbcType=TIMESTAMP}, 
-      #{enteringpersonId,jdbcType=INTEGER}, #{romotion,jdbcType=TINYINT}, #{totalsales,jdbcType=INTEGER}, #{stocks,jdbcType=INTEGER}
-      )
-  </insert>
-  <insert id="insertSelective" parameterType="cn.barathrum.frogshop.bean.Good">
-    insert into shop_good
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
-      <if test="goodname != null">
-        goodName,
-      </if>
-      <if test="status != null">
-        status,
-      </if>
-      <if test="updatetime != null">
-        updateTime,
-      </if>
-      <if test="updatepersonId != null">
-        updatepersonId,
-      </if>
-      <if test="enteringtime != null">
-        enteringTime,
-      </if>
-      <if test="enteringpersonId != null">
-        enteringpersonId,
-      </if>
-      <if test="romotion != null">
-        romotion,
-      </if>
-      <if test="totalsales != null">
-        totalSales,
-      </if>
-      <if test="stocks != null">
-        stocks,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=INTEGER},
-      </if>
-      <if test="goodname != null">
-        #{goodname,jdbcType=VARCHAR},
-      </if>
-      <if test="status != null">
-        #{status,jdbcType=TINYINT},
-      </if>
-      <if test="updatetime != null">
-        #{updatetime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="updatepersonId != null">
-        #{updatepersonId,jdbcType=INTEGER},
-      </if>
-      <if test="enteringtime != null">
-        #{enteringtime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="enteringpersonId != null">
-        #{enteringpersonId,jdbcType=INTEGER},
-      </if>
-      <if test="romotion != null">
-        #{romotion,jdbcType=TINYINT},
-      </if>
-      <if test="totalsales != null">
-        #{totalsales,jdbcType=INTEGER},
-      </if>
-      <if test="stocks != null">
-        #{stocks,jdbcType=INTEGER},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="cn.barathrum.frogshop.bean.Good">
-    update shop_good
-    <set>
-      <if test="goodname != null">
-        goodName = #{goodname,jdbcType=VARCHAR},
-      </if>
-      <if test="status != null">
-        status = #{status,jdbcType=TINYINT},
-      </if>
-      <if test="updatetime != null">
-        updateTime = #{updatetime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="updatepersonId != null">
-        updatepersonId = #{updatepersonId,jdbcType=INTEGER},
-      </if>
-      <if test="enteringtime != null">
-        enteringTime = #{enteringtime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="enteringpersonId != null">
-        enteringpersonId = #{enteringpersonId,jdbcType=INTEGER},
-      </if>
-      <if test="romotion != null">
-        romotion = #{romotion,jdbcType=TINYINT},
-      </if>
-      <if test="totalsales != null">
-        totalSales = #{totalsales,jdbcType=INTEGER},
-      </if>
-      <if test="stocks != null">
-        stocks = #{stocks,jdbcType=INTEGER},
-      </if>
-    </set>
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="cn.barathrum.frogshop.bean.Good">
-    update shop_good
-    set goodName = #{goodname,jdbcType=VARCHAR},
-      status = #{status,jdbcType=TINYINT},
-      updateTime = #{updatetime,jdbcType=TIMESTAMP},
-      updatepersonId = #{updatepersonId,jdbcType=INTEGER},
-      enteringTime = #{enteringtime,jdbcType=TIMESTAMP},
-      enteringpersonId = #{enteringpersonId,jdbcType=INTEGER},
-      romotion = #{romotion,jdbcType=TINYINT},
-      totalSales = #{totalsales,jdbcType=INTEGER},
-       stocks = #{stocks,jdbcType=INTEGER}
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-    <update id="updateGoodData" parameterType="cn.barathrum.frogshop.bean.Good">
-    update shop_good sg left join shop_sku sk on sk.goodId = sg.id
-    set 
-      sg.totalSales =  sg.totalSales + #{goodNum,jdbcType=INTEGER},
-       sg.stocks = sg.stocks - #{goodNum,jdbcType=INTEGER}
-    where sk.id = #{skuId,jdbcType=INTEGER}
-  </update>
+	<resultMap id="BaseResultMap" type="cn.barathrum.frogshop.bean.Good">
+		<id column="id" jdbcType="INTEGER" property="id" />
+		<result column="goodName" jdbcType="VARCHAR" property="goodName" />
+		<result column="status" jdbcType="TINYINT" property="status" />
+		<result column="originalPrice" jdbcType="DECIMAL" property="originalPrice" />
+		<result column="updateTime" jdbcType="TIMESTAMP" property="updateTime" />
+		<result column="updatePersonId" jdbcType="INTEGER" property="updatePersonId" />
+		<result column="enteringTime" jdbcType="TIMESTAMP" property="enteringTime" />
+		<result column="enteringPersonId" jdbcType="INTEGER" property="enteringPersonId" />
+		<result column="romotion" jdbcType="TINYINT" property="romotion" />
+		<result column="totalSales" jdbcType="INTEGER" property="totalSales" />
+		<result column="stocks" jdbcType="INTEGER" property="stocks" />
+		<!-- <association property="updatePerson" column="updatePersonId" select="cn.barathrum.frogshop.dao.UserMapper.selectByPrimaryKey" 
+			fetchType="lazy"/> <association property="enteringPerson" column="enteringPersonId" 
+			select="cn.barathrum.frogshop.dao.UserMapper.selectByPrimaryKey" fetchType="lazy"/> -->
+		<collection property="skus" column="id"
+			select="cn.barathrum.frogshop.dao.SkuMapper.selectByGoodId"
+			fetchType="lazy" />
+		<collection property="descPictures" column="id"
+			select="cn.barathrum.frogshop.dao.DescPictureMapper.selectByGoodId" fetchType="eager"/>
+		<collection property="detailPictures" column="id"
+			select="cn.barathrum.frogshop.dao.DetailPictureMapper.selectByGoodId"
+			fetchType="lazy" />
+		<!-- <collection property="evaluates" column="id" select="cn.barathrum.frogshop.dao.EvaluateMapper.selectEvaluatesByGoodId" 
+			fetchType="lazy"/> -->
+	</resultMap>
+	<!-- <cache/> -->
+	<sql id="Base_Column_List">
+		id, goodName, status, updateTime, updatePersonId, enteringTime,
+		enteringPersonId,
+		romotion, totalSales,originalPrice,stocks
+	</sql>
+
+	<select id="selectAllGoods" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" />
+		from shop_good  ORDER BY enteringTime DESC
+	</select>
+	<select id="selectByUserId" parameterType="java.lang.Integer"
+		resultMap="BaseResultMap">
+		SELECT
+		sg.id,sg.goodName,sg.status,sg.updateTime,sg.enteringTime,sg.updatePersonId,sg.enteringPersonId,sg.romotion,sg.totalSales
+		,sg.originalPrice,sg.stocks
+		from shop_good sg
+		left join shop_collection sc on sc.goodId = sg.id
+		where sc.userId = #{userId,jdbcType=INTEGER}
+	</select>
+	<!--通过skuId获取Good selectBySkuId -->
+	<select id="selectgoodNameBySkuId" parameterType="java.lang.Integer"
+		resultType="java.lang.String">
+		select sg.goodName
+		from shop_good sg
+		left join shop_sku sk on sk.goodId = sg.id
+		where sk.id = #{skuId,jdbcType=INTEGER}
+	</select>
+	<!-- 通过商品id获取产品参数 -->
+	<select id="getProductAttributes" parameterType="java.lang.Integer"
+		resultType="java.lang.String">
+		select sbag.attributes
+		from shop_base_attri_good sbag
+		WHERE sbag.goodId = #{id,jdbcType=INTEGER}
+	</select>
+	<!--通过类目id与商品属性获取该类目 -->
+	<select id="selectByAttributes" resultMap="BaseResultMap">
+		SELECT
+		sg.id,sg.goodName,sg.status,sg.updateTime,sg.enteringTime,sg.updatePersonId,sg.enteringPersonId,sg.romotion,sg.totalSales
+		,sg.originalPrice,sg.stocks
+		from shop_good sg
+		LEFT JOIN shop_base_attri_good sbag on sbag.goodId = sg.id
+		where categoryId = #{id,jdbcType=INTEGER} and sg.status = 1 and
+		<foreach item="attribute" collection="attr" index="index"
+			separator=" and ">
+			attributes like ${attribute}
+		</foreach>
+	</select>
+	<!--通过类目id获取该类目 -->
+	<select id="selectByCategoryId" parameterType="java.lang.Integer"
+		resultMap="BaseResultMap">
+		SELECT
+		sg.id,sg.goodName,sg.`status`,sg.updateTime,sg.enteringTime,sg.updatePersonId,sg.enteringPersonId,sg.romotion,sg.totalSales
+		,sg.originalPrice,sg.stocks
+		from shop_good sg
+		left JOIN shop_base_attri_good sbag on sbag.goodId = sg.id
+		where sbag.categoryId =#{id,jdbcType=INTEGER} and sg.status = 1
+
+	</select>
+	<select id="selectByPrimaryKey" parameterType="java.lang.Integer"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from shop_good
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from shop_good
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+	
+	<delete id="deleteByGoodIds">
+		<foreach collection="ids" item="id">
+			delete from shop_good
+			where id = #{id,jdbcType=INTEGER};
+		</foreach>
+	</delete>
+	<insert id="insert" parameterType="cn.barathrum.frogshop.bean.Good">
+		insert into shop_good (id, goodName, status,
+		updateTime, updatePersonId, enteringTime,
+		enteringPersonId, romotion, totalSales,stocks
+		)
+		values (#{id,jdbcType=INTEGER}, #{goodName,jdbcType=VARCHAR},
+		#{status,jdbcType=TINYINT},
+		#{updateTime,jdbcType=TIMESTAMP}, #{updatePersonId,jdbcType=INTEGER},
+		#{enteringTime,jdbcType=TIMESTAMP},
+		#{enteringPersonId,jdbcType=INTEGER}, #{romotion,jdbcType=TINYINT},
+		#{totalSales,jdbcType=INTEGER}, #{stocks,jdbcType=INTEGER}
+		)
+	</insert>
+	<insert id="insertGood" parameterType="cn.barathrum.frogshop.bean.Good">
+		<selectKey resultType="java.lang.Integer" order="AFTER"
+			keyProperty="id">
+			SELECT LAST_INSERT_ID() AS ID
+		</selectKey>
+		insert into shop_good ( goodName, enteringTime,
+		enteringPersonId,stocks,originalPrice
+		)
+		values ( #{goodName,jdbcType=VARCHAR}, #{enteringTime,jdbcType=TIMESTAMP},
+		#{enteringPersonId,jdbcType=INTEGER},
+		#{stocks,jdbcType=INTEGER}, #{originalPrice,jdbcType=INTEGER}
+		)
+
+	</insert>
+	<insert id="insertSelective" parameterType="cn.barathrum.frogshop.bean.Good">
+		insert into shop_good
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+
+			<if test="goodName != null">
+				goodName,
+			</if>
+			<if test="status != null">
+				status,
+			</if>
+			<if test="updateTime != null">
+				updateTime,
+			</if>
+			<if test="updatePersonId != null">
+				updatePersonId,
+			</if>
+			<if test="enteringTime != null">
+				enteringTime,
+			</if>
+			<if test="enteringPersonId != null">
+				enteringPersonId,
+			</if>
+			<if test="originalPrice != null">
+				originalPrice,
+			</if>
+			<if test="romotion != null">
+				romotion,
+			</if>
+			<if test="totalSales != null">
+				totalSales,
+			</if>
+			<if test="stocks != null">
+				stocks,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+
+			<if test="goodName != null">
+				#{goodName,jdbcType=VARCHAR},
+			</if>
+			<if test="status != null">
+				#{status,jdbcType=TINYINT},
+			</if>
+			<if test="updateTime != null">
+				#{updateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updatePersonId != null">
+				#{updatePersonId,jdbcType=INTEGER},
+			</if>
+			<if test="enteringTime != null">
+				#{enteringTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="enteringPersonId != null">
+				#{enteringPersonId,jdbcType=INTEGER},
+			</if>
+			<if test="originalPrice != null">
+				#{originalPrice,jdbcType=DECIMAL},
+			</if>
+			<if test="romotion != null">
+				#{romotion,jdbcType=TINYINT},
+			</if>
+			<if test="totalSales != null">
+				#{totalSales,jdbcType=INTEGER},
+			</if>
+			<if test="stocks != null">
+				#{stocks,jdbcType=INTEGER},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="cn.barathrum.frogshop.bean.Good">
+		update shop_good
+		<set>
+			<if test="goodName != null">
+				goodName = #{goodName,jdbcType=VARCHAR},
+			</if>
+			<if test="status != null">
+				status = #{status,jdbcType=TINYINT},
+			</if>
+			<if test="updateTime != null">
+				updateTime = #{updateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updatePersonId != null">
+				updatePersonId = #{updatePersonId,jdbcType=INTEGER},
+			</if>
+			<if test="enteringTime != null">
+				enteringTime = #{enteringTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="enteringPersonId != null">
+				enteringPersonId = #{enteringPersonId,jdbcType=INTEGER},
+			</if>
+			<if test="romotion != null">
+				romotion = #{romotion,jdbcType=TINYINT},
+			</if>
+			<if test="totalSales != null">
+				totalSales = #{totalSales,jdbcType=INTEGER},
+			</if>
+			<if test="stocks != null">
+				stocks = #{stocks,jdbcType=INTEGER},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="cn.barathrum.frogshop.bean.Good">
+		update shop_good
+		set goodName = #{goodName,jdbcType=VARCHAR},
+		status = #{status,jdbcType=TINYINT},
+		updateTime = #{updateTime,jdbcType=TIMESTAMP},
+		updatePersonId = #{updatePersonId,jdbcType=INTEGER},
+		enteringTime = #{enteringTime,jdbcType=TIMESTAMP},
+		enteringPersonId = #{enteringPersonId,jdbcType=INTEGER},
+		romotion = #{romotion,jdbcType=TINYINT},
+		totalSales = #{totalSales,jdbcType=INTEGER},
+		stocks = #{stocks,jdbcType=INTEGER}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateGoodData" parameterType="cn.barathrum.frogshop.bean.Good">
+		update shop_good sg left join shop_sku sk on sk.goodId = sg.id
+		set
+		sg.totalSales = sg.totalSales + #{goodNum,jdbcType=INTEGER},
+		sg.stocks = sg.stocks - #{goodNum,jdbcType=INTEGER}
+		where sk.id = #{skuId,jdbcType=INTEGER}
+	</update>
+	
+	<update id="updateGoodStocks">
+		update shop_good sg
+		set
+		sg.stocks = #{stocks,jdbcType=INTEGER}
+		where  sg.id = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateGoodStatus" >
+		update shop_good sg
+		set
+		sg.status = #{status,jdbcType=INTEGER}
+		where  sg.id = #{goodId,jdbcType=INTEGER}
+	</update>
 </mapper>

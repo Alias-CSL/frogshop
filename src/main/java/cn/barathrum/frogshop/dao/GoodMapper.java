@@ -11,8 +11,8 @@ public interface GoodMapper {
 
     int insert(Good record);
 
-    int insertSelective(Good record);
-
+    Integer insertSelective(Good record);
+    Integer insertGood(Good record);
     Good selectByPrimaryKey(Integer id);
 
     int updateByPrimaryKeySelective(Good record);
@@ -38,5 +38,29 @@ public interface GoodMapper {
 	 * @param userId
 	 * @return
 	 */
-	List<Good> selectByUserId(Integer userId);	
+	List<Good> selectByUserId(Integer userId);
+	/**
+	 * 获取所有商品
+	 * @return
+	 */
+	List<Good> selectAllGoods();
+	/**
+	 * 更新商品上下架状态
+	 * @param goodId 商品id
+	 * @param status 上下架状态
+	 * @return
+	 */
+	int updateGoodStatus(@Param("goodId")Integer goodId, @Param("status")Byte status);
+	/**
+	 * 批量删除商品
+	 * @param ids 多个商品id
+	 * @return
+	 */
+	int deleteByGoodIds(@Param("ids")Integer[] goodIds);
+	/**
+	 * 更新商品总库存
+	 * @param stocks 商品库存
+	 * @return
+	 */
+	int updateGoodStocks(@Param("stocks")int stocks,@Param("id")Integer id);	
 }

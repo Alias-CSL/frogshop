@@ -21,13 +21,13 @@ public class Good implements Serializable{
     //更新时间
     private Date updateTime;
     //更新人,采用延迟加载
-    private Integer updatepersonId;
+    private Integer updatePersonId;
    // private User updatePerson;
     //录入时间
     private Date enteringTime;
     //录入人，采用延迟加载
    // private User enteringPerson;
-    private Integer enteringpersonId;
+    private Integer enteringPersonId;
  
     //促销
     private Byte romotion;
@@ -44,144 +44,90 @@ public class Good implements Serializable{
     //商品详情图片，采用延迟加载s
     private List<DetailPicture> detailPictures;
     //商品评论，采用延迟加载
-    private List<Evaluate> evaluates;
-    
-	public Integer getStocks() {
-		return stocks;
-	}
-
-	public void setStocks(Integer stocks) {
-		this.stocks = stocks;
-	}
-
-	public List<Evaluate> getEvaluates() {
-		return evaluates;
-	}
-
-	public void setEvaluates(List<Evaluate> evaluates) {
-		this.evaluates = evaluates;
-	}
-
-	public BigDecimal getOriginalPrice() {
-		return originalPrice;
-	}
-
-	public void setOriginalPrice(BigDecimal originalPrice) {
-		this.originalPrice = originalPrice;
-	}
-
+  //  private List<Evaluate> evaluates;
 	public Integer getId() {
 		return id;
 	}
-
 	public void setId(Integer id) {
 		this.id = id;
 	}
-
-	public List<Sku> getSkus() {
-		return skus;
-	}
-
-	public void setSkus(List<Sku> skus) {
-		this.skus = skus;
-	}
-
 	public String getGoodName() {
 		return goodName;
 	}
-
 	public void setGoodName(String goodName) {
 		this.goodName = goodName;
 	}
-
-	public List<DescPicture> getDescPictures() {
-		return descPictures;
-	}
-
-	public void setDescPictures(List<DescPicture> descPictures) {
-		this.descPictures = descPictures;
-	}
-
-	public List<DetailPicture> getDetailPictures() {
-		return detailPictures;
-	}
-
-	public void setDetailPictures(List<DetailPicture> detailPictures) {
-		this.detailPictures = detailPictures;
-	}
-
 	public Byte getStatus() {
 		return status;
 	}
-
 	public void setStatus(Byte status) {
 		this.status = status;
 	}
-
 	public Date getUpdateTime() {
 		return updateTime;
 	}
-
 	public void setUpdateTime(Date updateTime) {
 		this.updateTime = updateTime;
 	}
-
-/*	public User getUpdatePerson() {
-		return updatePerson;
+	public Integer getUpdatePersonId() {
+		return updatePersonId;
 	}
-
-	public void setUpdatePerson(User updatePerson) {
-		this.updatePerson = updatePerson;
-	}*/
-
+	public void setUpdatePersonId(Integer updatePersonId) {
+		this.updatePersonId = updatePersonId;
+	}
 	public Date getEnteringTime() {
 		return enteringTime;
 	}
-
 	public void setEnteringTime(Date enteringTime) {
 		this.enteringTime = enteringTime;
 	}
-
-/*	public User getEnteringPerson() {
-		return enteringPerson;
+	public Integer getEnteringPersonId() {
+		return enteringPersonId;
 	}
-
-	public void setEnteringPerson(User enteringPerson) {
-		this.enteringPerson = enteringPerson;
+	public void setEnteringPersonId(Integer enteringPersonId) {
+		this.enteringPersonId = enteringPersonId;
 	}
-*/
-	
 	public Byte getRomotion() {
 		return romotion;
 	}
-
-	public Integer getUpdatepersonId() {
-		return updatepersonId;
-	}
-
-	public void setUpdatepersonId(Integer updatepersonId) {
-		this.updatepersonId = updatepersonId;
-	}
-
-	public Integer getEnteringpersonId() {
-		return enteringpersonId;
-	}
-
-	public void setEnteringpersonId(Integer enteringpersonId) {
-		this.enteringpersonId = enteringpersonId;
-	}
-
 	public void setRomotion(Byte romotion) {
 		this.romotion = romotion;
 	}
-
 	public Integer getTotalSales() {
 		return totalSales;
 	}
-
 	public void setTotalSales(Integer totalSales) {
 		this.totalSales = totalSales;
 	}
-
-   
+	public BigDecimal getOriginalPrice() {
+		return originalPrice;
+	}
+	public void setOriginalPrice(BigDecimal originalPrice) {
+		this.originalPrice = originalPrice;
+	}
+	public Integer getStocks() {
+		return stocks;
+	}
+	public void setStocks(Integer stocks) {
+		this.stocks = stocks;
+	}
+	public List<Sku> getSkus() {
+		return skus;
+	}
+	public void setSkus(List<Sku> skus) {
+		this.skus = skus;
+	}
+	public List<DescPicture> getDescPictures() {
+		return descPictures;
+	}
+	public void setDescPictures(List<DescPicture> descPictures) {
+		this.descPictures = descPictures;
+	}
+	public List<DetailPicture> getDetailPictures() {
+		return detailPictures;
+	}
+	public void setDetailPictures(List<DetailPicture> detailPictures) {
+		this.detailPictures = detailPictures;
+	}
+	
 }

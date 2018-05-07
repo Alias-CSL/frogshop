@@ -7,110 +7,132 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0, user-scalable=0">
+<head>
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0,maximum-scale=1.0, user-scalable=0">
 
-		<title>我的收藏</title>
-		<link href="<%=basePath %>basic/css/demo.css" rel="stylesheet" type="text/css" />
+<title>我的收藏</title>
+<link href="<%=basePath %>basic/css/demo.css" rel="stylesheet"
+	type="text/css" />
 
-		<link href="<%=basePath %>css/seastyle.css" rel="stylesheet" type="text/css" />
-		
-		<link href="<%=basePath %>AmazeUI-2.4.2/assets/css/admin.css" rel="stylesheet" type="text/css">
-		<link href="<%=basePath %>AmazeUI-2.4.2/assets/css/amazeui.css" rel="stylesheet" type="text/css">
+<link href="<%=basePath %>css/seastyle.css" rel="stylesheet"
+	type="text/css" />
 
-		<link href="<%=basePath %>css/personal.css" rel="stylesheet" type="text/css">
-		<link href="<%=basePath %>css/colstyle.css" rel="stylesheet" type="text/css">
+<link href="<%=basePath %>AmazeUI-2.4.2/assets/css/admin.css"
+	rel="stylesheet" type="text/css">
+<link href="<%=basePath %>AmazeUI-2.4.2/assets/css/amazeui.css"
+	rel="stylesheet" type="text/css">
 
-	</head>
+<link href="<%=basePath %>css/personal.css" rel="stylesheet"
+	type="text/css">
+<link href="<%=basePath %>css/colstyle.css" rel="stylesheet"
+	type="text/css">
 
-	<body>
-		<!--头 -->
-		<header>
-			<article>
-				<div class="mt-logo">
-					<!--顶部导航条 -->
-					<div class="am-container header">
-						<ul class="message-l">
-							<div class="topMessage">
-								<div class="menu-hd">
-									<a href="#" target="_top" class="h">亲，请登录</a>
-									<a href="#" target="_top">免费注册</a>
-								</div>
-							</div>
-						</ul>
-						<ul class="message-r">
-							<div class="topMessage home">
-								<div class="menu-hd"><a href="#" target="_top" class="h">商城首页</a></div>
-							</div>
-							<div class="topMessage my-shangcheng">
-								<div class="menu-hd MyShangcheng"><a href="#" target="_top"><i class="am-icon-user am-icon-fw"></i>个人中心</a></div>
-							</div>
-							<div class="topMessage mini-cart">
-								<div class="menu-hd"><a id="mc-menu-hd" href="#" target="_top"><i class="am-icon-shopping-cart  am-icon-fw"></i><span>购物车</span><strong id="J_MiniCartNum" class="h">0</strong></a></div>
-							</div>
-							<div class="topMessage favorite">
-								<div class="menu-hd"><a href="<%=basePath %>collection.html" target="_top"><i class="am-icon-heart am-icon-fw"></i><span>收藏夹</span></a></div>
-						</ul>
-						</div>
+</head>
 
-						<!--悬浮搜索框-->
-
-						<div class="nav white">
-							<div class="logoBig">
-								<li><img src="<%=basePath %>images/logobig.png" /></li>
-							</div>
-
-							<div class="search-bar pr">
-								<a name="index_none_header_sysc" href="#"></a>
-								<form>
-									<input id="searchInput" name="index_none_header_sysc" type="text" placeholder="搜索" autocomplete="off">
-									<input id="ai-topsearch" class="submit am-btn" value="搜索" index="1" type="submit">
-								</form>
-							</div>
-						</div>
-
-						<div class="clear"></div>
+<body>
+	<!--头 -->
+	<header> <article>
+	<div class="mt-logo">
+		<!--顶部导航条 -->
+		<div class="am-container header">
+			<ul class="message-l">
+				<div class="topMessage">
+					<div class="menu-hd">
+						<a href="#" target="_top" class="h">亲，请登录</a> <a href="#"
+							target="_top">免费注册</a>
 					</div>
 				</div>
-			</article>
-		</header>
-            <div class="nav-table">
-					   <div class="long-title"><span class="all-goods">全部分类</span></div>
-					   <div class="nav-cont">
-							<ul>
-								<li class="index"><a href="#">首页</a></li>
-                                <li class="qc"><a href="#">闪购</a></li>
-                                <li class="qc"><a href="#">限时抢</a></li>
-                                <li class="qc"><a href="#">团购</a></li>
-                                <li class="qc last"><a href="#">大包装</a></li>
-							</ul>
-						    <div class="nav-extra">
-						    	<i class="am-icon-user-secret am-icon-md nav-user"></i><b></b>我的福利
-						    	<i class="am-icon-angle-right" style="padding-left: 10px;"></i>
-						    </div>
-						</div>
+			</ul>
+			<ul class="message-r">
+				<div class="topMessage home">
+					<div class="menu-hd">
+						<a href="#" target="_top" class="h">商城首页</a>
+					</div>
+				</div>
+				<div class="topMessage my-shangcheng">
+					<div class="menu-hd MyShangcheng">
+						<a href="#" target="_top"><i class="am-icon-user am-icon-fw"></i>个人中心</a>
+					</div>
+				</div>
+				<div class="topMessage mini-cart">
+					<div class="menu-hd">
+						<a id="mc-menu-hd" href="#" target="_top"><i
+							class="am-icon-shopping-cart  am-icon-fw"></i><span>购物车</span><strong
+							id="J_MiniCartNum" class="h">0</strong></a>
+					</div>
+				</div>
+				<div class="topMessage favorite">
+					<div class="menu-hd">
+						<a href="<%=basePath %>collection.html" target="_top"><i
+							class="am-icon-heart am-icon-fw"></i><span>收藏夹</span></a>
+					</div>
+			</ul>
+		</div>
+
+		<!--悬浮搜索框-->
+
+		<div class="nav white">
+			<div class="logoBig">
+				<li><img src="<%=basePath %>images/logobig.png" /></li>
 			</div>
-			<b class="line"></b>
-		<div class="center">
-			<div class="col-main">
-				<div class="main-wrap">
 
-					<div class="user-collection">
-						<!--标题 -->
-						<div class="am-cf am-padding">
-							<div class="am-fl am-cf"><strong class="am-text-danger am-text-lg">我的收藏</strong> / <small>My&nbsp;Collection</small></div>
+			<div class="search-bar pr">
+				<a name="index_none_header_sysc" href="#"></a>
+				<form>
+					<input id="searchInput" name="index_none_header_sysc" type="text"
+						placeholder="搜索" autocomplete="off"> <input
+						id="ai-topsearch" class="submit am-btn" value="搜索" index="1"
+						type="submit">
+				</form>
+			</div>
+		</div>
+
+		<div class="clear"></div>
+	</div>
+	</div>
+	</article> </header>
+	<div class="nav-table">
+		<div class="long-title">
+			<span class="all-goods">全部分类</span>
+		</div>
+		<div class="nav-cont">
+			<ul>
+				<li class="index"><a href="#">首页</a></li>
+				<li class="qc"><a href="#">闪购</a></li>
+				<li class="qc"><a href="#">限时抢</a></li>
+				<li class="qc"><a href="#">团购</a></li>
+				<li class="qc last"><a href="#">大包装</a></li>
+			</ul>
+			<div class="nav-extra">
+				<i class="am-icon-user-secret am-icon-md nav-user"></i><b></b>我的福利 <i
+					class="am-icon-angle-right" style="padding-left: 10px;"></i>
+			</div>
+		</div>
+	</div>
+	<b class="line"></b>
+	<div class="center">
+		<div class="col-main">
+			<div class="main-wrap">
+
+				<div class="user-collection">
+					<!--标题 -->
+					<div class="am-cf am-padding">
+						<div class="am-fl am-cf">
+							<strong class="am-text-danger am-text-lg">我的收藏</strong> / <small>My&nbsp;Collection</small>
 						</div>
-						<hr/>
+					</div>
+					<hr />
 
-						<div class="you-like">
-							<div class="s-bar">
-								我的收藏
-								<a class="am-badge am-badge-danger am-round">降价</a>
-								<a class="am-badge am-badge-danger am-round">下架</a>
-							</div>
-							<div class="s-content">
-							<ul class="am-avg-sm-2 am-avg-md-3 am-avg-lg-4 boxes" id="goods_ul">
+					<div class="you-like">
+						<div class="s-bar">
+							我的收藏 <a class="am-badge am-badge-danger am-round">降价</a> <a
+								class="am-badge am-badge-danger am-round">下架</a>
+						</div>
+						<div class="s-content">
+							<ul class="am-avg-sm-2 am-avg-md-3 am-avg-lg-4 boxes"
+								id="goods_ul">
 								<%-- 	<c:choose>
 										<c:when test="${not empty page.list }">
 											<c:forEach items="${page.list}" varStatus="vs" var="good">
@@ -130,16 +152,18 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 											</c:forEach>
 										</c:when>
 									</c:choose> --%>
-								</ul>
-								<div class="clear"></div>
-								<!-- 显示分页信息 -->
-								<div class="am-g">
-									<!--分页文字信息  -->
-									<div class="am-u-sm-4 am-u-md-4 am-u-sm-centered" id="page_info_area"></div>
-									<!-- 分页条信息 -->
-									<div class="am-u-sm-8 am-u-md-8 am-u-sm-centered" id="page_nav_area">
-										<!--分页 -->
-										<!-- <ul class="am-pagination am-pagination-right">
+							</ul>
+							<div class="clear"></div>
+							<!-- 显示分页信息 -->
+							<div class="am-g">
+								<!--分页文字信息  -->
+								<div class="am-u-sm-4 am-u-md-4 am-u-sm-centered"
+									id="page_info_area"></div>
+								<!-- 分页条信息 -->
+								<div class="am-u-sm-8 am-u-md-8 am-u-sm-centered"
+									id="page_nav_area">
+									<!--分页 -->
+									<!-- <ul class="am-pagination am-pagination-right">
 											<li class="am-disabled"><a href="#">&laquo;</a></li>
 											<li class="am-active"><a href="#">1</a></li>
 											<li><a href="#">2</a></li>
@@ -148,10 +172,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 											<li><a href="#">5</a></li>
 											<li><a href="#">&raquo;</a></li>
 										</ul> -->
-									</div>
 								</div>
-						
-								<%-- <div class="s-item-wrap">
+							</div>
+
+							<%-- <div class="s-item-wrap">
 									<div class="s-item">
 
 										<div class="s-pic">
@@ -332,89 +356,73 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 									</div>
 								</div> --%>
 
-							</div>
+						</div>
 
-							<div class="s-more-btn i-load-more-item" data-screen="0"><i class="am-icon-refresh am-icon-fw"></i>更多</div>
-
+						<div class="s-more-btn i-load-more-item" data-screen="0">
+							<i class="am-icon-refresh am-icon-fw"></i>更多
 						</div>
 
 					</div>
 
 				</div>
-				<!--底部-->
-				<div class="footer">
-					<div class="footer-hd">
-						<p>
-							<a href="#">恒望科技</a>
-							<b>|</b>
-							<a href="#">商城首页</a>
-							<b>|</b>
-							<a href="#">支付宝</a>
-							<b>|</b>
-							<a href="#">物流</a>
-						</p>
-					</div>
-					<div class="footer-bd">
-						<p>
-							<a href="#">关于恒望</a>
-							<a href="#">合作伙伴</a>
-							<a href="#">联系我们</a>
-							<a href="#">网站地图</a>
-							<em>© 2015-2025 Hengwang.com 版权所有</em>
-						</p>
-					</div>
+
+			</div>
+			<!--底部-->
+			<div class="footer">
+				<div class="footer-hd">
+					<p>
+						<a href="#">恒望科技</a> <b>|</b> <a href="#">商城首页</a> <b>|</b> <a
+							href="#">支付宝</a> <b>|</b> <a href="#">物流</a>
+					</p>
+				</div>
+				<div class="footer-bd">
+					<p>
+						<a href="#">关于恒望</a> <a href="#">合作伙伴</a> <a href="#">联系我们</a> <a
+							href="#">网站地图</a> <em>© 2015-2025 Hengwang.com 版权所有</em>
+					</p>
 				</div>
 			</div>
-
-			<aside class="menu">
-				<ul>
-					<li class="person">
-						<a href="index.html">个人中心</a>
-					</li>
-					<li class="person">
-						<a href="#">个人资料</a>
-						<ul>
-							<li> <a href="information.html">个人信息</a></li>
-							<li> <a href="safety.html">安全设置</a></li>
-							<li> <a href="address.html">收货地址</a></li>
-						</ul>
-					</li>
-					<li class="person">
-						<a href="#">我的交易</a>
-						<ul>
-							<li><a href="order.html">订单管理</a></li>
-							<li> <a href="change.html">退款售后</a></li>
-						</ul>
-					</li>
-					<li class="person">
-						<a href="#">我的资产</a>
-						<ul>
-							<li> <a href="coupon.html">优惠券 </a></li>
-							<li> <a href="bonus.html">红包</a></li>
-							<li> <a href="bill.html">账单明细</a></li>
-						</ul>
-					</li>
-
-					<li class="person">
-						<a href="#">我的小窝</a>
-						<ul>
-							<li> <a href="<%=basePath %>collection.html">收藏</a></li>
-							<li> <a href="foot.html">足迹</a></li>
-							<li> <a href="comment.html">评价</a></li>
-							<li> <a href="news.html">消息</a></li>
-						</ul>
-					</li>
-
-				</ul>
-
-			</aside>
 		</div>
-			<script src="<%=basePath %>/js/jquery-1.7.2.min.js"></script>
-		<script src="<%=basePath %>/AmazeUI-2.4.2/assets/js/amazeui.min.js"></script>	
-		<script type="text/javascript" src="<%=basePath %>js/script.js"></script>
-		<script type="text/javascript" src="<%=basePath %>js/page.js"></script>
-		<div class="theme-popover-mask"></div>
-		<script type="text/javascript" >
+
+		<aside class="menu">
+		<ul>
+			<li class="person"><a href="index.html">个人中心</a></li>
+			<li class="person"><a href="#">个人资料</a>
+				<ul>
+					<li><a href="information.html">个人信息</a></li>
+					<li><a href="safety.html">安全设置</a></li>
+					<li><a href="address.html">收货地址</a></li>
+				</ul></li>
+			<li class="person"><a href="#">我的交易</a>
+				<ul>
+					<li><a href="order.html">订单管理</a></li>
+					<li><a href="change.html">退款售后</a></li>
+				</ul></li>
+			<li class="person"><a href="#">我的资产</a>
+				<ul>
+					<li><a href="coupon.html">优惠券 </a></li>
+					<li><a href="bonus.html">红包</a></li>
+					<li><a href="bill.html">账单明细</a></li>
+				</ul></li>
+
+			<li class="person"><a href="#">我的小窝</a>
+				<ul>
+					<li><a href="<%=basePath %>collection.html">收藏</a></li>
+					<li><a href="foot.html">足迹</a></li>
+					<li><a href="comment.html">评价</a></li>
+					<li><a href="news.html">消息</a></li>
+				</ul></li>
+
+		</ul>
+
+		</aside>
+	</div>
+	<script src="<%=basePath %>/js/jquery-1.7.2.min.js"></script>
+	<script src="<%=basePath %>/AmazeUI-2.4.2/assets/js/amazeui.min.js"></script>
+	<script type="text/javascript" src="<%=basePath %>js/script.js"></script>
+	<script type="text/javascript" src="<%=basePath %>js/page.js"></script>
+	<div class="theme-popover-mask"></div>
+	<script type="text/javascript">
 			$(function(){
 				setSearchUrl("<%=basePath %>${category.name}/search");
 				setPageUrl("<%=basePath %>page/good");
@@ -442,6 +450,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				});
 			}
 		</script>
-	</body>
+</body>
 
 </html>

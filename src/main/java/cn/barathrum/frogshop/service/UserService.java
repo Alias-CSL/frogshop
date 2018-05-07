@@ -140,4 +140,10 @@ public interface UserService {
 	 * @return
 	 */
 	List<Good> selectAllCollection(Integer userId);
+	/**
+	 * 获取用户购物车所有商品信息
+	 * @param userId 用户id
+	 * @return
+	 */
+	List<Cart> selectAllCartGoods(Integer userId);
 }

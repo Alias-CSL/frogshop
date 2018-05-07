@@ -85,7 +85,12 @@ public class GoodIntroductionController {
 		}
 		return mv;
 	}
-	
+	/**
+	 * 获取商品评价
+	 * @param pageNum 页码
+	 * @param id 商品id
+	 * @return
+	 */
 	@RequestMapping("/getEvaluate")
 	@ResponseBody
 	public Message getEvaluate(@RequestParam(value="pageNum",defaultValue="1")Integer pageNum,@RequestParam("goodId") Integer id) {

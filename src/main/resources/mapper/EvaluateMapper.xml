@@ -1,140 +1,146 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.barathrum.frogshop.dao.EvaluateMapper">
-  <resultMap id="BaseResultMap" type="cn.barathrum.frogshop.bean.Evaluate">
-    <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="orderNum" jdbcType="VARCHAR" property="orderNum" />
-    <result column="content" jdbcType="VARCHAR" property="content" />
-<!--     <result column="userId" jdbcType="INTEGER" property="userId" /> -->
-    <result column="createTime" jdbcType="TIMESTAMP" property="createTime" />
-    <result column="grade" jdbcType="VARCHAR" property="grade" />
-     <association property="user" column="userId" select="cn.barathrum.frogshop.dao.UserMapper.selectByPrimaryKey" fetchType="eager"/>
-  </resultMap>
-  <sql id="Base_Column_List">
-    id, orderNum, content, createTime, grade,userId
-  </sql>
-  <select id="selectEvaluatesByGoodId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-  	select se.id,se.orderNum,se.content,se.createTime,se.grade,se.userId from shop_evaluate se 
-	left JOIN shop_order so on so.orderNum = se.orderNum
-	left JOIN shop_order_good sog on so.id = sog.orderId
-	left JOIN shop_sku sk on sk.id = sog.skuId
-	where sk.goodId = #{id,jdbcType=INTEGER} ORDER BY se.createTime desc
-  </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from shop_evaluate
-    where id = #{id,jdbcType=INTEGER}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from shop_evaluate
-    where id = #{id,jdbcType=INTEGER}
-  </delete>
-  <insert id="insert" parameterType="cn.barathrum.frogshop.bean.Evaluate">
-    insert into shop_evaluate (id, orderNum, content, 
-      createTime, grade)
-    values (#{id,jdbcType=INTEGER}, #{orderNum,jdbcType=INTEGER}, #{content,jdbcType=VARCHAR}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{grade,jdbcType=VARCHAR})
-  </insert>
-  
-  <insert id="insertNewRecord" >
-    insert into shop_evaluate
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="userId != null">
-        userId,
-      </if>
-      <if test="orderNum != null">
-        orderNum,
-      </if>
-      <if test="content != null">
-        content,
-      </if>
-      <if test="createTime != null">
-        createTime,
-      </if>
-      <if test="grade != null">
-        grade,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="userId != null">
-        #{userId,jdbcType=INTEGER},
-      </if>
-      <if test="orderNum != null">
-        #{orderNum,jdbcType=INTEGER},
-      </if>
-      <if test="content != null">
-        #{content,jdbcType=VARCHAR},
-      </if>
-      <if test="createTime != null">
-        #{createTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="grade != null">
-        #{grade,jdbcType=VARCHAR},
-      </if>
-    </trim>
-  </insert>
-  <insert id="insertSelective" parameterType="cn.barathrum.frogshop.bean.Evaluate">
-    insert into shop_evaluate
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
-      <if test="orderNum != null">
-        orderNum,
-      </if>
-      <if test="content != null">
-        content,
-      </if>
-      <if test="createTime != null">
-        createTime,
-      </if>
-      <if test="grade != null">
-        grade,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=INTEGER},
-      </if>
-      <if test="orderNum != null">
-        #{orderNum,jdbcType=INTEGER},
-      </if>
-      <if test="content != null">
-        #{content,jdbcType=VARCHAR},
-      </if>
-      <if test="createTime != null">
-        #{createTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="grade != null">
-        #{grade,jdbcType=VARCHAR},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="cn.barathrum.frogshop.bean.Evaluate">
-    update shop_evaluate
-    <set>
-      <if test="orderNum != null">
-        orderNum = #{orderNum,jdbcType=INTEGER},
-      </if>
-      <if test="content != null">
-        content = #{content,jdbcType=VARCHAR},
-      </if>
-      <if test="createTime != null">
-        createTime = #{createTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="grade != null">
-        grade = #{grade,jdbcType=VARCHAR},
-      </if>
-    </set>
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="cn.barathrum.frogshop.bean.Evaluate">
-    update shop_evaluate
-    set orderNum = #{orderNum,jdbcType=INTEGER},
-      content = #{content,jdbcType=VARCHAR},
-      createTime = #{createTime,jdbcType=TIMESTAMP},
-      grade = #{grade,jdbcType=VARCHAR}
-    where id = #{id,jdbcType=INTEGER}
-  </update>
+	<resultMap id="BaseResultMap" type="cn.barathrum.frogshop.bean.Evaluate">
+		<id column="id" jdbcType="INTEGER" property="id" />
+		<result column="orderNum" jdbcType="VARCHAR" property="orderNum" />
+		<result column="content" jdbcType="VARCHAR" property="content" />
+		<!-- <result column="userId" jdbcType="INTEGER" property="userId" /> -->
+		<result column="createTime" jdbcType="TIMESTAMP" property="createTime" />
+		<result column="grade" jdbcType="VARCHAR" property="grade" />
+		<association property="user" column="userId"
+			select="cn.barathrum.frogshop.dao.UserMapper.selectByPrimaryKey"
+			fetchType="eager" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, orderNum, content, createTime, grade,userId
+	</sql>
+	<select id="selectEvaluatesByGoodId" parameterType="java.lang.Integer"
+		resultMap="BaseResultMap">
+		select se.id,se.orderNum,se.content,se.createTime,se.grade,se.userId from
+		shop_evaluate se
+		left JOIN shop_order so on so.orderNum = se.orderNum
+		left JOIN shop_order_good sog on so.id = sog.orderId
+		left JOIN shop_sku sk on sk.id = sog.skuId
+		where sk.goodId = #{id,jdbcType=INTEGER} ORDER BY se.createTime desc
+	</select>
+	<select id="selectByPrimaryKey" parameterType="java.lang.Integer"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from shop_evaluate
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from shop_evaluate
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert" parameterType="cn.barathrum.frogshop.bean.Evaluate">
+		insert into shop_evaluate (id, orderNum, content,
+		createTime, grade)
+		values (#{id,jdbcType=INTEGER}, #{orderNum,jdbcType=INTEGER},
+		#{content,jdbcType=VARCHAR},
+		#{createTime,jdbcType=TIMESTAMP}, #{grade,jdbcType=VARCHAR})
+	</insert>
+
+	<insert id="insertNewRecord">
+		insert into shop_evaluate
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="userId != null">
+				userId,
+			</if>
+			<if test="orderNum != null">
+				orderNum,
+			</if>
+			<if test="content != null">
+				content,
+			</if>
+			<if test="createTime != null">
+				createTime,
+			</if>
+			<if test="grade != null">
+				grade,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="userId != null">
+				#{userId,jdbcType=INTEGER},
+			</if>
+			<if test="orderNum != null">
+				#{orderNum,jdbcType=INTEGER},
+			</if>
+			<if test="content != null">
+				#{content,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="grade != null">
+				#{grade,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<insert id="insertSelective" parameterType="cn.barathrum.frogshop.bean.Evaluate">
+		insert into shop_evaluate
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="orderNum != null">
+				orderNum,
+			</if>
+			<if test="content != null">
+				content,
+			</if>
+			<if test="createTime != null">
+				createTime,
+			</if>
+			<if test="grade != null">
+				grade,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="orderNum != null">
+				#{orderNum,jdbcType=INTEGER},
+			</if>
+			<if test="content != null">
+				#{content,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="grade != null">
+				#{grade,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="cn.barathrum.frogshop.bean.Evaluate">
+		update shop_evaluate
+		<set>
+			<if test="orderNum != null">
+				orderNum = #{orderNum,jdbcType=INTEGER},
+			</if>
+			<if test="content != null">
+				content = #{content,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				createTime = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="grade != null">
+				grade = #{grade,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="cn.barathrum.frogshop.bean.Evaluate">
+		update shop_evaluate
+		set orderNum = #{orderNum,jdbcType=INTEGER},
+		content = #{content,jdbcType=VARCHAR},
+		createTime = #{createTime,jdbcType=TIMESTAMP},
+		grade = #{grade,jdbcType=VARCHAR}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
 </mapper>

@@ -39,6 +39,9 @@ function to_page(p,url,userId,pageNum) {
 	});
 	var datas;
 	var categoryId = $("div#category-div").attr("title");
+	if (typeof(pageNum) == "undefined"){
+		pageNum= 1;
+	}
 	if(str==""){//如果没有商品筛选属性
 		datas="pageNum="+pageNum+"&id="+categoryId	;
 	}else{//如果有商品筛选属性，则结合类目id进行筛选
@@ -245,7 +248,7 @@ $(document).ready(function() {
 		}
 		
 		//调用函数，进行对所选属性查询商品
-		to_page(1);
+		to_page("","","",1);
 	});
 	$("#selected-dl dd.selected").live("click", function() {
 		//alert("dsfa");
@@ -255,7 +258,7 @@ $(document).ready(function() {
 
 		var id = $(this).attr("id");
 		$("dl[title='" + id + "'] .select-all").addClass("selected").siblings().removeClass("selected");
-		to_page(1);
+		to_page("","","",1);
 	});
 
 

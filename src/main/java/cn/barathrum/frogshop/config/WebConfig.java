@@ -1,5 +1,6 @@
 package cn.barathrum.frogshop.config;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,8 +11,12 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.web.multipart.MultipartResolver;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
+import org.springframework.web.multipart.support.StandardServletMultipartResolver;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -65,16 +70,31 @@ public class WebConfig extends WebMvcConfigurerAdapter{
 		return resolver;
 	}
 	*/
-/*	
-	@Bean
-	public MultipartResolver multipartResolver() throws IOException{
-		CommonsMultipartResolver cmr = new CommonsMultipartResolver();
-		cmr.setUploadTempDir(new FileSystemResource("/tmp/file"));
-		cmr.setMaxUploadSize(1048576);
-		cmr.setMaxInMemorySize(0);
-		return cmr;
+	@Bean(name = "multipartResolver")
+	public MultipartResolver initMultipartResolver() {
+		return new StandardServletMultipartResolver();
 	}
-	*/
+	
+	
+	@Bean(name = "multipartResolver")
+	public MultipartResolver initCommonsMultipartResolver() {
+		//文件上传路径
+		String filepath = "d:/temp";
+		//5MB
+		Long singleMax = (long) (5 * Math.pow(2, 20));
+		//10MB
+		Long totalMax = (long) (10 * Math.pow(2, 20));
+		CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver();
+		multipartResolver.setMaxUploadSizePerFile(singleMax);
+		multipartResolver.setMaxUploadSize(totalMax);
+		multipartResolver.setMaxInMemorySize(102400000);
+		try {
+			multipartResolver.setUploadTempDir(new FileSystemResource(filepath));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return multipartResolver;
+	}
 	@Override
     public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
         converters.add(mappingJacksonHttpMessageConverter());

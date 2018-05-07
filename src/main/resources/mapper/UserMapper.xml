@@ -1,150 +1,159 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.barathrum.frogshop.dao.UserMapper">
-  <resultMap id="BaseResultMap" type="cn.barathrum.frogshop.bean.User">
-    <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="userName" jdbcType="VARCHAR" property="userName" />
-    <result column="userPass" jdbcType="VARCHAR" property="userPass" />
-    <result column="phone" jdbcType="VARCHAR" property="phone" />
-    <result column="status" jdbcType="INTEGER" property="status" />
-    <result column="createTime" jdbcType="DATE" property="createTime" />
-    <result column="email" jdbcType="VARCHAR" property="email" />
-    <result column="credentialsSalt" jdbcType="VARCHAR" property="credentialsSalt" />
-    <collection property="carts" column="id" select="cn.barathrum.frogshop.dao.RolesMapper.selectByRoleId" fetchType="lazy"/>
-    <collection property="roles" column="id" select="cn.barathrum.frogshop.dao.CartMapper.selectByUserId" fetchType="lazy"/>
-  </resultMap>
-  <sql id="Base_Column_List">
-    id, userName, userPass, phone, status, createTime, email,credentialsSalt
-  </sql>
-  <!--   通过邮箱获取用户-->
-  <select id="selectByEmail" parameterType="java.lang.String" resultMap="BaseResultMap">
-  	select 
-  	<include refid="Base_Column_List"/>
-  	from shop_user
-  	where email = #{email,jdbcType=VARCHAR}
-  </select>
-  <!-- 通过手机号获取用户 -->
-   <select id="selectByPhoneNum" parameterType="java.lang.String" resultMap="BaseResultMap">
-  	select 
-  	<include refid="Base_Column_List"/>
-  	from shop_user
-  	where phone = #{phoneNum,jdbcType=VARCHAR}
-  </select>
-  <select id="selectByUsername" parameterType="java.lang.String" resultMap="BaseResultMap">
-  	select 
-  	<include refid="Base_Column_List"/>
-  	from shop_user
-  	where userName = #{userName,jdbcType=VARCHAR}
-  </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from shop_user
-    where id = #{id,jdbcType=INTEGER}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from shop_user
-    where id = #{id,jdbcType=INTEGER}
-  </delete>
-  <insert id="insert" parameterType="cn.barathrum.frogshop.bean.User">
-    insert into shop_user (id, userName, userPass, 
-      phone, status, createTime, 
-      email)
-    values (#{id,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR}, #{userPass,jdbcType=VARCHAR}, 
-      #{phone,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{createTime,jdbcType=DATE}, 
-      #{email,jdbcType=VARCHAR}),#{credentialsSalt,jdbcType=VARCHAR}
-  </insert>
-  <insert id="insertSelective" parameterType="cn.barathrum.frogshop.bean.User">
-    insert into shop_user
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
-      <if test="userName != null">
-        userName,
-      </if>
-      <if test="userPass != null">
-        userPass,
-      </if>
-      <if test="phone != null">
-        phone,
-      </if>
-      <if test="status != null">
-        status,
-      </if>
-      <if test="createTime != null">
-        createTime,
-      </if>
-      <if test="email != null">
-        email,
-      </if>
-      <if test="credentialsSalt != null">
-        credentialsSalt,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=INTEGER},
-      </if>
-      <if test="userName != null">
-        #{userName,jdbcType=VARCHAR},
-      </if>
-      <if test="userPass != null">
-        #{userPass,jdbcType=VARCHAR},
-      </if>
-      <if test="phone != null">
-        #{phone,jdbcType=VARCHAR},
-      </if>
-      <if test="status != null">
-        #{status,jdbcType=INTEGER},
-      </if>
-      <if test="createTime != null">
-        #{createTime,jdbcType=DATE},
-      </if>
-      <if test="email != null">
-        #{email,jdbcType=VARCHAR},
-      </if>
-      <if test="email != null">
-        #{credentialsSalt,jdbcType=VARCHAR},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="cn.barathrum.frogshop.bean.User">
-    update shop_user
-    <set>
-      <if test="userName != null">
-        userName = #{userName,jdbcType=VARCHAR},
-      </if>
-      <if test="userPass != null">
-        userPass = #{userPass,jdbcType=VARCHAR},
-      </if>
-      <if test="phone != null">
-        phone = #{phone,jdbcType=VARCHAR},
-      </if>
-      <if test="status != null">
-        status = #{status,jdbcType=INTEGER},
-      </if>
-      <if test="createTime != null">
-        createTime = #{createTime,jdbcType=DATE},
-      </if>
-      <if test="email != null">
-        email = #{email,jdbcType=VARCHAR},
-      </if>
-      <if test="email != null">
-        credentialsSalt = #{credentialsSalt,jdbcType=VARCHAR},
-      </if>
-    </set>
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="cn.barathrum.frogshop.bean.User">
-    update shop_user
-    set userName = #{userName,jdbcType=VARCHAR},
-      userPass = #{userPass,jdbcType=VARCHAR},
-      phone = #{phone,jdbcType=VARCHAR},
-      status = #{status,jdbcType=INTEGER},
-      createTime = #{createTime,jdbcType=DATE},
-      email = #{email,jdbcType=VARCHAR},
-      credentialsSalt = #{credentialsSalt,jdbcType=VARCHAR}
-    where id = #{id,jdbcType=INTEGER}
-  </update>
+	<resultMap id="BaseResultMap" type="cn.barathrum.frogshop.bean.User">
+		<id column="id" jdbcType="INTEGER" property="id" />
+		<result column="userName" jdbcType="VARCHAR" property="userName" />
+		<result column="userPass" jdbcType="VARCHAR" property="userPass" />
+		<result column="phone" jdbcType="VARCHAR" property="phone" />
+		<result column="status" jdbcType="INTEGER" property="status" />
+		<result column="createTime" jdbcType="DATE" property="createTime" />
+		<result column="email" jdbcType="VARCHAR" property="email" />
+		<result column="credentialsSalt" jdbcType="VARCHAR" property="credentialsSalt" />
+		<collection property="carts" column="id"
+			select="cn.barathrum.frogshop.dao.RolesMapper.selectByRoleId"
+			fetchType="lazy" />
+		<collection property="roles" column="id"
+			select="cn.barathrum.frogshop.dao.CartMapper.selectByUserId"
+			fetchType="lazy" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, userName, userPass, phone, status, createTime, email,credentialsSalt
+	</sql>
+	<!-- 通过邮箱获取用户 -->
+	<select id="selectByEmail" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from shop_user
+		where email = #{email,jdbcType=VARCHAR}
+	</select>
+	<!-- 通过手机号获取用户 -->
+	<select id="selectByPhoneNum" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from shop_user
+		where phone = #{phoneNum,jdbcType=VARCHAR}
+	</select>
+	<select id="selectByUsername" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from shop_user
+		where userName = #{userName,jdbcType=VARCHAR}
+	</select>
+	<select id="selectByPrimaryKey" parameterType="java.lang.Integer"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from shop_user
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from shop_user
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert" parameterType="cn.barathrum.frogshop.bean.User">
+		insert into shop_user (id, userName, userPass,
+		phone, status, createTime,
+		email)
+		values (#{id,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR},
+		#{userPass,jdbcType=VARCHAR},
+		#{phone,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{createTime,jdbcType=DATE},
+		#{email,jdbcType=VARCHAR}),#{credentialsSalt,jdbcType=VARCHAR}
+	</insert>
+	<insert id="insertSelective" parameterType="cn.barathrum.frogshop.bean.User">
+		insert into shop_user
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="userName != null">
+				userName,
+			</if>
+			<if test="userPass != null">
+				userPass,
+			</if>
+			<if test="phone != null">
+				phone,
+			</if>
+			<if test="status != null">
+				status,
+			</if>
+			<if test="createTime != null">
+				createTime,
+			</if>
+			<if test="email != null">
+				email,
+			</if>
+			<if test="credentialsSalt != null">
+				credentialsSalt,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="userName != null">
+				#{userName,jdbcType=VARCHAR},
+			</if>
+			<if test="userPass != null">
+				#{userPass,jdbcType=VARCHAR},
+			</if>
+			<if test="phone != null">
+				#{phone,jdbcType=VARCHAR},
+			</if>
+			<if test="status != null">
+				#{status,jdbcType=INTEGER},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=DATE},
+			</if>
+			<if test="email != null">
+				#{email,jdbcType=VARCHAR},
+			</if>
+			<if test="email != null">
+				#{credentialsSalt,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="cn.barathrum.frogshop.bean.User">
+		update shop_user
+		<set>
+			<if test="userName != null">
+				userName = #{userName,jdbcType=VARCHAR},
+			</if>
+			<if test="userPass != null">
+				userPass = #{userPass,jdbcType=VARCHAR},
+			</if>
+			<if test="phone != null">
+				phone = #{phone,jdbcType=VARCHAR},
+			</if>
+			<if test="status != null">
+				status = #{status,jdbcType=INTEGER},
+			</if>
+			<if test="createTime != null">
+				createTime = #{createTime,jdbcType=DATE},
+			</if>
+			<if test="email != null">
+				email = #{email,jdbcType=VARCHAR},
+			</if>
+			<if test="email != null">
+				credentialsSalt = #{credentialsSalt,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="cn.barathrum.frogshop.bean.User">
+		update shop_user
+		set userName = #{userName,jdbcType=VARCHAR},
+		userPass = #{userPass,jdbcType=VARCHAR},
+		phone = #{phone,jdbcType=VARCHAR},
+		status = #{status,jdbcType=INTEGER},
+		createTime = #{createTime,jdbcType=DATE},
+		email = #{email,jdbcType=VARCHAR},
+		credentialsSalt = #{credentialsSalt,jdbcType=VARCHAR}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
 </mapper>

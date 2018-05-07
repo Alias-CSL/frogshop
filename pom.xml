@@ -23,8 +23,36 @@
 		<commons-fileupload>1.3.3</commons-fileupload>
 		<junit-version>4.12</junit-version>
 		<commons-io>2.6</commons-io>
+		<fastjson>1.2.47</fastjson>
+		<qiniu-java-sdk>7.2.11</qiniu-java-sdk>
+		<okhttp-version>3.10.0</okhttp-version>
+		<gson-verison>2.8.3</gson-verison>
+		<happy-dns-java>0.1.6</happy-dns-java>
 	</properties>
 	<dependencies>
+		<!-- 七牛云相关jar包 -->
+		<!-- https://mvnrepository.com/artifact/com.qiniu/qiniu-java-sdk -->
+		<dependency>
+			<groupId>com.qiniu</groupId>
+			<artifactId>qiniu-java-sdk</artifactId>
+			<version>${qiniu-java-sdk}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.squareup.okhttp3</groupId>
+			<artifactId>okhttp</artifactId>
+			<version>${okhttp-version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+			<version>${gson-verison}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.qiniu</groupId>
+			<artifactId>happy-dns-java</artifactId>
+			<version>${happy-dns-java}</version>
+		</dependency>
+		<!-- 七牛云相关jar包 end -->
 		<!-- https://mvnrepository.com/artifact/org.apache.httpcomponents/httpcore -->
 		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
@@ -43,7 +71,7 @@
 		<dependency>
 			<groupId>com.alibaba</groupId>
 			<artifactId>fastjson</artifactId>
-			<version>1.2.47</version>
+			<version>${fastjson}</version>
 		</dependency>
 
 		<dependency>

@@ -30,4 +30,22 @@ public interface SkuMapper {
 	 * @param goodNum 商品数量
 	 */
 	int updateSkuData(@Param("skuId")Integer skuId, @Param("goodNum")Integer goodNum);
+	/**
+	 * 批量删除sku
+	 * @param skuIds 多个sku主键
+	 * @return
+	 */
+	int deleteBySkuIds(@Param("skuIds")Integer[] skuIds);
+	/**
+	 * 批量更新多个sku对象
+	 * @param skus
+	 * @return
+	 */
+	int updateSkusSelective(@Param("skus")List<Sku> skus);
+	/**
+	 * 获取指定商品的总库存
+	 * @param goodId 商品id
+	 * @return
+	 */
+	int selectStocksByGoodId(Integer goodId);
 }

@@ -2,6 +2,7 @@
 function build_page_info(p,result){
 	//alert("build_page_info");
 	$(p + " #page_info_area").empty();
+	//alert($(p + " #page_info_area").text());
 	$(p + " #page_info_area").append("当前"+result.extend.pageInfo.pageNum+"页,总"+
 			result.extend.pageInfo.pages+"页,总"+
 			result.extend.pageInfo.total+"条记录");
@@ -15,7 +16,7 @@ function build_page_nav(p,url,userId,result){
 	//alert("build_page_nav");
 	$(p+" #page_nav_area").empty();
 	var ul = $("<ul></ul>").addClass("am-pagination am-pagination-centered");
-	
+	//alert("sdffs");
 	//构建元素
 	var firstPageLi = $("<li></li>").append($("<a></a>").append("首页").attr("href","#"));
 	var prePageLi = $("<li></li>").append($("<a></a>").append("&laquo;"));

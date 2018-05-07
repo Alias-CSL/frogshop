@@ -9,47 +9,49 @@ public class AttributeGood {
 
     private Integer categoryId;
 
-    private Integer attrivalueId;
+    private String attributes;
 
     private Date createTime;
 
-    public Integer getId() {
-        return id;
-    }
+	public Integer getId() {
+		return id;
+	}
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
-    public Integer getGoodid() {
-        return goodId;
-    }
+	public Integer getGoodId() {
+		return goodId;
+	}
 
-    public void setGoodid(Integer goodid) {
-        this.goodId = goodid;
-    }
+	public void setGoodId(Integer goodId) {
+		this.goodId = goodId;
+	}
 
-    public Integer getCategoryid() {
-        return categoryId;
-    }
+	public Integer getCategoryId() {
+		return categoryId;
+	}
 
-    public void setCategoryid(Integer categoryid) {
-        this.categoryId = categoryid;
-    }
+	public void setCategoryId(Integer categoryId) {
+		this.categoryId = categoryId;
+	}
 
-    public Integer getAttrivalueid() {
-        return attrivalueId;
-    }
+	public String getAttributes() {
+		return attributes;
+	}
 
-    public void setAttrivalueid(Integer attrivalueid) {
-        this.attrivalueId = attrivalueid;
-    }
+	public void setAttributes(String attributes) {
+		this.attributes = attributes;
+	}
 
-    public Date getCreatetime() {
-        return createTime;
-    }
+	public Date getCreateTime() {
+		return createTime;
+	}
 
-    public void setCreatetime(Date createtime) {
-        this.createTime = createtime;
-    }
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
+	}
+
+   
 }

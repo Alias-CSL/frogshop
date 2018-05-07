@@ -321,5 +321,14 @@ public class UserServiceImpl implements UserService {
 	public List<Good> selectAllCollection(Integer userId) {
 		return goodMapper.selectByUserId(userId);
 	}
+	/**
+	 * 获取用户购物车所有商品信息
+	 * @param userId 用户id
+	 * @return
+	 */
+	@Override
+	public List<Cart> selectAllCartGoods(Integer userId) {
+		return cartMapper.selectByUserId(userId);
+	}
 
 }

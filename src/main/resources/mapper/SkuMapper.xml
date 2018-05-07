@@ -1,183 +1,242 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.barathrum.frogshop.dao.SkuMapper">
-  <resultMap id="BaseResultMap" type="cn.barathrum.frogshop.bean.Sku">
-    <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="goodId" jdbcType="INTEGER" property="goodId" /> 
-    <result column="price" jdbcType="DECIMAL" property="price" />
-    <result column="resource" jdbcType="INTEGER" property="resource" />
-    <result column="sales" jdbcType="INTEGER" property="sales" />
-    <result column="originalPrice" jdbcType="DECIMAL" property="originalPrice" />
-    <result column="picture" jdbcType="VARCHAR" property="picture" />
-    <result column="createTime" jdbcType="TIMESTAMP" property="createTime" />
-    <result column="status" jdbcType="INTEGER" property="status" />
-    <result column="attributes" jdbcType="VARCHAR" property="attributes" />
-    <result column="goodCode" jdbcType="INTEGER" property="goodCode" />
-  </resultMap>
-  <sql id="Base_Column_List">
-    id, goodId, price, resource, sales, originalPrice, picture, createTime, status, attributes, 
-    goodCode
-  </sql>
-  <select id="selectByAttributes" resultMap="BaseResultMap">
-  	SELECT 
-  	<include refid="Base_Column_List"/>
-	from shop_sku
-	where goodId = #{goodId,jdbcType=INTEGER} and attributes like #{attributes,jdbcType=VARCHAR}
-  </select>
-  <select id="selectByGoodId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-  	select 
-  	<include refid="Base_Column_List"/>
-  	from shop_sku
-  	where goodId = #{id,jdbcType=INTEGER}
-  </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from shop_sku
-    where id = #{id,jdbcType=INTEGER}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from shop_sku
-    where id = #{id,jdbcType=INTEGER}
-  </delete>
-  <insert id="insert" parameterType="cn.barathrum.frogshop.bean.Sku">
-    insert into shop_sku (id, goodId, price, 
-      resource, sales, originalPrice, 
-      picture, createTime, status, 
-      attributes, goodCode)
-    values (#{id,jdbcType=INTEGER}, #{goodid,jdbcType=INTEGER}, #{price,jdbcType=DECIMAL}, 
-      #{resource,jdbcType=INTEGER}, #{sales,jdbcType=INTEGER}, #{originalprice,jdbcType=DECIMAL}, 
-      #{picture,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}, 
-      #{attributes,jdbcType=VARCHAR}, #{goodcode,jdbcType=INTEGER})
-  </insert>
-  <insert id="insertSelective" parameterType="cn.barathrum.frogshop.bean.Sku">
-    insert into shop_sku
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
-      <if test="goodid != null">
-        goodId,
-      </if>
-      <if test="price != null">
-        price,
-      </if>
-      <if test="resource != null">
-        resource,
-      </if>
-      <if test="sales != null">
-        sales,
-      </if>
-      <if test="originalprice != null">
-        originalPrice,
-      </if>
-      <if test="picture != null">
-        picture,
-      </if>
-      <if test="createtime != null">
-        createTime,
-      </if>
-      <if test="status != null">
-        status,
-      </if>
-      <if test="attributes != null">
-        attributes,
-      </if>
-      <if test="goodcode != null">
-        goodCode,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=INTEGER},
-      </if>
-      <if test="goodid != null">
-        #{goodid,jdbcType=INTEGER},
-      </if>
-      <if test="price != null">
-        #{price,jdbcType=DECIMAL},
-      </if>
-      <if test="resource != null">
-        #{resource,jdbcType=INTEGER},
-      </if>
-      <if test="sales != null">
-        #{sales,jdbcType=INTEGER},
-      </if>
-      <if test="originalprice != null">
-        #{originalprice,jdbcType=DECIMAL},
-      </if>
-      <if test="picture != null">
-        #{picture,jdbcType=VARCHAR},
-      </if>
-      <if test="createtime != null">
-        #{createtime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="status != null">
-        #{status,jdbcType=INTEGER},
-      </if>
-      <if test="attributes != null">
-        #{attributes,jdbcType=VARCHAR},
-      </if>
-      <if test="goodcode != null">
-        #{goodcode,jdbcType=INTEGER},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="cn.barathrum.frogshop.bean.Sku">
-    update shop_sku
-    <set>
-      <if test="goodid != null">
-        goodId = #{goodid,jdbcType=INTEGER},
-      </if>
-      <if test="price != null">
-        price = #{price,jdbcType=DECIMAL},
-      </if>
-      <if test="resource != null">
-        resource = #{resource,jdbcType=INTEGER},
-      </if>
-      <if test="sales != null">
-        sales = #{sales,jdbcType=INTEGER},
-      </if>
-      <if test="originalprice != null">
-        originalPrice = #{originalprice,jdbcType=DECIMAL},
-      </if>
-      <if test="picture != null">
-        picture = #{picture,jdbcType=VARCHAR},
-      </if>
-      <if test="createtime != null">
-        createTime = #{createtime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="status != null">
-        status = #{status,jdbcType=INTEGER},
-      </if>
-      <if test="attributes != null">
-        attributes = #{attributes,jdbcType=VARCHAR},
-      </if>
-      <if test="goodcode != null">
-        goodCode = #{goodcode,jdbcType=INTEGER},
-      </if>
-    </set>
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="cn.barathrum.frogshop.bean.Sku">
-    update shop_sku
-    set goodId = #{goodid,jdbcType=INTEGER},
-      price = #{price,jdbcType=DECIMAL},
-      resource = #{resource,jdbcType=INTEGER},
-      sales = #{sales,jdbcType=INTEGER},
-      originalPrice = #{originalprice,jdbcType=DECIMAL},
-      picture = #{picture,jdbcType=VARCHAR},
-      createTime = #{createtime,jdbcType=TIMESTAMP},
-      status = #{status,jdbcType=INTEGER},
-      attributes = #{attributes,jdbcType=VARCHAR},
-      goodCode = #{goodcode,jdbcType=INTEGER}
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <update id="updateSkuData">
-    update shop_sku
-    set 
-      resource = resource - #{goodNum,jdbcType=INTEGER},
-      sales = sales + #{goodNum,jdbcType=INTEGER}
-    where id = #{skuId,jdbcType=INTEGER} and resource >= #{goodNum,jdbcType=INTEGER}
-  </update>
+	<resultMap id="BaseResultMap" type="cn.barathrum.frogshop.bean.Sku">
+		<id column="id" jdbcType="INTEGER" property="id" />
+		<result column="goodId" jdbcType="INTEGER" property="goodId" />
+		<result column="price" jdbcType="DECIMAL" property="price" />
+		<result column="resource" jdbcType="INTEGER" property="resource" />
+		<result column="sales" jdbcType="INTEGER" property="sales" />
+		<result column="originalPrice" jdbcType="DECIMAL" property="originalPrice" />
+		<result column="picture" jdbcType="VARCHAR" property="picture" />
+		<result column="createTime" jdbcType="TIMESTAMP" property="createTime" />
+		<result column="status" jdbcType="INTEGER" property="status" />
+		<result column="attributes" jdbcType="VARCHAR" property="attributes" />
+		<result column="goodCode" jdbcType="INTEGER" property="goodCode" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, goodId, price, resource, sales, originalPrice, picture, createTime,
+		status, attributes,
+		goodCode
+	</sql>
+	
+	<select id="selectStocksByGoodId" parameterType="java.lang.Integer" resultType="java.lang.Integer" useCache="false">
+		select SUM(resource) 
+		from shop_sku
+		where goodId = #{goodId,jdbcType=INTEGER}
+	</select>
+	<select id="selectByAttributes" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" />
+		from shop_sku
+		where goodId = #{goodId,jdbcType=INTEGER} and attributes like
+		#{attributes,jdbcType=VARCHAR}
+	</select>
+	<select id="selectByGoodId" parameterType="java.lang.Integer"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from shop_sku
+		where goodId = #{id,jdbcType=INTEGER} ORDER BY createTime DESC
+	</select>
+	<select id="selectByPrimaryKey" parameterType="java.lang.Integer"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from shop_sku
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from shop_sku
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+	<delete id="deleteBySkuIds">
+		<foreach collection="skuIds" item="id">
+			delete from shop_sku
+			where id = #{id,jdbcType=INTEGER};
+		</foreach>
+	</delete>
+	<insert id="insert" parameterType="cn.barathrum.frogshop.bean.Sku">
+		insert into shop_sku (id, goodId, price,
+		resource, sales, originalPrice,
+		picture, createTime, status,
+		attributes, goodCode)
+		values (#{id,jdbcType=INTEGER}, #{goodId,jdbcType=INTEGER},
+		#{price,jdbcType=DECIMAL},
+		#{resource,jdbcType=INTEGER}, #{sales,jdbcType=INTEGER}, #{originalPrice,jdbcType=DECIMAL},
+		#{picture,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP},
+		#{status,jdbcType=INTEGER},
+		#{attributes,jdbcType=VARCHAR}, #{goodCode,jdbcType=INTEGER})
+	</insert>
+	<insert id="insertSelective" parameterType="cn.barathrum.frogshop.bean.Sku">
+		insert into shop_sku
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="goodId != null">
+				goodId,
+			</if>
+			<if test="price != null">
+				price,
+			</if>
+			<if test="resource != null">
+				resource,
+			</if>
+			<if test="sales != null">
+				sales,
+			</if>
+			<if test="originalPrice != null">
+				originalPrice,
+			</if>
+			<if test="picture != null">
+				picture,
+			</if>
+			<if test="createTime != null">
+				createTime,
+			</if>
+			<if test="status != null">
+				status,
+			</if>
+			<if test="attributes != null">
+				attributes,
+			</if>
+			<if test="goodCode != null">
+				goodCode,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="goodId != null">
+				#{goodId,jdbcType=INTEGER},
+			</if>
+			<if test="price != null">
+				#{price,jdbcType=DECIMAL},
+			</if>
+			<if test="resource != null">
+				#{resource,jdbcType=INTEGER},
+			</if>
+			<if test="sales != null">
+				#{sales,jdbcType=INTEGER},
+			</if>
+			<if test="originalPrice != null">
+				#{originalPrice,jdbcType=DECIMAL},
+			</if>
+			<if test="picture != null">
+				#{picture,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="status != null">
+				#{status,jdbcType=INTEGER},
+			</if>
+			<if test="attributes != null">
+				#{attributes,jdbcType=VARCHAR},
+			</if>
+			<if test="goodCode != null">
+				#{goodCode,jdbcType=INTEGER},
+			</if>
+		</trim>
+	</insert>
+	
+	<!-- 批量更新sku -->
+	<update id="updateSkusSelective" >
+		<foreach collection="skus" item="sku" separator=";">
+			update shop_sku
+			<set>
+				<if test="sku.goodId != null">
+					goodId = #{sku.goodId,jdbcType=INTEGER},
+				</if>
+				<if test="sku.price != null">
+					price = #{sku.price,jdbcType=DECIMAL},
+				</if>
+				<if test="sku.resource != null">
+					resource = #{sku.resource,jdbcType=INTEGER},
+				</if>
+				<if test="sku.sales != null">
+					sales = #{sku.sales,jdbcType=INTEGER},
+				</if>
+				<if test="sku.originalPrice != null">
+					originalPrice = #{sku.originalPrice,jdbcType=DECIMAL},
+				</if>
+				<if test="sku.picture != null">
+					picture = #{sku.picture,jdbcType=VARCHAR},
+				</if>
+				<if test="sku.createTime != null">
+					createTime = #{sku.createTime,jdbcType=TIMESTAMP},
+				</if>
+				<if test="sku.status != null">
+					status = #{sku.status,jdbcType=INTEGER},
+				</if>
+				<if test="sku.attributes != null">
+					attributes = #{sku.attributes,jdbcType=VARCHAR},
+				</if>
+				<if test="sku.goodCode != null">
+					goodCode = #{sku.goodCode,jdbcType=INTEGER},
+				</if>
+			</set>
+			where id = #{sku.id,jdbcType=INTEGER}
+		</foreach>
+	</update>
+	<update id="updateByPrimaryKeySelective" parameterType="cn.barathrum.frogshop.bean.Sku">
+		update shop_sku
+		<set>
+			<if test="goodId != null">
+				goodId = #{goodId,jdbcType=INTEGER},
+			</if>
+			<if test="price != null">
+				price = #{price,jdbcType=DECIMAL},
+			</if>
+			<if test="resource != null">
+				resource = #{resource,jdbcType=INTEGER},
+			</if>
+			<if test="sales != null">
+				sales = #{sales,jdbcType=INTEGER},
+			</if>
+			<if test="originalPrice != null">
+				originalPrice = #{originalPrice,jdbcType=DECIMAL},
+			</if>
+			<if test="picture != null">
+				picture = #{picture,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				createTime = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="status != null">
+				status = #{status,jdbcType=INTEGER},
+			</if>
+			<if test="attributes != null">
+				attributes = #{attributes,jdbcType=VARCHAR},
+			</if>
+			<if test="goodCode != null">
+				goodCode = #{goodCode,jdbcType=INTEGER},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="cn.barathrum.frogshop.bean.Sku">
+		update shop_sku
+		set goodId = #{goodId,jdbcType=INTEGER},
+		price = #{price,jdbcType=DECIMAL},
+		resource = #{resource,jdbcType=INTEGER},
+		sales = #{sales,jdbcType=INTEGER},
+		originalPrice = #{originalPrice,jdbcType=DECIMAL},
+		picture = #{picture,jdbcType=VARCHAR},
+		createTime = #{createTime,jdbcType=TIMESTAMP},
+		status = #{status,jdbcType=INTEGER},
+		attributes = #{attributes,jdbcType=VARCHAR},
+		goodCode = #{goodCode,jdbcType=INTEGER}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateSkuData">
+		update shop_sku
+		set
+		resource = resource - #{goodNum,jdbcType=INTEGER},
+		sales = sales + #{goodNum,jdbcType=INTEGER}
+		where id = #{skuId,jdbcType=INTEGER} and resource >=
+		#{goodNum,jdbcType=INTEGER}
+	</update>
 </mapper>

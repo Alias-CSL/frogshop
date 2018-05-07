@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -14,6 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
+import cn.barathrum.frogshop.bean.Cart;
 import cn.barathrum.frogshop.bean.Message;
 import cn.barathrum.frogshop.bean.Order;
 import cn.barathrum.frogshop.logistics.KdniaoTrackQueryAPI;
@@ -29,6 +31,7 @@ public class OrderController {
 	private final int CANCELORDER = 6;//取消订单
 	@Autowired
 	UserService userService;
+	
 	/**
 	 * 获取物流信息
 	 * @param orderId 订单id
@@ -87,6 +90,32 @@ public class OrderController {
 		}
 		return Message.fail();
 	}
+	
+	@RequiresAuthentication
+	@RequestMapping(value="/myCart.html",method=RequestMethod.GET)
+	public String myCart() {
+		return "home/shopcart";
+	}
+	/**
+	 * 获取用户购物车信息
+	 * @param userId 用户id
+	 * @param pageNum 页码
+	 * @return
+	 */
+	@RequiresAuthentication
+	@RequestMapping(value="/myCartGoods",method=RequestMethod.GET)
+	@ResponseBody
+	public Message myCartGoods(@RequestParam("userId")Integer userId,@RequestParam(name="pageNum",defaultValue="1")int pageNum) {
+		PageHelper.startPage(pageNum,PAGESIZE);
+		List<Cart> carts = userService.selectAllCartGoods(userId);
+		PageInfo pageInfo = null;
+		if(carts != null && carts.size() > 0) {
+			pageInfo = new PageInfo(carts,PAGESIZE);
+			return Message.success().add("pageInfo", pageInfo);
+		}
+		return Message.fail();
+	}
+	
 	/**
 	 * 获取用户所有未支付的订单信息
 	 * @param userId 用户id

@@ -20,7 +20,7 @@ import cn.barathrum.frogshop.bean.User;
  * @author 83893
  *
  */
-@WebFilter(urlPatterns={"/addToCart/*","/buyTheGood/*"},asyncSupported=false)
+@WebFilter(urlPatterns={"/addToCart/*","/buyTheGood/*","/myCart/*"},asyncSupported=false)
 public class LoginFilter implements Filter {
 
 

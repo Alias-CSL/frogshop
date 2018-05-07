@@ -3,7 +3,9 @@ package cn.barathrum.frogshop.test;
 import static org.junit.Assert.assertNotNull;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,13 +27,17 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import cn.barathrum.frogshop.bean.Address;
+import cn.barathrum.frogshop.bean.AttributeGood;
+import cn.barathrum.frogshop.bean.DescPicture;
 import cn.barathrum.frogshop.bean.District;
 import cn.barathrum.frogshop.bean.Evaluate;
 import cn.barathrum.frogshop.bean.Good;
 import cn.barathrum.frogshop.bean.Message;
 import cn.barathrum.frogshop.bean.Order;
+import cn.barathrum.frogshop.bean.Sku;
 import cn.barathrum.frogshop.config.RootConfig;
 import cn.barathrum.frogshop.dao.AddressMapper;
+import cn.barathrum.frogshop.dao.AttributeGoodMapper;
 import cn.barathrum.frogshop.dao.CartMapper;
 import cn.barathrum.frogshop.dao.CollectionMapper;
 import cn.barathrum.frogshop.dao.EvaluateMapper;
@@ -184,12 +190,43 @@ public class DaoTest {
 	SkuMapper skuMapper;
 	@Test
 	public void testSkuMapper() {
-		String str = "{\"颜色\":\"黑色\",\"尺码\":\"M\"}";
+/*		String str = "{\"颜色\":\"黑色\",\"尺码\":\"M\"}";
 		String result = str.replaceAll("\"", "").replaceAll("\\{", "").replaceAll("\\}", "");
-		System.out.println(result);
+		System.out.println(result);*/
 /*		Sku sku = skuMapper.selectByAttributes(1, "{\"颜色\":\"黑色\",\"尺码\":\"M\"}");
 		assertNotNull(sku);
-		System.out.println(sku.getAttributes());*/
+		System.out.println(sku.getAttributes());
+		BigDecimal price = new BigDecimal(333);
+		BigDecimal originalPrice = new BigDecimal(444);
+		Sku sku1 = new Sku();
+		sku1.setId(1);
+		sku1.setOriginalPrice(originalPrice);
+		sku1.setPrice(price);
+		sku1.setResource(751);
+		BigDecimal price2 = new BigDecimal(331);
+		BigDecimal originalPrice2 = new BigDecimal(441);
+		Sku sku2 = new Sku();
+		sku2.setId(2);
+		sku2.setOriginalPrice(originalPrice2);
+		sku2.setPrice(price2);
+		sku2.setResource(759);
+		BigDecimal price3 = new BigDecimal(332);
+		BigDecimal originalPrice3 = new BigDecimal(442);
+		Sku sku3 = new Sku();
+		sku3.setId(3);
+		sku3.setOriginalPrice(originalPrice3);
+		sku3.setPrice(price3);
+		sku3.setResource(753);
+		List<Sku> skus = new ArrayList<>();
+		skus.add(sku3);
+		skus.add(sku2);
+		skus.add(sku1);
+		//int result = goodService.updateSkus(skus);
+		int result = goodService.updateSku(sku1);
+		System.out.println(sku1.getGoodId());
+		System.out.println(result);*/
+		int stocks = skuMapper.selectStocksByGoodId(94);
+		System.out.println(stocks);
 	}
 	
 	@Autowired
@@ -308,6 +345,60 @@ public class DaoTest {
 	List<Good> goods = goodMapper.selectByCategoryId(64);
 	Message.success().add("goods", goods);
 	System.out.println(goods.size());
+	}
+	@Test 
+	public void testGoodMapper() {
+		/*BigDecimal price = new BigDecimal(300);
+		BigDecimal originalPrice = new BigDecimal(700);
+		
+		int code = goodService.insertGoodSku(94,price,originalPrice,700,"http://p7bhzmlhi.bkt.clouddn.com/goodImage/goodDesc/1/475417a7-10.jpg","{\"颜色\":\"卡其色\",\"尺码\":\"4XL\"}");
+		System.out.println(code);*/
+/*		Good good = new Good();
+		good.setGoodName("sdfsafasf");
+		good.setEnteringTime(new Date());
+		good.setEnteringPersonId(2);
+		good.setStocks(100);
+		BigDecimal originalPrice = new BigDecimal(100);
+		good.setOriginalPrice(originalPrice);
+		//Integer goodId = goodMapper.insertGood(good);
+		int goodId = goodService.insertGood(good);
+		System.out.println(goodId);
+		System.out.println(good.getId());*/
+		List<Good> goods = goodMapper.selectAllGoods();
+		assertNotNull(goods);
+	}
+	@Autowired
+	private AttributeGoodMapper attributeGoodMapper;
+	@Test
+	public void testAttributeGoodMapper() {
+		AttributeGood attributeGood = new AttributeGood();
+		attributeGood.setCategoryId(64);
+		attributeGood.setCreateTime(new Date());
+		attributeGood.setGoodId(267);
+		attributeGood.setAttributes("1222222");
+		//int result = attributeGoodMapper.insertSelective(attributeGood);
+		int result =goodService.insertAttributeGood(attributeGood);
+		System.out.println(result);
+	}
+	@Test
+	public void testDescMapper() {
+		DescPicture record = new DescPicture();
+		record.setDescPicture("dsfafasf");
+		record.setGoodId(280);
+		int result = goodService.insertGoodDescPic(94, "dsafsfs");
+		System.out.println(result);
+	}
+	
+	@Test
+	public void testOther() {
+		String str = "282,283,284,285";
+		String[] sIds = str.split(",");
+		Integer[] ids = new Integer[sIds.length];
+		for(int i = 0 ; i < sIds.length;i++) {
+			ids[i] = Integer.parseInt(sIds[i]);
+		}
+		int result = goodMapper.deleteByGoodIds(ids);
+		System.out.println(result);
 	}
 	@Test
 	public void testPayOrderMethod() {

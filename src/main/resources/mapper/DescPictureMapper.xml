@@ -1,77 +1,80 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.barathrum.frogshop.dao.DescPictureMapper">
-  <resultMap id="BaseResultMap" type="cn.barathrum.frogshop.bean.DescPicture">
-    <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="goodId" jdbcType="INTEGER" property="goodId" />
-    <result column="descPicture" jdbcType="VARCHAR" property="descPicture" />
-  </resultMap>
-  <sql id="Base_Column_List">
-    id, goodId, descPicture
-  </sql>
-  <select id="selectByGoodId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-  	select 
-  	<include refid="Base_Column_List"/>
-  	from shop_desc_picture
-  	where goodId=#{id,jdbcType=INTEGER}
-  </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from shop_desc_picture
-    where id = #{id,jdbcType=INTEGER}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from shop_desc_picture
-    where id = #{id,jdbcType=INTEGER}
-  </delete>
-  <insert id="insert" parameterType="cn.barathrum.frogshop.bean.DescPicture">
-    insert into shop_desc_picture (id, goodId, descPicture
-      )
-    values (#{id,jdbcType=INTEGER}, #{goodid,jdbcType=INTEGER}, #{descpicture,jdbcType=VARCHAR}
-      )
-  </insert>
-  <insert id="insertSelective" parameterType="cn.barathrum.frogshop.bean.DescPicture">
-    insert into shop_desc_picture
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
-      <if test="goodid != null">
-        goodId,
-      </if>
-      <if test="descpicture != null">
-        descPicture,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=INTEGER},
-      </if>
-      <if test="goodid != null">
-        #{goodid,jdbcType=INTEGER},
-      </if>
-      <if test="descpicture != null">
-        #{descpicture,jdbcType=VARCHAR},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="cn.barathrum.frogshop.bean.DescPicture">
-    update shop_desc_picture
-    <set>
-      <if test="goodid != null">
-        goodId = #{goodid,jdbcType=INTEGER},
-      </if>
-      <if test="descpicture != null">
-        descPicture = #{descpicture,jdbcType=VARCHAR},
-      </if>
-    </set>
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="cn.barathrum.frogshop.bean.DescPicture">
-    update shop_desc_picture
-    set goodId = #{goodid,jdbcType=INTEGER},
-      descPicture = #{descpicture,jdbcType=VARCHAR}
-    where id = #{id,jdbcType=INTEGER}
-  </update>
+	<resultMap id="BaseResultMap" type="cn.barathrum.frogshop.bean.DescPicture">
+		<id column="id" jdbcType="INTEGER" property="id" />
+		<result column="goodId" jdbcType="INTEGER" property="goodId" />
+		<result column="descPicture" jdbcType="VARCHAR" property="descPicture" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, goodId, descPicture
+	</sql>
+	<select id="selectByGoodId" parameterType="java.lang.Integer"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from shop_desc_picture
+		where goodId=#{id,jdbcType=INTEGER}
+	</select>
+	<select id="selectByPrimaryKey" parameterType="java.lang.Integer"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from shop_desc_picture
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from shop_desc_picture
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert" parameterType="cn.barathrum.frogshop.bean.DescPicture">
+		insert into shop_desc_picture (id, goodId, descPicture
+		)
+		values (#{id,jdbcType=INTEGER}, #{goodId,jdbcType=INTEGER},
+		#{descPicture,jdbcType=VARCHAR}
+		)
+	</insert>
+	<insert id="insertSelective" parameterType="cn.barathrum.frogshop.bean.DescPicture">
+		insert into shop_desc_picture
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="goodId != null">
+				goodId,
+			</if>
+			<if test="descPicture != null">
+				descPicture,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="goodId != null">
+				#{goodId,jdbcType=INTEGER},
+			</if>
+			<if test="descPicture != null">
+				#{descPicture,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="cn.barathrum.frogshop.bean.DescPicture">
+		update shop_desc_picture
+		<set>
+			<if test="goodId != null">
+				goodId = #{goodId,jdbcType=INTEGER},
+			</if>
+			<if test="descPicture != null">
+				descPicture = #{descPicture,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="cn.barathrum.frogshop.bean.DescPicture">
+		update shop_desc_picture
+		set goodId = #{goodId,jdbcType=INTEGER},
+		descPicture = #{descPicture,jdbcType=VARCHAR}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
 </mapper>

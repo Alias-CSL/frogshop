@@ -1,6 +1,7 @@
 package cn.barathrum.frogshop.dao;
 
 import java.util.Date;
+import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
@@ -33,5 +34,11 @@ public interface CartMapper {
 	 * @return
 	 */
 	int updateByCartNum(@Param("id")Integer id, @Param("num")Integer goodNum);
+	/**
+	 * 通过用户id获取所有购物车商品信息
+	 * @param userId 用户id
+	 * @return
+	 */
+	List<Cart> selectByUserId(Integer userId);
 
 }

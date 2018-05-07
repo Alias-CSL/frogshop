@@ -2,6 +2,8 @@ package cn.barathrum.frogshop.bean;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+@JsonIgnoreProperties(value = { "handler" })
 public class AttributeValue {
 	//ID
     private Integer id;
