@@ -1,5 +1,6 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -31,6 +32,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 </head>
 
 <body>
+
 		<!--顶部导航条 -->
 		<div class="am-container header">
 			<ul class="message-l">
@@ -85,6 +87,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					</div>
 			</ul>
 		</div>
+
 
 	<!--悬浮搜索框-->
 
@@ -227,7 +230,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<h3>确认订单信息</h3>
 					<div class="cart-table-th">
 						<div class="wp">
-
 							<div class="th th-item">
 								<div class="td-inner">商品信息</div>
 							</div>
@@ -243,76 +245,80 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							<div class="th th-oplist">
 								<div class="td-inner">配送方式</div>
 							</div>
-
+	
 						</div>
 					</div>
-
+					<div class="clear"></div>
 					<c:choose>
-						<c:when test="${not empty sku }">
-							<div class="clear"></div>
-							<tr id="J_BundleList_s_1911116345_1" class="item-list">
-								<div id="J_Bundle_s_1911116345_1_0" class="bundle  bundle-last">
-									<div class="bundle-main">
-										<ul class="item-content clearfix">
-											<div class="pay-phone">
-												<li class="td td-item"><input type="hidden"
-													value="${sku.id }" id="skuId" />
-													<div class="item-pic">
-														<a href="#" class="J_MakePoint"> <img
-															src="${sku.picture }" class="itempic J_ItemImg"
-															width="80" height="80" /></a>
-													</div>
-													<div class="item-info">
-														<div class="item-basic-info">
-															<a href="<%=basePath%>good/introduction/${sku.goodId}"
-																target="_blank" title="${goodName }"
-																class="item-title J_MakePoint" data-point="tbcart.8.11">${goodName }</a>
+						<c:when test="${not empty carts }">
+							<c:forEach items="${carts }" var="cart" varStatus="vs">
+								<tr id="J_BundleList_s_1911116345_1" class="item-list">
+									<div id="J_Bundle_s_1911116345_1_0" class="bundle  bundle-last">
+										<div class="bundle-main">
+											<ul class="item-content clearfix">
+												<div class="pay-phone">
+													<li class="td td-item">
+														<input type="hidden" value="${cart.id }" id="cartId-input" />
+														<input type="hidden" value="${cart.sku.id }" class="skuId" />
+														<div class="item-pic">
+															<a href="#" class="J_MakePoint"> <img
+																src="${cart.sku.picture }" class="itempic J_ItemImg"
+																width="80" height="80" /></a>
 														</div>
-													</div></li>
-												<li class="td td-info">
-													<div class="item-props">
-														<span class="sku-line">${sku.attributes }</span>
+														<div class="item-info">
+															<div class="item-basic-info">
+																<a href="<%=basePath%>good/introduction/${cart.sku.goodId}"
+																	target="_blank" title="${cart.goodName }"
+																	class="item-title J_MakePoint" data-point="tbcart.8.11" class="goodName">${cart.goodName }</a>
+															</div>
+														</div>
+													 </li>
+													<li class="td td-info">
+														<div class="item-props">
+															<span class="sku-line">${fn:replace(fn:substring(cart.sku.attributes,1,fn:length(cart.sku.attributes)-1),"\"","")}</span>
+														</div>
+													</li>
+													<li class="td td-price">
+														<div class="item-price price-promo-promo">
+															<div class="price-content">
+																<em class="J_Price price-now">${cart.sku.price }</em>
+															</div>
+														</div>
+													</li>
+												</div>
+	
+												<li class="td td-amount">
+													<div class="amount-wrapper ">
+														<div class="item-amount ">
+															<span class="phone-title">购买数量</span>
+															<div class="sl">
+																<%-- <input class="min am-btn" name="" type="button" value="-" /> --%>
+																<%-- <input class="text_box" name="" type="text"
+																	value="${cart.count }" style="width:30px;" /> --%>
+																<em class="text_box count">${cart.count }</em> 
+																<!-- <input class="add am-btn" name="" type="button" value="+" /> -->
+															</div>
+														</div>
 													</div>
 												</li>
-												<li class="td td-price">
-													<div class="item-price price-promo-promo">
-														<div class="price-content">
-															<em class="J_Price price-now">${sku.price }</em>
-														</div>
+												<li class="td td-sum">
+													<div class="td-inner">
+														<em tabindex="0" class="J_ItemSum number">${cart.sku.price*cart.count }</em>
 													</div>
 												</li>
-											</div>
-
-											<li class="td td-amount">
-												<div class="amount-wrapper ">
-													<div class="item-amount ">
-														<span class="phone-title">购买数量</span>
-														<div class="sl">
-															<input class="min am-btn" name="" type="button" value="-" />
-															<input class="text_box" name="" type="text"
-																value="${goodNum }" style="width:30px;" /> <input
-																class="add am-btn" name="" type="button" value="+" />
-														</div>
+												<li class="td td-oplist">
+													<div class="td-inner">
+														<span class="phone-title">配送方式</span>
+														<div class="pay-logis">包邮</div>
 													</div>
-												</div>
-											</li>
-											<li class="td td-sum">
-												<div class="td-inner">
-													<em tabindex="0" class="J_ItemSum number">${sku.price*goodNum }</em>
-												</div>
-											</li>
-											<li class="td td-oplist">
-												<div class="td-inner">
-													<span class="phone-title">配送方式</span>
-													<div class="pay-logis">包邮</div>
-												</div>
-											</li>
-
-										</ul>
-										<div class="clear"></div>
-
-									</div>
-							</tr>
+												</li>
+	
+											</ul>
+											<div class="clear"></div>
+										</div>
+								</tr>
+								<div class="clear"></div>
+							</c:forEach>
 						</c:when>
 					</c:choose>
 
@@ -591,31 +597,65 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<script src="<%=basePath %>/js/jquery-1.7.2.min.js"></script>
 	<script src="<%=basePath %>/AmazeUI-2.4.2/assets/js/amazeui.min.js"></script>
 	<script type="text/javascript" src="<%=basePath %>js/postcall.js"></script>
-	<script type="text/javascript"
-		src="<%=basePath %>/js/numSelector.js"></script>
-	<script type="text/javascript" src="<%=basePath %>/js/address.js"></script>
+    <script type="text/javascript" src="<%=basePath %>/js/address.js"></script> 
 	<script type="text/javascript"
 		src="<%=basePath %>/js/addressMessage.js"></script>
 	<script type="text/javascript"
 		src="<%=basePath %>/js/address-handle.js"></script>
 	<script type="text/javascript">
 		setBasePath("<%=basePath%>");
+		$(function(){
+			var total = 0;
+			$.each($("ul.item-content"),function(index,item){
+				var sum = parseInt($(this).find("li.td-sum em.J_ItemSum").text());
+				total += sum;
+			});
+			//alert(total);
+			$("div.buy-point-discharge p.g_price em.pay-sum").text(total-50-3);
+		})
 		$("#J_Go").click(function(){
-			var skuId  = $("input#skuId").val();
 			var userId = $("input#userId-input").val();
 			var addressId = $("li.defaultAddr input#addressId-input").val();
 			var expressage = 10;
-			var goodName = $("div.item-basic-info a").attr("title");
 			var expressName = $("ul.op_express_delivery_hot li.selected span").attr("data-value");
-			var goodNum = $("input.text_box").val();
 			var total = $("div.buy-point-discharge em").text();
-			if(typeof(expressName) == "undefined") {
+			//获取每个tr，然后获取每个商品的skuId、商品名、数量、
+			var item_contents = $("ul.item-content");
+			//alert(item_contents.length);
+			var cartsData = "[";
+			var goodNum = 0;
+			$.each(item_contents,function(index,item){
+			    var cartId  = $(this).find("input#cartId-input").val();
+				var skuId  = $(this).find("input.skuId").val();
+				var goodName = $(this).find("div.item-basic-info a").attr("title");
+				var count = $(this).find("div.item-amount em.count").text();
+				var data = '{"id":"'+cartId+'","userId":"'+userId+'","skuId":"'+skuId+'","count":"'+count+'","goodName":"'+goodName+'"},';
+				cartsData += data;
+				goodNum += parseInt(count);
+			});
+			var cartsDatas = cartsData.substring(0,cartsData.length-1)+"]";
+			var datas = '{"userId":"'+userId+'","goodNum":"'+goodNum+'","addressId":"'+addressId+'","expressage":"'+expressage+'","expressName":"'+expressName+'","total":"'+total+'","carts":'+cartsDatas+'}';
+			//alert(datas);
+		   if(typeof(expressName) == "undefined") {
 				alert("请选择快递");
 			}else {
-				postcall("<%=basePath%>createOrder", {skuId :skuId,userId:userId,addressId:addressId,expressage:expressage,expressName:expressName,goodNum:goodNum,total:total,goodName:goodName});			
-			}
-		});
-		</script>
+				$.ajax({
+					url:"<%=basePath%>createCartOrder",
+					type : "POST",
+					dataType : "json",
+					contentType : 'application/json;charset=utf-8', //设置请求头信息
+					data:datas,
+					success:function(result){
+						if(result.code == 100) {
+							window.location.href="<%=basePath%>goToPayBill?orderId="+result.extend.orderId;
+						}else{
+							
+						}
+					}
+				}); 
+			} 
+ 		});
+	</script>
 </body>
 
 </html>

@@ -12,4 +12,9 @@ public class IndexController {
 		System.out.println("adfsssss");
 		return "home/home";
 	}
+	
+	@RequestMapping("/person/index.html")
+	public String personIndex() {
+		return "person/index";
+	}
 }

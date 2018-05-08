@@ -39,6 +39,19 @@ public interface CartMapper {
 	 * @param userId 用户id
 	 * @return
 	 */
-	List<Cart> selectByUserId(Integer userId);
+	List<Cart> selectCartsByUserId(Integer userId);
+	/**
+	 * 更新购物车商品数量
+	 * @param cartId 购物车商品id
+	 * @param count 数量
+	 * @return
+	 */
+	int updateCartCount(@Param("cartId")Integer cartId, @Param("count")int count);
+	/**
+	 * 获取购物车商品
+	 * @param ids id集合
+	 * @return
+	 */
+	List<Cart> selectCartByIds(@Param("ids")Integer[] ids);
 
 }

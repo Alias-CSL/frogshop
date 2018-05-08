@@ -182,7 +182,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			  $(this).removeData('amui.modal');
 			}); */
 			$("a.good_shipped").on("click",function(){
-				var parent = $(this);
+				//var parent = $(this);
 				var orderId = parent.parents("tr").attr("data-id");
 				var expressNum = parent.parents("tr").find("input[name='expressNum']").val();
 				var data = "orderId=" + orderId + "&expressNum=" + expressNum

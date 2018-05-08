@@ -32,7 +32,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<div class="mt-logo">
 		<!--顶部导航条 -->
 		<div class="am-container header">
-			<ul class="message-l">
+<ul class="message-l">
 				<div class="topMessage">
 					<div class="menu-hd">
 						<c:choose>
@@ -46,7 +46,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 									</button>
 									<ul class="am-dropdown-content">
 										<!--  <li class="am-dropdown-header">标题</li> -->
-										<li><a href="<%=basePath%>/logout">账号管理</a></li>
+										<li><a href="<%=basePath %>person/index.html">账号管理</a></li>
 										<li><a href="<%=basePath%>/logout">退出</a></li>
 									</ul>
 								</div>
@@ -64,19 +64,18 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<ul class="message-r">
 				<div class="topMessage home">
 					<div class="menu-hd">
-						<a href="#" target="_top" class="h">商城首页</a>
+						<a href="<%=basePath %>" target="_top" class="h">商城首页</a>
 					</div>
 				</div>
 				<div class="topMessage my-shangcheng">
 					<div class="menu-hd MyShangcheng">
-						<a href="#" target="_top"><i class="am-icon-user am-icon-fw"></i>个人中心</a>
+						<a href="<%=basePath %>person/index.html" target="_top"><i class="am-icon-user am-icon-fw"></i>个人中心</a>
 					</div>
 				</div>
 				<div class="topMessage mini-cart">
 					<div class="menu-hd">
-						<a id="mc-menu-hd" href="#" target="_top"><i
-							class="am-icon-shopping-cart  am-icon-fw"></i><span>购物车</span><strong
-							id="J_MiniCartNum" class="h">0</strong></a>
+						<a id="mc-menu-hd" href="<%=basePath %>myCart/${sessionScope.loginEntity.id}" target="_top"><i
+							class="am-icon-shopping-cart  am-icon-fw"></i><span>购物车</span></a>
 					</div>
 				</div>
 				<div class="topMessage favorite">

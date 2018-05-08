@@ -14,6 +14,15 @@
 		id, userId, skuId, count, createDate,goodName
 	</sql>
 	
+	<select id="selectCartByIds" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from shop_cart
+		where id in
+		<foreach collection="ids" item="id" open="(" close=")" separator="," index="i">
+		#{id,jdbcType=INTEGER} 
+		</foreach> 
+	</select>
 	<select id="selectByUserId" resultMap="BaseResultMap">
 		select
 		<include refid="Base_Column_List" />
@@ -28,7 +37,7 @@
 		#{skuId,jdbcType=INTEGER} and goodName = #{goodName,jdbcType=VARCHAR}
 	</select>
 	<!-- 通过用户id获取购物车信息 -->
-	<select id="selectByUserId" parameterType="java.lang.Integer"
+	<select id="selectCartsByUserId" parameterType="java.lang.Integer"
 		resultMap="BaseResultMap">
 		select
 		<include refid="Base_Column_List" />
@@ -126,5 +135,11 @@
 		update shop_cart
 		set count = count + #{num,jdbcType=INTEGER}
 		where id = #{id,jdbcType=INTEGER}
+	</update>
+	
+	<update id="updateCartCount">
+		update shop_cart
+		set count = #{count,jdbcType=INTEGER}
+		where id = #{cartId,jdbcType=INTEGER}
 	</update>
 </mapper>

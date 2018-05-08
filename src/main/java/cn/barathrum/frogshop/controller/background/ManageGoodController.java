@@ -2,8 +2,14 @@ package cn.barathrum.frogshop.controller.background;
 
 import java.util.List;
 
+import org.apache.shiro.authc.UnknownAccountException;
+import org.apache.shiro.authz.AuthorizationException;
+import org.apache.shiro.authz.UnauthenticatedException;
+import org.apache.shiro.authz.UnauthorizedException;
+import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -38,6 +44,7 @@ public class ManageGoodController {
 	 * @param skus 多个sku对象
 	 * @return
 	 */
+	@RequiresAuthentication
 	@RequestMapping(value="/updateSkus",method=RequestMethod.POST)
 	@ResponseBody
 	public Message updateSkus(@RequestBody List<Sku> skus) {
@@ -54,6 +61,7 @@ public class ManageGoodController {
 	 * @param sku
 	 * @return
 	 */
+	@RequiresAuthentication
 	@RequestMapping(value="/updateGoodSku",method=RequestMethod.POST)
 	@ResponseBody
 	public Message updateGoodSku(Sku sku) {
@@ -71,6 +79,7 @@ public class ManageGoodController {
 	 * @param skuId sku主键
 	 * @return
 	 */
+	@RequiresAuthentication
 	@RequestMapping(value="/delOneSku",method=RequestMethod.POST)
 	@ResponseBody
 	public Message delOneSku(@RequestParam("skuId")Integer skuId,@RequestParam("goodId")Integer goodId) {
@@ -87,6 +96,7 @@ public class ManageGoodController {
 	 * @param ids 包含多个sku主键
 	 * @return
 	 */
+	@RequiresAuthentication
 	@RequestMapping(value="/deleteSkus",method=RequestMethod.POST)
 	@ResponseBody
 	public Message deleteSkus(@RequestParam("skuIds")String ids,@RequestParam("goodId")Integer goodId) {
@@ -107,6 +117,7 @@ public class ManageGoodController {
 	 * @param goodId 商品id
 	 * @return
 	 */
+	@RequiresAuthentication
 	@RequestMapping(value="/myloginfo",method=RequestMethod.GET)
 	@ResponseBody
 	public ModelAndView getGoodSkus(@RequestParam("goodId")Integer goodId) {
@@ -123,6 +134,7 @@ public class ManageGoodController {
 	 * @param goodId 商品id
 	 * @return
 	 */
+	@RequiresAuthentication
 	@RequestMapping(value="/delOneGood",method=RequestMethod.POST)
 	@ResponseBody
 	public Message delOneGood(@RequestParam("goodId")Integer goodId) {
@@ -138,6 +150,7 @@ public class ManageGoodController {
 	 * @param ids 多个商品id
 	 * @return
 	 */
+	@RequiresAuthentication
 	@RequestMapping(value="/deleteGoods",method=RequestMethod.POST)
 	@ResponseBody
 	public Message deleteGoods(@RequestParam("ids")String ids) {
@@ -160,6 +173,7 @@ public class ManageGoodController {
 	 * @param status 上下架状态
 	 * @return
 	 */
+	@RequiresAuthentication
 	@RequestMapping(value="/putawayGood",method=RequestMethod.POST)
 	@ResponseBody
 	public Message putawayGood(@RequestParam("goodId")Integer goodId,@RequestParam("status")Byte status) {
@@ -176,6 +190,7 @@ public class ManageGoodController {
 	 * @param pageNum
 	 * @return
 	 */
+	@RequiresAuthentication
 	@RequestMapping("/getAllGoods")
 	@ResponseBody
 	public Message getAllGoods(@RequestParam("pageNum")int pageNum){
@@ -188,5 +203,10 @@ public class ManageGoodController {
 			return Message.success().add("pageInfo", pageInfo);
 		}
 		return Message.fail();
+	}
+	
+	@ExceptionHandler(value={UnknownAccountException.class,UnauthorizedException.class,UnauthenticatedException.class,AuthorizationException.class})
+	public String handleException() {
+		return "background/login";
 	}
 }

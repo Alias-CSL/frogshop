@@ -47,6 +47,23 @@ public class ShopController {
 		return new ModelAndView("person/collection");
 	}
 	/**
+	 * 更新购物车商品数量
+	 * @param cartId 购物车商品 id
+	 * @param count 数量
+	 * @return
+	 */
+	@RequestMapping(value="/changeGoodNum",method=RequestMethod.POST)
+	@ResponseBody
+	@RequiresAuthentication
+	public Message changeGoodNum(@RequestParam("cartId")Integer cartId,@RequestParam("count")int count) {
+		int result = goodService.updateCartGoodNum(cartId,count);
+		if(result == 1){
+			return Message.success();
+		}
+		return Message.fail();
+	}
+	
+	/**
 	 * 返回用户收藏的商品
 	 * @param userId 用户id
 	 * @param pn 页码
@@ -88,6 +105,7 @@ public class ShopController {
 	 * @param skuId 商品SKUId
 	 * @param userId 用户ID
 	 * @param goodNum 数量
+	 * @param goodName商品名
 	 * @return
 	 */
 	@RequiresAuthentication
@@ -140,6 +158,42 @@ public class ShopController {
 		mav.addObject("goodNum", goodNum);
 		return mav;
 	}
+	/**
+	 * 从购物车跳转到支付页面
+	 * @param cartIds 购物车选中的商品信息
+	 * @param userId 用户id
+	 * @return
+	 */
+	@RequiresAuthentication
+	@RequestMapping("/goToPay") 
+	public ModelAndView goToPay(@RequestParam("cartIds")String cartIds,@RequestParam("userId")Integer userId) {
+		ModelAndView mav = new ModelAndView("home/paygoods");
+		//获取用户想要购买的商品
+		String[] sIds = cartIds.split(",");
+		Integer[] ids = new Integer[sIds.length];
+		for(int i = 0 ; i < sIds.length;i++) {
+			ids[i] = Integer.parseInt(sIds[i]);
+		}
+		//获取购物车商品
+		List<Cart> carts = goodService.selectCartByIds(ids);
+		mav.addObject("carts", carts);
+		mav.addObject("cartIds", cartIds);
+		//System.out.println(carts.size());
+		//用户地址
+		//获取用户的收货地址
+		List<Address> addresses = addressService.getAllAddress(userId);
+		mav.addObject("addresses", addresses);
+		return mav;
+	}
 	
-	
+	@RequiresAuthentication
+	@ResponseBody
+	@RequestMapping(value="/deleteCart",method=RequestMethod.POST)
+	public Message deleteCart(@RequestParam("cartId")Integer cartId) {
+		int result = goodService.deleteCartById(cartId);
+		if(result == 1) {
+			return Message.success();
+		}
+		return Message.fail();
+	}
 }

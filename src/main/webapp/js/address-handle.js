@@ -12,7 +12,7 @@ $(".new-addr-btn .edit-address").live("click",function(event) {
 	var city = parent.find("span.city").text();
 	var dist = parent.find("span.dist").text();
 	var street = parent.find("span.street").text();
-	alert(street);
+	//alert(street);
 	var id = parent.find("input:hidden").val();
 	//alert(id);
 	//alert(street);
@@ -76,7 +76,7 @@ function showAddresMessage() {
 
 $("#saveAddress").click(function(){
 	var data = $("form#form-create").serialize();
-	alert(data);
+	//alert(data);
 	//var datas = encodeURI(encodeURI(data));
 	$.ajax({
 		url:basePath+"addNewAddress",
@@ -121,10 +121,10 @@ $("#saveAddress").click(function(){
 	
 });
 $(".delete-btn").live("click",function(){
-	alert("sdfsd");
+	//alert("sdfsd");
 	var parent =  $(this).parent().parent();
 	var id = parent.find("input:hidden").val();
-	alert(id);
+	//alert(id);
 	$.ajax({
 		url:basePath+"removeAddress",
 		type:"get",
@@ -141,8 +141,8 @@ $(".save-default-btn").live("click",function(){
 	var lastDefaultLi =  $("ul li.defaultAddr");
 	var parent =  $(this).parent().parent();
 	var id = parent.find("input:hidden").val();
-	alert(id);
-	alert(defaultAddressId);
+	//alert(id);
+	//alert(defaultAddressId);
 	$.ajax({
 		url:basePath+"saveAsDefaultAddress",
 		type:"post",
@@ -157,19 +157,4 @@ $(".save-default-btn").live("click",function(){
 			}
 		}
 	});
-});
-$("#J_Go").click(function(){
-	var skuId  = $("input#skuId").val();
-	var userId = $("input#userId-input").val();
-	var addressId = $("li.defaultAddr input#addressId-input").val();
-	var expressage = 10;
-	var goodName = $("div.item-basic-info a").attr("title");
-	var expressName = $("ul.op_express_delivery_hot li.selected span").attr("data-value");
-	var goodNum = $("input.text_box").val();
-	var total = $("div.buy-point-discharge em").text();
-	if(typeof(expressName) == "undefined") {
-		alert("请选择快递");
-	}else {
-		postcall(basePath+"createOrder", {skuId :skuId,userId:userId,addressId:addressId,expressage:expressage,expressName:expressName,goodNum:goodNum,total:total,goodName:goodName});			
-	}
 });

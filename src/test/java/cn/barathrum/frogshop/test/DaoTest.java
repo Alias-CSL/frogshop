@@ -28,6 +28,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 import cn.barathrum.frogshop.bean.Address;
 import cn.barathrum.frogshop.bean.AttributeGood;
+import cn.barathrum.frogshop.bean.Cart;
 import cn.barathrum.frogshop.bean.DescPicture;
 import cn.barathrum.frogshop.bean.District;
 import cn.barathrum.frogshop.bean.Evaluate;
@@ -225,8 +226,10 @@ public class DaoTest {
 		int result = goodService.updateSku(sku1);
 		System.out.println(sku1.getGoodId());
 		System.out.println(result);*/
-		int stocks = skuMapper.selectStocksByGoodId(94);
-		System.out.println(stocks);
+		/*int stocks = skuMapper.selectStocksByGoodId(94);
+		System.out.println(stocks);*/
+		List<Cart> carts = userService.selectAllCartGoods(2);
+		System.out.println(carts.size());
 	}
 	
 	@Autowired
@@ -238,8 +241,11 @@ public class DaoTest {
 		//System.out.println(i);
 		//Cart cart = cartMapper.selectById(34514, 2,"花花公子男士外套春秋2018春季新款男装休闲夹克男青年修身棒球服");
 		//System.out.println(cart== null );
-		int s = cartMapper.updateByCartNum(10,2);
-		System.out.println(s);
+//		int s = cartMapper.updateByCartNum(10,2);
+//		System.out.println(s);
+		Integer[] ids = new Integer[]{4,5,6,9,10};
+		List<Cart> carts = goodService.selectCartByIds(ids);
+		System.out.println(carts.size());
 	}
 	
 	@Autowired

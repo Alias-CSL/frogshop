@@ -31,38 +31,60 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<div class="mt-logo">
 		<!--顶部导航条 -->
 		<div class="am-container header">
-			<ul class="message-l">
+<ul class="message-l">
 				<div class="topMessage">
 					<div class="menu-hd">
-						<a href="#" target="_top" class="h">亲，请登录</a> <a href="#"
-							target="_top">免费注册</a>
+						<c:choose>
+							<c:when test="${sessionScope.loginFlag}">
+								<div class="am-dropdown" data-am-dropdown>
+									<button class="am-btn am-round  am-dropdown-toggle"
+										data-am-dropdown-toggle
+										style="background:none;font-size:15px;">
+										<i class="am-icon-user am-icon-fw"></i>${sessionScope.loginEntity.userName}
+										<span class="am-icon-caret-down"></span>
+									</button>
+									<ul class="am-dropdown-content">
+										<!--  <li class="am-dropdown-header">标题</li> -->
+										<li><a href="<%=basePath %>person/index.html">账号管理</a></li>
+										<li><a href="<%=basePath%>/logout">退出</a></li>
+									</ul>
+								</div>
+								<input type="hidden" value="${sessionScope.loginEntity.id}"
+									id="userId-input" />
+							</c:when>
+							<c:otherwise>
+								<a href="<%=basePath %>login.html" target="_top">亲，请登录</a>
+								<a href="<%=basePath %>register.html" target="_top">免费注册</a>
+							</c:otherwise>
+						</c:choose>
 					</div>
 				</div>
 			</ul>
 			<ul class="message-r">
 				<div class="topMessage home">
 					<div class="menu-hd">
-						<a href="#" target="_top" class="h">商城首页</a>
+						<a href="<%=basePath %>" target="_top" class="h">商城首页</a>
 					</div>
 				</div>
 				<div class="topMessage my-shangcheng">
 					<div class="menu-hd MyShangcheng">
-						<a href="#" target="_top"><i class="am-icon-user am-icon-fw"></i>个人中心</a>
+						<a href="<%=basePath %>person/index.html" target="_top"><i class="am-icon-user am-icon-fw"></i>个人中心</a>
 					</div>
 				</div>
 				<div class="topMessage mini-cart">
 					<div class="menu-hd">
-						<a id="mc-menu-hd" href="#" target="_top"><i
-							class="am-icon-shopping-cart  am-icon-fw"></i><span>购物车</span><strong
-							id="J_MiniCartNum" class="h">0</strong></a>
+						<a id="mc-menu-hd" href="<%=basePath %>myCart/${sessionScope.loginEntity.id}" target="_top"><i
+							class="am-icon-shopping-cart  am-icon-fw"></i><span>购物车</span></a>
 					</div>
 				</div>
 				<div class="topMessage favorite">
 					<div class="menu-hd">
-						<a href="#" target="_top"><i class="am-icon-heart am-icon-fw"></i><span>收藏夹</span></a>
+						<a href="<%=basePath %>collection.html" target="_top"><i
+							class="am-icon-heart am-icon-fw"></i><span>收藏夹</span></a>
 					</div>
 			</ul>
 		</div>
+
 
 		<!--悬浮搜索框-->
 

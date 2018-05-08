@@ -70,7 +70,7 @@ function build_evalaute_info(result) {
 									.append($('<div class="am-comment-meta"></div>')
 											.append($('<a href="#link-to-user" class="am-comment-author">'+evaluate.user.userName+'</a>'))
 											.append("   评论于    ")
-											.append($('<time datetime="YYYY-MM-DDThh:mm:ss">'+evaluate.createTime+'</time>')));
+											.append(" "+format(evaluate.createTime)));
 			var commentBody = $('<div class="am-comment-bd"></div>')
 								.append($('<div class="tb-rev-item " data-id="255776406962"></div>')
 										.append('<div class="J_TbcRate_ReviewContent tb-tbcr-content ">'+evaluate.content+'</div>'));
@@ -83,6 +83,7 @@ function build_evalaute_info(result) {
 		parentUl.append(tip);
 	};
 }
+
 //判断受否选择了所有产品规格
 function isAllSelected(){
 	var flag = false;
@@ -119,7 +120,7 @@ function isAllSelected(){
 					//alert(resource);
 					$("span#stock").text(resource);
 					$("#sku-input").val(result.extend.sku.id);
-					alert($("#sku-input").val());
+					//alert($("#sku-input").val());
 				}
 			}
 		});
@@ -148,8 +149,8 @@ function buy_good() {
 	var goodNum = $("input#text_box").val();
 	var userId = $("#userId-input").val();
 	var goodName = $("h1#h1-goodName").text().trim();
-	alert(goodName);
-	alert(skuId);
+	//alert(goodName);
+	//alert(skuId);
 	if(userId === " " || userId === "" || (typeof userId === "undefined") ) {//用户未登录
 		window.location.href=basePath+"login.html";
 		
@@ -204,15 +205,17 @@ function add_cart() {
 	var skuId = $("#sku-input").val();
 	var goodNum = $("input#text_box").val();
 	var userId = $("#userId-input").val();
-	alert(skuId+","+goodNum+","+userId);
+	var goodName = $("div.tb-detail-hd h1#h1-goodName").text();
+	//alert(goodName);
+	//alert(skuId+","+goodNum+","+userId+","+goodName);
 	if(userId === " " || userId === "" || (typeof userId === "undefined") ) {//用户未登录
 		window.location.href=basePath+"login.html";
 		
 	}
-	else if(!(skuId === " ") && !(skuId === "" )) {//转发购买请求
+	else if(!(skuId === " ") && !(skuId === "" ) && (goodName != " ")) {//转发购买请求
 		$.ajax({
 			url :basePath+"addToCart",
-			data : "skuId="+skuId+"&goodNum="+goodNum+"&userId="+userId,
+			data : "skuId="+skuId+"&goodNum="+goodNum+"&userId="+userId+"&goodName="+goodName,
 			type : "POST",
 			success : function(result) {
 				if(result.code == 100) {

@@ -6,6 +6,7 @@ import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -18,7 +19,10 @@ import com.github.pagehelper.PageInfo;
 import cn.barathrum.frogshop.bean.Cart;
 import cn.barathrum.frogshop.bean.Message;
 import cn.barathrum.frogshop.bean.Order;
+import cn.barathrum.frogshop.form.bean.CartMessage;
+import cn.barathrum.frogshop.form.bean.CartOrder;
 import cn.barathrum.frogshop.logistics.KdniaoTrackQueryAPI;
+import cn.barathrum.frogshop.service.GoodService;
 import cn.barathrum.frogshop.service.UserService;
 
 @Controller
@@ -30,8 +34,10 @@ public class OrderController {
 	private final int  NOTEVALUATE = 4;//待评价
 	private final int CANCELORDER = 6;//取消订单
 	@Autowired
-	UserService userService;
+	private UserService userService;
 	
+	@Autowired
+	private GoodService goodService;
 	/**
 	 * 获取物流信息
 	 * @param orderId 订单id
@@ -91,29 +97,25 @@ public class OrderController {
 		return Message.fail();
 	}
 	
-	@RequiresAuthentication
-	@RequestMapping(value="/myCart.html",method=RequestMethod.GET)
-	public String myCart() {
-		return "home/shopcart";
-	}
 	/**
 	 * 获取用户购物车信息
 	 * @param userId 用户id
-	 * @param pageNum 页码
 	 * @return
 	 */
 	@RequiresAuthentication
-	@RequestMapping(value="/myCartGoods",method=RequestMethod.GET)
+	@RequestMapping(value="/myCart/{userId}",method=RequestMethod.GET)
 	@ResponseBody
-	public Message myCartGoods(@RequestParam("userId")Integer userId,@RequestParam(name="pageNum",defaultValue="1")int pageNum) {
-		PageHelper.startPage(pageNum,PAGESIZE);
+	public ModelAndView myCart(@PathVariable("userId")Integer userId) {
+		ModelAndView mav = new ModelAndView("home/shopcart");
+		///PageHelper.startPage(pageNum,PAGESIZE);
+		System.out.println(userId);
 		List<Cart> carts = userService.selectAllCartGoods(userId);
-		PageInfo pageInfo = null;
+		//PageInfo pageInfo = null;
 		if(carts != null && carts.size() > 0) {
-			pageInfo = new PageInfo(carts,PAGESIZE);
-			return Message.success().add("pageInfo", pageInfo);
+			//pageInfo = new PageInfo(carts,PAGESIZE);
+			mav.addObject("carts", carts);
 		}
-		return Message.fail();
+		return mav;
 	}
 	
 	/**
@@ -219,6 +221,7 @@ public class OrderController {
 			return Message.fail();
 	}
 
+
 	/**
 	 * 支付订单,通过shiro要求用户登录之后才可以付款
 	 * @param orderId 订单号
@@ -278,4 +281,74 @@ public class OrderController {
 		//设置提交订单失败页面
 		return mav;
 	}
+	/**
+	 * 提供多个商品购买处理
+	 * 1.商品库存信息修改
+	 * 2.创建订单记录
+	 * 3.添加订单商品记录
+	 * @param cartOrder 将多个商品信息封装为实体类
+	 * @return
+	 */
+	@RequiresAuthentication
+	@ResponseBody
+	@RequestMapping(value="/createCartOrder",method=RequestMethod.POST)
+	public Message createCartOrder(@RequestBody CartOrder cartOrder) {
+		//销量加一，库存减一
+		List<CartMessage> cartMessages = cartOrder.getCarts();
+		int result  = 0;
+		for(CartMessage cartMessage:cartMessages) {
+			result	+= userService.updateGoodData(cartMessage.getCount(),cartMessage.getSkuId());			
+		}
+		if(result == cartMessages.size()) {
+			Order order = new Order();
+			order.setAddressId(cartOrder.getAddressId());
+			order.setExpressage(cartOrder.getExpressage());
+			order.setExpressName(cartOrder.getExpressName());
+			order.setGoodNum(cartOrder.getGoodNum());
+			order.setTotal(cartOrder.getTotal());
+			order.setUserId(cartOrder.getUserId());
+			//先创建订单然后再创建订单商品关联
+			userService.addOrder(order);
+			Integer orderId = order.getId();
+			//Order newOrder = userService.getOrderByPrimaryKey(orderId); 
+			//根据订单id创建订单商品
+			result = 0;
+			for(CartMessage cartMessage:cartMessages) {
+				//添加订单商品并删除购物车商品
+				int record = userService.createOrderGood(orderId,cartMessage.getSkuId(),cartMessage.getCount(),cartMessage.getGoodName());
+				int record1 = goodService.deleteCartById(cartMessage.getId());
+				if(record == record1) {
+					result +=  record;					
+				}else{
+					return Message.fail();
+				}
+			}
+			if(result == cartMessages.size()) {
+				return Message.success().add("orderId", orderId);
+			}else{
+				return Message.fail();
+			}
+		}else{
+			return Message.fail();
+		}
+	}
+	
+	@RequestMapping(value="/goToPayBill",method=RequestMethod.GET)
+	@RequiresAuthentication
+	public ModelAndView goToPayBill(@RequestParam("orderId")Integer orderId) {
+		ModelAndView mav = new ModelAndView();
+		Order order = userService.getOrderByPrimaryKey(orderId); 
+		if(order != null) {
+			order.getAddress();//取消延迟加载
+			mav.addObject("newOrder", order);
+			mav.setViewName("home/paybill");
+			return mav;
+		}else {
+			mav.addObject("message", Message.fail());
+			mav.setViewName("home/payFail");
+			return mav;
+		}
+	}
 }
+
+

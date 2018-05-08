@@ -328,7 +328,7 @@ public class UserServiceImpl implements UserService {
 	 */
 	@Override
 	public List<Cart> selectAllCartGoods(Integer userId) {
-		return cartMapper.selectByUserId(userId);
+		return cartMapper.selectCartsByUserId(userId);
 	}
 
 }

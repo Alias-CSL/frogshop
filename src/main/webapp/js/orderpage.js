@@ -35,9 +35,9 @@ function setBasePath(urlPrefix){
 						var div_order_title = $('<div class="order-title"></div>')
 												.append($('<div class="dd-num">订单编号：<a href="javascript:;">'+order.orderNum+'</a></div>'));
 						if(order.dealDate != null) {
-							div_order_title.append($('<span>成交时间：'+order.dealDate+'</span>'));
+							div_order_title.append($('<span>成交时间：'+format(order.dealDate)+'</span>'));
 						}else{
-							div_order_title.append($('<span>下单时间：'+order.createDate+'</span>'));
+							div_order_title.append($('<span>下单时间：'+format(order.createDate)+'</span>'));
 						}					
 						var div_order_content = $('<div class="order-content"></div');
 						var div_order_left = $('<div class="order-left"></div>'); 
@@ -135,7 +135,7 @@ function setBasePath(urlPrefix){
 				var parent_div =  $(this).parent().parent().parent().parent().parent();
 				//alert("dsf");
 				var orderId = parent_div.find("input.orderId").val();
-				alert(orderId);
+				//alert(orderId);
 				$("span#cancalOrder-span").click(function(){
 					$.ajax({
 						url:basePath+"cancelOrder",
@@ -143,8 +143,10 @@ function setBasePath(urlPrefix){
 						type:"post",
 						success:function(result){
 							if(result.code == 100) {//评价成功
-								parent.parent().empty();
-								parent.append("订单已取消");
+								var parent_div_status = parent.parent().parent();
+								parent_div_status.empty();
+								parent_div_status.append($('<p class="Mystatus">订单已取消</p>'))
+								.append($('<p class="order-info"><a href="logistics.html">查看订单详情</a></p>'));
 								parent_div.find("li.td-change").empty();
 							}
 						}

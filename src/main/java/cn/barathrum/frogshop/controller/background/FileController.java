@@ -6,10 +6,15 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.shiro.authc.UnknownAccountException;
+import org.apache.shiro.authz.AuthorizationException;
+import org.apache.shiro.authz.UnauthenticatedException;
+import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -67,6 +72,7 @@ public class FileController {
 	 * @return
 	 */
 	@ResponseBody
+	@RequiresAuthentication
 	@RequestMapping("/getThirdCategories")
 	public Message getThirdCategories(@RequestParam("categoryId") Integer categoryId) {
 		//根据父类id获取子级类目
@@ -81,6 +87,7 @@ public class FileController {
 	 * @param attributegood
 	 * @return
 	 */
+	@RequiresAuthentication
 	@RequestMapping(value="addGoodAttributes",method=RequestMethod.POST)
 	public ModelAndView addGoodAttributes(AttributeGood attributeGood) {
 		ModelAndView mav = new ModelAndView();
@@ -99,6 +106,7 @@ public class FileController {
 	 * @param categoryId
 	 * @return
 	 */
+	@RequiresAuthentication
 	@RequestMapping(value="addGoodMessge",method=RequestMethod.POST)
 	public ModelAndView addGoodMessge(Good good,@RequestParam("categoryId")Integer categoryId) {
 		ModelAndView mav = new ModelAndView("background/good_attribute");
@@ -116,6 +124,7 @@ public class FileController {
 	 * @param categoryId
 	 * @return
 	 */
+	@RequiresAuthentication
 	@RequestMapping("/editGoodBasemMessage")
 	public ModelAndView editGoodBasemMessage(@RequestParam("categoryId")Integer categoryId) {
 		ModelAndView mav = new ModelAndView();
@@ -130,6 +139,7 @@ public class FileController {
 	 * @return
 	 */
 	@ResponseBody
+	@RequiresAuthentication
 	@RequestMapping("/getSecondCategories")
 	public Message getSecondCategories(@RequestParam("categoryId") Integer categoryId) {
 		//根据父类id获取子级类目
@@ -146,6 +156,7 @@ public class FileController {
 	 * @return
 	 */
 	@ResponseBody
+	@RequiresAuthentication
 	@RequestMapping("/getFirstCategories")
 	public Message getFirstCategories() {
 		// 根据类目等级获取类目
@@ -164,6 +175,7 @@ public class FileController {
 	 *            封装好的Model，用于接受前端的各个商品sku信息
 	 * @return
 	 */
+	@RequiresAuthentication
 	@RequestMapping(value="/uploadMultipartFile")
 	public ModelAndView saveProduct(HttpServletRequest servletRequest,
           @ModelAttribute UploadGoodModel skus,BindingResult bindingResult) {
@@ -225,6 +237,7 @@ public class FileController {
 	 * @param goodId 商品id
 	 * @return
 	 */
+	@RequiresAuthentication
 	@RequestMapping(value="/uploadDescImage",method=RequestMethod.POST)
 	public ModelAndView uploadDescImage(HttpServletRequest servletRequest,UploadImge files,@RequestParam("goodId")Integer goodId) {
 		List<MultipartFile> images = files.getImages();
@@ -269,6 +282,7 @@ public class FileController {
 	 * @param goodId 商品id
 	 * @return
 	 */
+	@RequiresAuthentication
 	@RequestMapping(value="/uploadDetailImage",method=RequestMethod.POST)
 	public ModelAndView uploadDetailImage(HttpServletRequest servletRequest,UploadImge files,@RequestParam("goodId")Integer goodId) {
 		List<MultipartFile> images = files.getImages();
@@ -304,5 +318,11 @@ public class FileController {
 			mav.setViewName("background/good_detail");
 			return mav;
 		}
+	}
+	
+	
+	@ExceptionHandler(value={UnknownAccountException.class,UnauthorizedException.class,UnauthenticatedException.class,AuthorizationException.class})
+	public String handleException() {
+		return "background/login";
 	}
 }

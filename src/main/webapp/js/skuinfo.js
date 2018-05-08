@@ -6,7 +6,7 @@ var goodId = $("input[name='goodId']").val();
 alert(goodId);
 //批量保存
 		$("a#batchUpdate").click(function(){
-			alert("batchUpdate");
+			//alert("batchUpdate");
 			
 			$('#my-confirm2').modal({
 		        relatedTarget: this,
@@ -19,7 +19,7 @@ alert(goodId);
 					    var originalPrice = $(this).parents("tr").find("input[name='originalPrice']").val();
 					    var price = $(this).parents("tr").find("input[name='price']").val();
 				    	var resource = $(this).parents("tr").find("input[name='resource']").val();
-				    	alert(skuId+","+originalPrice+","+price+","+resource);
+				    	//alert(skuId+","+originalPrice+","+price+","+resource);
 				    	skuArray.push({id:skuId,goodId:goodId,originalPrice:originalPrice,price:price,resource:resource});
 					});
 					
@@ -57,7 +57,7 @@ alert(goodId);
 		        	var originalPrice = parent.parents("tr").find("input[name='originalPrice']").val();
 		        	var price = parent.parents("tr").find("input[name='price']").val();
 		        	var resource = parent.parents("tr").find("input[name='resource']").val();
-		        	alert(resource);
+		        	//alert(resource);
 		           $.ajax({
 						url:basePath+"updateGoodSku",
 						data:"id="+skuId+"&goodId="+goodId+"&originalPrice="+originalPrice+"&price="+price+"&resource="+resource,

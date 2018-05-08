@@ -61,7 +61,7 @@ function getAddressMessage(p, url, name, data) {
 			function clickHandle(first_select, sencond_select, third_select, url, name) {
 				first_select.bind('change', function() {
 					var data = first_select.find("option:selected").attr("data");
-					alert(data);
+					//alert(data);
 					//var select_city = $(".edit-address select.buy-city");
 					
 					getAddressMessage(sencond_select, url, name, data);

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import cn.barathrum.frogshop.bean.AttributeGood;
 import cn.barathrum.frogshop.bean.AttributeName;
+import cn.barathrum.frogshop.bean.Cart;
 import cn.barathrum.frogshop.bean.Category;
 import cn.barathrum.frogshop.bean.DescPicture;
 import cn.barathrum.frogshop.bean.DetailPicture;
@@ -18,6 +19,7 @@ import cn.barathrum.frogshop.bean.Order;
 import cn.barathrum.frogshop.bean.Sku;
 import cn.barathrum.frogshop.dao.AttributeGoodMapper;
 import cn.barathrum.frogshop.dao.AttributeNameMapper;
+import cn.barathrum.frogshop.dao.CartMapper;
 import cn.barathrum.frogshop.dao.CategoryMapper;
 import cn.barathrum.frogshop.dao.DescPictureMapper;
 import cn.barathrum.frogshop.dao.DetailPictureMapper;
@@ -57,6 +59,9 @@ public class GoodServiceImpl implements GoodService {
 	
 	@Autowired
 	private OrderMapper orderMapper;
+	
+	@Autowired
+	private CartMapper cartMapper;
 	// 通过类目id获取商品
 	@Override
 	public List<Good> getGoodByCategoryId(Integer id) {
@@ -332,6 +337,34 @@ public class GoodServiceImpl implements GoodService {
 	@Override
 	public int updateOrderShippedStatus(Integer orderId, String expressNum) {
 		return orderMapper.updateOrderByShipped(orderId,expressNum,3);
+	}
+	/**
+	 * 更新购物车商品数量
+	 * @param cartId 购物车商品id
+	 * @param count 数量
+	 * @return
+	 */
+	@Override
+	public int updateCartGoodNum(Integer cartId, int count) {
+		return cartMapper.updateCartCount(cartId,count);
+	}
+	/**
+	 * 获取购物车商品
+	 * @param ids id集合
+	 * @return
+	 */
+	@Override
+	public List<Cart> selectCartByIds(Integer[] ids) {
+		return cartMapper.selectCartByIds(ids);
+	}
+	/**
+	 * 删除购物车商品
+	 * @param id 购物车商品id
+	 * @return
+	 */
+	@Override
+	public int deleteCartById(Integer id) {
+		return cartMapper.deleteByPrimaryKey(id);
 	}
 
 }

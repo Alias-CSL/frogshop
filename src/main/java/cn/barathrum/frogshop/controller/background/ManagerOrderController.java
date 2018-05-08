@@ -2,8 +2,14 @@ package cn.barathrum.frogshop.controller.background;
 
 import java.util.List;
 
+import org.apache.shiro.authc.UnknownAccountException;
+import org.apache.shiro.authz.AuthorizationException;
+import org.apache.shiro.authz.UnauthenticatedException;
+import org.apache.shiro.authz.UnauthorizedException;
+import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -23,6 +29,7 @@ public class ManagerOrderController {
 	 * 跳转到订单发货页面
 	 * @return
 	 */
+	@RequiresAuthentication
 	@RequestMapping(value="/shipments.html",method=RequestMethod.GET)
 	@ResponseBody
 	public ModelAndView shipments() {
@@ -40,6 +47,7 @@ public class ManagerOrderController {
 	 * @param orderShipped 订单编码
 	 * @return
 	 */
+	@RequiresAuthentication
 	@RequestMapping(value="/orderShipped",method=RequestMethod.POST) 
 	@ResponseBody
 	public Message orderShipped(@RequestParam("orderId")Integer orderId,@RequestParam("expressNum")String expressNum) {
@@ -49,5 +57,11 @@ public class ManagerOrderController {
 		}else{
 			return Message.fail();
 		}
+	}
+	
+	
+	@ExceptionHandler(value={UnknownAccountException.class,UnauthorizedException.class,UnauthenticatedException.class,AuthorizationException.class})
+	public String handleException() {
+		return "background/login";
 	}
 }
