@@ -46,7 +46,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<label class="layui-form-label">商品名称</label>
 					<div class="layui-input-block">
 						<input type="text" name="goodName" autocomplete="off"
-							class="layui-input" value="admin">
+							class="layui-input" >
 					</div>
 				</div>
 				<div class="layui-form-item">
@@ -60,7 +60,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<label class="layui-form-label">总库存</label>
 					<div class="layui-input-block">
 						<input type="text" name="stocks" autocomplete="off"
-							class="layui-input" value="Larry">
+							class="layui-input" >
 					</div>
 				</div>
 

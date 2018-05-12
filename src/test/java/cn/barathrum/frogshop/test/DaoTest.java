@@ -3,7 +3,6 @@ package cn.barathrum.frogshop.test;
 import static org.junit.Assert.assertNotNull;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -35,7 +34,7 @@ import cn.barathrum.frogshop.bean.Evaluate;
 import cn.barathrum.frogshop.bean.Good;
 import cn.barathrum.frogshop.bean.Message;
 import cn.barathrum.frogshop.bean.Order;
-import cn.barathrum.frogshop.bean.Sku;
+import cn.barathrum.frogshop.bean.User;
 import cn.barathrum.frogshop.config.RootConfig;
 import cn.barathrum.frogshop.dao.AddressMapper;
 import cn.barathrum.frogshop.dao.AttributeGoodMapper;
@@ -48,7 +47,9 @@ import cn.barathrum.frogshop.dao.ProvinceMapper;
 import cn.barathrum.frogshop.dao.SkuMapper;
 import cn.barathrum.frogshop.dao.UserMapper;
 import cn.barathrum.frogshop.service.AddressService;
+import cn.barathrum.frogshop.service.CartService;
 import cn.barathrum.frogshop.service.GoodService;
+import cn.barathrum.frogshop.service.OrderService;
 import cn.barathrum.frogshop.service.UserService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -155,10 +156,19 @@ public class DaoTest {
 	@Test
 	public void goodDaoTest(){
 		//int i = userService.insertUserByPhone("lowang1", "13257617382", "admin", "038bdaf98f2037b31f1e75b5b4c9b26e");
-		//System.out.println(i);
+		User user = new User();
+		user.setUserName("lowang1");
+		user.setPhone( "13257617382");
+		user.setCredentialsSalt("admin");
+		user.setUserPass("038bdaf98f2037b31f1e75b5b4c9b26e");
+		user.setStatus(1);
+		user.setCreateTime(new Date());
+		int i = userMapper.insertSelective(user);
+				
+		System.out.println(i);
 		//User user = userService.findByUsername("lisi");
-		String goodName = goodService.getGoodNameBySkuId(1);
-		System.out.println(goodName);
+		//String goodName = goodService.getGoodNameBySkuId(1);
+		//System.out.println(goodName);
 		/*User user = userMapper.selectByPrimaryKey(1);
 		assertNotNull(user);
 		System.out.println(user.getUserName());*/
@@ -189,6 +199,8 @@ public class DaoTest {
 	
 	@Autowired
 	SkuMapper skuMapper;
+	@Autowired
+	CartService cartService;
 	@Test
 	public void testSkuMapper() {
 /*		String str = "{\"颜色\":\"黑色\",\"尺码\":\"M\"}";
@@ -228,7 +240,7 @@ public class DaoTest {
 		System.out.println(result);*/
 		/*int stocks = skuMapper.selectStocksByGoodId(94);
 		System.out.println(stocks);*/
-		List<Cart> carts = userService.selectAllCartGoods(2);
+		List<Cart> carts = cartService.selectAllCartGoods(2);
 		System.out.println(carts.size());
 	}
 	
@@ -244,7 +256,7 @@ public class DaoTest {
 //		int s = cartMapper.updateByCartNum(10,2);
 //		System.out.println(s);
 		Integer[] ids = new Integer[]{4,5,6,9,10};
-		List<Cart> carts = goodService.selectCartByIds(ids);
+		List<Cart> carts = cartService.selectCartByIds(ids);
 		System.out.println(carts.size());
 	}
 	
@@ -406,9 +418,11 @@ public class DaoTest {
 		int result = goodMapper.deleteByGoodIds(ids);
 		System.out.println(result);
 	}
+	@Autowired
+	OrderService orderService;
 	@Test
 	public void testPayOrderMethod() {
-		Order order = userService.payTheOrder(1755);
+		Order order = orderService.payTheOrder(1755);
 		System.out.println(order.getPaidDate());
 	}
 }

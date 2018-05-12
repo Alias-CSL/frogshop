@@ -22,14 +22,14 @@ import cn.barathrum.frogshop.service.GoodService;
 import cn.barathrum.frogshop.utils.JsonParseUtil;
 
 /**
- * 男士商品控制类
+ * 商品控制类
  * 
  * @author 83893
  *
  */
 @Controller
 // @RequestMapping(")
-public class ManGoodController {
+public class GoodController {
 	public static final int GOODNUM = 32;
 	@Autowired
 	private GoodService goodService;
@@ -84,8 +84,5 @@ public class ManGoodController {
 		}else{
 			return Message.fail();
 		}
-		
-		
-		
 	}
 }

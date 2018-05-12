@@ -113,7 +113,7 @@
 			<if test="email != null">
 				#{email,jdbcType=VARCHAR},
 			</if>
-			<if test="email != null">
+			<if test="credentialsSalt != null">
 				#{credentialsSalt,jdbcType=VARCHAR},
 			</if>
 		</trim>

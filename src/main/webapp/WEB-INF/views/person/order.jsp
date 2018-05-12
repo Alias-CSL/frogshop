@@ -481,7 +481,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</div>
 		<aside class="menu">
 		<ul>
-			<li class="person"><a href="index.html">个人中心</a></li>
+			<li class="person"><a href="<%=basePath %>person/index.html">个人中心</a></li>
 			<li class="person"><a disabled="disabled" href="#">个人资料</a>
 				<ul>
 					<li><a href="information.html">个人信息</a></li>
@@ -491,7 +491,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				</ul></li>
 			<li class="person"><a disabled="disabled" href="#">我的交易</a>
 				<ul>
-					<li class="active"><a href="order.html">订单管理</a></li>
+					<li class="active"><a href="<%=basePath %>order.html">订单管理</a></li>s
 					<li><a href="change.html">退款售后</a></li>
 				</ul></li>
 			<li class="person"><a disabled="disabled" href="#">我的资产</a>

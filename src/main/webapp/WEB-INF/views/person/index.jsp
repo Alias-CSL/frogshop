@@ -31,7 +31,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<div class="mt-logo">
 		<!--顶部导航条 -->
 		<div class="am-container header">
-<ul class="message-l">
+			<ul class="message-l">
 				<div class="topMessage">
 					<div class="menu-hd">
 						<c:choose>
@@ -586,36 +586,36 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</div>
 
 		<aside class="menu">
-		<ul>
-			<li class="person active"><a href="index.html">个人中心</a></li>
-			<li class="person"><a href="#">个人资料</a>
+			<ul>
+			<li class="person"><a href="<%=basePath %>person/index.html">个人中心</a></li>
+			<li class="person"><a disabled="disabled" href="#">个人资料</a>
 				<ul>
 					<li><a href="information.html">个人信息</a></li>
 					<li><a href="safety.html">安全设置</a></li>
-					<li><a href="address.html">收货地址</a></li>
+					<li><a
+						href="<%=basePath %>getAllAddresses?userId=${sessionScope.loginEntity.id}">收货地址</a></li>
 				</ul></li>
-			<li class="person"><a href="#">我的交易</a>
+			<li class="person"><a disabled="disabled" href="#">我的交易</a>
 				<ul>
-					<li><a href="order.html">订单管理</a></li>
+					<li class="active"><a href="<%=basePath %>order.html">订单管理</a></li>
 					<li><a href="change.html">退款售后</a></li>
 				</ul></li>
-			<li class="person"><a href="#">我的资产</a>
+			<li class="person"><a disabled="disabled" href="#">我的资产</a>
 				<ul>
 					<li><a href="coupon.html">优惠券 </a></li>
 					<li><a href="bonus.html">红包</a></li>
 					<li><a href="bill.html">账单明细</a></li>
 				</ul></li>
 
-			<li class="person"><a href="#">我的小窝</a>
+			<li class="person"><a disabled="disabled" href="#">我的小窝</a>
 				<ul>
-					<li><a href="collection.html">收藏</a></li>
+					<li><a href="<%=basePath %>collection.html">收藏</a></li>
 					<li><a href="foot.html">足迹</a></li>
 					<li><a href="comment.html">评价</a></li>
 					<li><a href="news.html">消息</a></li>
 				</ul></li>
 
 		</ul>
-
 		</aside>
 	</div>
 	<!--引导 -->
@@ -629,6 +629,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<li class="active"><a href="index.html"><i
 				class="am-icon-user"></i>我的</a></li>
 	</div>
+		<script src="<%=basePath %>/js/jquery-1.7.2.min.js"></script>
+	<script src="<%=basePath %>/AmazeUI-2.4.2/assets/js/amazeui.min.js"></script>
 </body>
 
 </html>

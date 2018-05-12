@@ -4,6 +4,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.List;
 
+import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -53,7 +54,26 @@ public class GoodIntroductionController {
 		//之前收藏过，收藏失败
 		return Message.fail();
 	}
-	
+
+	/**
+	 * 返回用户收藏的商品
+	 * @param userId 用户id
+	 * @param pn 页码
+	 * @return
+	 */
+	@RequestMapping(value="/getMyCollection")
+	@RequiresAuthentication
+	@ResponseBody
+	public Message getAllCollection(@RequestParam("userId")Integer userId,@RequestParam(name="pn",defaultValue="1")Integer pn) {
+		PageHelper.startPage(pn, 10);
+		List<Good> goods = userService.selectAllCollection(userId);
+		PageInfo pageInfo = null;
+		if(goods != null && goods.size()>0) {
+			pageInfo = new PageInfo(goods,10);
+			return Message.success().add("pageInfo", pageInfo);
+		}
+		return Message.fail();
+	}
 	// 通过商品id获取商品详情相关的数据
 	@RequestMapping("/good/introduction/{id}")
 	public ModelAndView getGoodIntroduction(@PathVariable("id") Integer id) {

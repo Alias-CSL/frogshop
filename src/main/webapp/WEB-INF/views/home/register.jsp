@@ -148,6 +148,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			</div>
 		</div>
 		<script type="text/javascript" src="<%=basePath%>js/register.js"></script>
+		<script type="text/javascript">
+			setBasePath("<%=basePath%>");
+		</script>
 </body>
 
 </html>

@@ -150,23 +150,5 @@ public interface GoodService {
 	 * @return
 	 */
 	int updateOrderShippedStatus(Integer orderId, String expressNum);
-	/**
-	 * 更新购物车商品数量
-	 * @param cartId 购物车商品id
-	 * @param count 数量
-	 * @return
-	 */
-	int updateCartGoodNum(Integer cartId, int count);
-	/**
-	 * 获取购物车商品
-	 * @param ids id集合
-	 * @return
-	 */
-	List<Cart> selectCartByIds(Integer[] ids);
-	/**
-	 * 删除购物车商品
-	 * @param id 购物车商品id
-	 * @return
-	 */
-	int deleteCartById(Integer id);
+
 }

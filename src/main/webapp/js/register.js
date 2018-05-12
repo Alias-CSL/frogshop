@@ -1,4 +1,9 @@
- function buttonCountdown($el, msNum, timeFormat) {
+var basePath;
+function setBasePath(url) {
+	basePath = url;
+}
+
+function buttonCountdown($el, msNum, timeFormat) {
 				        var text = $el.data("text") || $el.text(),
 				                timer = 0;
 				        $el.prop("disabled", true).addClass("disabled").addClass('am-disabled')
@@ -50,7 +55,7 @@
 				        	//發送ajax，獲取驗證碼
 				        	
 				        	$.ajax({
-								url :"<%=basePath%>getVerifyCode",
+								url :basePath+"getVerifyCode",
 								data : "phoneNum="+phoneNum,
 								type : "GET",
 								success : function(result) {
@@ -90,7 +95,8 @@
 								var name = $(this).parent().attr("name");
 								$("div."+name+" span.message").text("");
 								//用户名文本框失去焦点后
-								$("div."+name+" .username").bind('input propertychange', function() {
+								$("div."+name+" .username").blur(function(){
+								//$("div."+name+" .username").bind('input propertychange', function() {
 									  //验证用户名
 									var username = this.value;
 									var username_input = $(this);
@@ -103,7 +109,7 @@
   					                    username_input.removeClass('error');
   					                    message.text("");
 						           		//发送ajax请求，判断用户名是否已经注册
-						           		var url = "<%=basePath%>existsTheUsername";
+						           		var url = basePath+"existsTheUsername";
 						           		$.ajax({
 											url :url,
 											data : "username="+username,
@@ -119,7 +125,8 @@
 						            varify("div."+name);
 								});
 								//邮箱文本框失去焦点后
-								$("div."+name+" .email").bind('input propertychange', function() {
+								$("div."+name+" .email").blur(function(){
+					//			$("div."+name+" .email").bind('input propertychange', function() {
 									var email =  this.value;
 									var email_input = $(this);
 									var message = $(".message");
@@ -133,7 +140,7 @@
 					                   message.text("");
 										//发送ajax请求，判断用户名是否已经注册
 						           		$.ajax({
-											url :"<%=basePath%>existsTheEmail",
+											url :basePath+"existsTheEmail",
 											data : "email="+email,
 											type : "GET",
 											success : function(result) {
@@ -147,7 +154,8 @@
 					                varify("div."+name);
 								});
 								//验证手机号码文本框失去焦点后
-								$("div."+name+" .phone").bind('input propertychange', function() {
+								$("div."+name+" .phone").blur(function(){
+								//$("div."+name+" .phone").bind('input propertychange', function() {
 									var phone =  this.value;
 									var phone_input = $(this);
 									var message = $(".message");
@@ -161,7 +169,7 @@
 					                     message.text("");
 					                    //发送ajax请求，判断用户名是否已经注册
 						           		$.ajax({
-											url :"<%=basePath%>existsThePhoneNum",
+											url :basePath+"existsThePhoneNum",
 											data : "phoneNum="+phone,
 											type : "GET",
 											success : function(result) {

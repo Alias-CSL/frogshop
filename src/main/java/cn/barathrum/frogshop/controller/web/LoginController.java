@@ -285,7 +285,14 @@ public class LoginController {
 			int result = userService.insertUserByPhone(username, phoneNum, salt, encryptPassword);
 			if(result == 1) { //注册成功
 				User user = userService.findByPhoneNum(phoneNum);
- 				setRedirectView(session,user,mav);
+				// 这个值是用户,从之前的页面跳转过来,如果该值不为null跳转到此URL
+				String controUrl = (String) session.getAttribute("Referer");
+				if(controUrl != null && !"".equals(controUrl)) {
+					String temp = "/"+controUrl.split("frogShop/")[1];
+					mav.setViewName("redirect:"+temp);
+				}else{
+					mav.setViewName("redirect:home/index.jsp");
+				}
 			}else{//注册失败
 				mav.setViewName("error");
 			}

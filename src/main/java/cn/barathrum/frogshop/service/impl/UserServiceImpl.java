@@ -41,21 +41,14 @@ public class UserServiceImpl implements UserService {
 	// 注入SkuMapper
 	@Autowired
 	private SkuMapper skuMapper;
-	// 注入OrderMapper
-	@Autowired
-	private OrderMapper orderMapper;
-	// 注入OrderGoodMapper
-	@Autowired
-	private OrderGoodMapper orderGoodMapper;
+
 	// 注入GoodMapper
 	@Autowired
 	private GoodMapper goodMapper;
-	//注入CollectionMapper
+	// 注入CollectionMapper
 	@Autowired
 	private CollectionMapper collectionMapper;
-	//注入EvaluateMapper
-	@Autowired
-	private EvaluateMapper evaluateMapper;
+
 	// 根据用户名获取角色
 	@Override
 	public Set<String> findRolesByUsername(String username) {
@@ -137,109 +130,6 @@ public class UserServiceImpl implements UserService {
 	}
 
 	/**
-	 * 将商品加入购物车
-	 */
-	@Override
-	public int addToCart(Integer skuId, Integer userId, Integer goodNum, String goodName) {
-		return cartMapper.insertSelective(skuId, userId, goodNum, new Date(), goodName);
-	}
-
-	/**
-	 * 创建订单
-	 */
-	@Override
-	public Order addOrder(Order order) {
-		String orderNum = DigitalCodeUtil.getOrderCode();// 生创订单码
-		order.setOrderNum(orderNum);// 设置订单码
-		order.setCreateDate(new Date());// 设置订单创建时间
-		orderMapper.insertSelective(order);
-		return order;
-	}
-
-	/**
-	 * 创建订单与商品的关联
-	 * 
-	 * @param orderId
-	 *            订单id
-	 * @param skuId
-	 *            商品sku id
-	 * @param goodNum商品数量
-	 * @return
-	 */
-	@Override
-	public int createOrderGood(int orderId, Integer skuId, Integer goodNum, String goodName) {
-		return orderGoodMapper.insertGoodOrder(orderId, skuId, goodNum, goodName);
-	}
-
-	/**
-	 * 通过订单d获取订单
-	 * 
-	 * @param id
-	 *            订单id
-	 * @return
-	 */
-	@Override
-	public Order getOrderByPrimaryKey(Integer id) {
-		return orderMapper.selectByPrimaryKey(id);
-	}
-
-	/**
-	 * 支付订单
-	 */
-	@Override
-	public Order payTheOrder(Integer orderId) {
-		Integer status = 2;
-		Date payDate = new Date();
-		int result = orderMapper.updateByPayBill(orderId, status, payDate);
-		if (result > 0) {
-			Order order = orderMapper.selectByPrimaryKey(orderId);
-			return order;
-		}
-		return null;
-	}
-
-	/**
-	 * 通过用户id获取所有订单
-	 * 
-	 * @param userId
-	 *            用户id
-	 * @return
-	 */
-	@Override
-	public List<Order> selectOrderByUserId(Integer userId) {
-		return orderMapper.selectByUserId(userId);
-	}
-
-	/**
-	 * 查询之前是否加入过购物车
-	 * 
-	 * @param skuId
-	 *            sku id
-	 * @param userId
-	 *            用户id
-	 * @param goodName
-	 *            商品名
-	 */
-	@Override
-	public Cart selectCartById(Integer skuId, Integer userId, String goodName) {
-		return cartMapper.selectById(skuId, userId, goodName);
-	}
-
-	/**
-	 * 更新购物车信息
-	 * 
-	 * @param id
-	 *            购物车商品id
-	 * @param goodNum
-	 *            购物数量
-	 * @return
-	 */
-	@Override
-	public int updateCartNum(Integer id, Integer goodNum) {
-		return cartMapper.updateByCartNum(id, goodNum);
-	}
-
-	/**
 	 * 更新商品数据
 	 * 
 	 * @param goodNum
@@ -263,72 +153,35 @@ public class UserServiceImpl implements UserService {
 	}
 
 	/**
-	 * 获取指定类型的用户所有的订单信息
+	 * 收藏商品，先判断商品是否存在
+	 * 
+	 * @param goodId
+	 *            商品id
+	 * @param userId
+	 *            用户id
+	 * @return
+	 */
+	@Override
+	public int insertCollectionRecord(Integer goodId, Integer userId) {
+		int hasCollected = collectionMapper.selectByAllKeys(goodId, userId);
+		System.out.println(hasCollected);
+		if (hasCollected == 0) {// 为收藏过，添加收藏记录
+			int result = collectionMapper.insertRecord(goodId, userId, new Date());
+			return result;
+		}
+		return 0;
+	}
+
+	/**
+	 * 返回用户收藏的商品
 	 * 
 	 * @param userId
 	 *            用户id
 	 * @return
 	 */
 	@Override
-	public List<Order> selectOrderByStatus(Integer userId, Integer status) {
-		return orderMapper.selectOrderByStatus(userId, status);
-	}
-
-	/**
-	 * 收藏商品，先判断商品是否存在
-	 * @param goodId 商品id
-	 * @param userId 用户id
-	 * @return
-	 */
-	@Override
-	public int insertCollectionRecord(Integer goodId, Integer userId) {
-		int hasCollected = collectionMapper.selectByAllKeys(goodId,userId);
-		System.out.println(hasCollected);
-		if(hasCollected == 0) {//为收藏过，添加收藏记录
-			int result = collectionMapper.insertRecord(goodId,userId,new Date());
-			return result;
-		}
-		return 0;
-	}
-	/**
-	 * 用户添加评价
-	 * @param userId 用户id
-	 * @param orderNum 订单码
-	 * @param content 内容
-	 * @param grade 评分等级
-	 * @return
-	 */
-	@Override
-	public int insertNewComment(Integer userId, String orderNum, String content, String grade) {
-		return evaluateMapper.insertNewRecord(userId,orderNum,content,grade,new Date());
-	}
-	/**
-	 * 更改订单状态
-	 * @param orderId
-	 * @param type
-	 * @return
-	 */
-	@Override
-	public int updateOrderStatus(Integer orderId, int type) {
-		return orderMapper.updateByStatus(orderId,type);
-	}
-	/**
-	 * 返回用户收藏的商品
-	 * @param userId 用户id
-	 * @return
-	 */
-	@Override
 	public List<Good> selectAllCollection(Integer userId) {
 		return goodMapper.selectByUserId(userId);
-	}
-	/**
-	 * 获取用户购物车所有商品信息
-	 * @param userId 用户id
-	 * @return
-	 */
-	@Override
-	public List<Cart> selectAllCartGoods(Integer userId) {
-		return cartMapper.selectCartsByUserId(userId);
 	}
 
 }

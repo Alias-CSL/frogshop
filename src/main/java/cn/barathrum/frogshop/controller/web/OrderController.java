@@ -22,7 +22,8 @@ import cn.barathrum.frogshop.bean.Order;
 import cn.barathrum.frogshop.form.bean.CartMessage;
 import cn.barathrum.frogshop.form.bean.CartOrder;
 import cn.barathrum.frogshop.logistics.KdniaoTrackQueryAPI;
-import cn.barathrum.frogshop.service.GoodService;
+import cn.barathrum.frogshop.service.CartService;
+import cn.barathrum.frogshop.service.OrderService;
 import cn.barathrum.frogshop.service.UserService;
 
 @Controller
@@ -37,7 +38,10 @@ public class OrderController {
 	private UserService userService;
 	
 	@Autowired
-	private GoodService goodService;
+	private CartService cartService;
+	
+	@Autowired
+	private OrderService orderService;
 	/**
 	 * 获取物流信息
 	 * @param orderId 订单id
@@ -48,7 +52,7 @@ public class OrderController {
 	public ModelAndView  logistics(@RequestParam("orderId")Integer orderId) {
 		ModelAndView mav = new ModelAndView("person/logistics");
 		//通过订单id获取快递编码与快递名
-		Order order = userService.getOrderByPrimaryKey(orderId);
+		Order order = orderService.getOrderByPrimaryKey(orderId);
 		String subStr = ",\"expressName\":\""+order.getExpressName()+"\"}";
 		String str = KdniaoTrackQueryAPI.getOrderTraces(order.getExpressName(),order.getExpressNum());
 		String result = str.substring(0,str.length()-1)+subStr;
@@ -75,7 +79,7 @@ public class OrderController {
 	@ResponseBody
 	@RequestMapping(value="/confiemRecept",method=RequestMethod.POST)
 	public Message confiemRecept(@RequestParam("orderId") Integer orderId) {
-		int result = userService.updateOrderStatus(orderId,4);
+		int result = orderService.updateOrderStatus(orderId,4);
 		if(result == 1) {
 			return Message.success();
 		}
@@ -90,7 +94,7 @@ public class OrderController {
 	@ResponseBody
 	@RequestMapping(value="/cancelOrder",method=RequestMethod.POST)
 	public Message cancelOrder(@RequestParam("orderId") Integer orderId) {
-		int result = userService.updateOrderStatus(orderId,CANCELORDER);
+		int result = orderService.updateOrderStatus(orderId,CANCELORDER);
 		if(result == 1) {
 			return Message.success();
 		}
@@ -109,7 +113,7 @@ public class OrderController {
 		ModelAndView mav = new ModelAndView("home/shopcart");
 		///PageHelper.startPage(pageNum,PAGESIZE);
 		System.out.println(userId);
-		List<Cart> carts = userService.selectAllCartGoods(userId);
+		List<Cart> carts = cartService.selectAllCartGoods(userId);
 		//PageInfo pageInfo = null;
 		if(carts != null && carts.size() > 0) {
 			//pageInfo = new PageInfo(carts,PAGESIZE);
@@ -193,7 +197,7 @@ public class OrderController {
 	 */
 	public PageInfo getOrderPageInfo(Integer userId,Integer pn,Integer status) {
 		PageHelper.startPage(pn,PAGESIZE);
-		List<Order> orders = userService.selectOrderByStatus(userId,status);
+		List<Order> orders = orderService.selectOrderByStatus(userId,status);
 		PageInfo pageInfo = null;
 		if(orders != null && orders.size() > 0) {
 			pageInfo = new PageInfo(orders,PAGESIZE);
@@ -212,7 +216,7 @@ public class OrderController {
 	@ResponseBody
 	public Message getMyOrders(@RequestParam("userId")Integer userId,@RequestParam(name="pn",defaultValue="1")Integer pn) {
 		PageHelper.startPage(pn, PAGESIZE);
-		List<Order> orders = userService.selectOrderByUserId(userId);
+		List<Order> orders = orderService.selectOrderByUserId(userId);
 		PageInfo pageInfo = null;
 		if(orders != null && orders.size() > 0) {
 			pageInfo = new PageInfo(orders,PAGESIZE);
@@ -232,7 +236,7 @@ public class OrderController {
 	@ResponseBody
 	public ModelAndView payBill(@RequestParam("orderId")Integer orderId) {
 		ModelAndView mav = new ModelAndView();
-		Order order = userService.payTheOrder(orderId);
+		Order order = orderService.payTheOrder(orderId);
 		if(order != null) {//支付成功
 			mav.setViewName("home/success");//设置视图名
 			mav.addObject("order", order);//添加订单对象
@@ -259,10 +263,10 @@ public class OrderController {
 		int result = userService.updateGoodData(order.getGoodNum(),skuId);
 		if(result == 1) {//有库存，可以下单
 			//先创建订单然后再创建订单商品关联
-			userService.addOrder(order);
-			Order newOrder = userService.getOrderByPrimaryKey(order.getId()); 
+			orderService.addOrder(order);
+			Order newOrder = orderService.getOrderByPrimaryKey(order.getId()); 
 			//根据订单id创建订单商品
-			int result1 = userService.createOrderGood(order.getId(),skuId,order.getGoodNum(),goodName);
+			int result1 = orderService.createOrderGood(order.getId(),skuId,order.getGoodNum(),goodName);
 			
 			if(result1 > 0) {//提交订单成功
 				mav.setViewName("home/paybill");
@@ -308,15 +312,15 @@ public class OrderController {
 			order.setTotal(cartOrder.getTotal());
 			order.setUserId(cartOrder.getUserId());
 			//先创建订单然后再创建订单商品关联
-			userService.addOrder(order);
+			orderService.addOrder(order);
 			Integer orderId = order.getId();
 			//Order newOrder = userService.getOrderByPrimaryKey(orderId); 
 			//根据订单id创建订单商品
 			result = 0;
 			for(CartMessage cartMessage:cartMessages) {
 				//添加订单商品并删除购物车商品
-				int record = userService.createOrderGood(orderId,cartMessage.getSkuId(),cartMessage.getCount(),cartMessage.getGoodName());
-				int record1 = goodService.deleteCartById(cartMessage.getId());
+				int record = orderService.createOrderGood(orderId,cartMessage.getSkuId(),cartMessage.getCount(),cartMessage.getGoodName());
+				int record1 = cartService.deleteCartById(cartMessage.getId());
 				if(record == record1) {
 					result +=  record;					
 				}else{
@@ -332,12 +336,16 @@ public class OrderController {
 			return Message.fail();
 		}
 	}
-	
+	/**
+	 * 支付订单
+	 * @param orderId
+	 * @return
+	 */
 	@RequestMapping(value="/goToPayBill",method=RequestMethod.GET)
 	@RequiresAuthentication
 	public ModelAndView goToPayBill(@RequestParam("orderId")Integer orderId) {
 		ModelAndView mav = new ModelAndView();
-		Order order = userService.getOrderByPrimaryKey(orderId); 
+		Order order = orderService.getOrderByPrimaryKey(orderId); 
 		if(order != null) {
 			order.getAddress();//取消延迟加载
 			mav.addObject("newOrder", order);
